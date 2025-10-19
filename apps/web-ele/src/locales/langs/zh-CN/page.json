@@ -1,0 +1,58 @@
+{
+  "auth": {
+    "login": "登录",
+    "register": "注册",
+    "codeLogin": "验证码登录",
+    "qrcodeLogin": "二维码登录",
+    "forgetPassword": "忘记密码"
+  },
+  "dashboard": {
+    "title": "概览",
+    "analytics": "分析页",
+    "workspace": "工作台"
+  },
+  "customer": {
+    "title": "客户管理",
+    "list": "客户列表",
+    "seas": "客户公海"
+  },
+  "administration": {
+    "title": "行政管理",
+    "reimbursement": "报销申请",
+    "payment": "付款申请",
+    "rest": "请假申请",
+    "refund": "退款申请",
+    "invoice": "发票管理"
+  },
+  "product": {
+    "title": "产品管理",
+    "view": "查看产品"
+  },
+  "work": {
+    "title": "工单管理",
+    "list": "工单列表",
+    "allList": "全部工单",
+    "abnormal": "异常单",
+    "query": "查询工单",
+    "brandRegister": "商标注册",
+    "patentApply": "专利申请",
+    "copyRightRegistration": "版权登记",
+    "patentUpdate": "专利变更",
+    "brandUpdate": "商标变更",
+    "brandObjection": "商标异议",
+    "patentObjection": "专利异议",
+    "brandRenewal": "商标续展",
+    "specialService": "专项服务",
+    "reviewComment": "审查意见",
+    "wordOrderFollowUp": "工单回访"
+  },
+  "protocol": {
+    "title": "协议管理",
+    "list": "协议列表"
+  },
+  "person": {
+    "title": "个人中心",
+    "todoTasks": "待办任务",
+    "warningRemind": "预警提醒"
+  }
+}
