@@ -602,6 +602,9 @@ importers:
 
   apps/web-ele:
     dependencies:
+      '@vben-core/popup-ui':
+        specifier: workspace:*
+        version: link:../../packages/@core/ui-kit/popup-ui
       '@vben-core/shadcn-ui':
         specifier: workspace:*
         version: link:../../packages/@core/ui-kit/shadcn-ui

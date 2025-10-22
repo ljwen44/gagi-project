@@ -3,6 +3,7 @@
   "display": "Web Application",
   "extends": "./web.json",
   "compilerOptions": {
-    "types": ["vite/client", "@vben/types/global"]
+    "types": ["vite/client", "@vben/types/global"],
+    "ignoreDeprecations": "6.0"
   }
 }

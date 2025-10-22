@@ -1,7 +1,16 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import TableLayout from '#/components/table-layout/index.vue';
+
+import { columns, formItems } from './config';
+</script>
 
 <template>
-  <div>个人中心 - 预警提醒</div>
+  <TableLayout
+    :api="() => []"
+    :columns
+    :form-items="formItems"
+    :hidden-filter="true"
+  />
 </template>
 
 <style lang="scss" scoped></style>

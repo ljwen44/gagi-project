@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { TooltipContentProps } from 'radix-vue';
+
 import { cn } from '@vben-core/shared/utils';
 
 import { CircleHelp } from 'lucide-vue-next';
@@ -9,11 +11,16 @@ defineOptions({
   inheritAttrs: false,
 });
 
-defineProps<{ triggerClass?: string }>();
+withDefaults(
+  defineProps<{ side?: TooltipContentProps['side']; triggerClass?: string }>(),
+  {
+    side: 'top',
+  },
+);
 </script>
 
 <template>
-  <Tooltip :delay-duration="300" side="right">
+  <Tooltip :delay-duration="300" :side>
     <template #trigger>
       <slot name="trigger">
         <CircleHelp

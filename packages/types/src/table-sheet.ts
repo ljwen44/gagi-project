@@ -5,6 +5,7 @@ export interface FormItemType {
   placeholder?: string;
   component?: any;
   props?: object;
+  width?: number | string;
 }
 
 export type FormProps<T extends FormItemType[]> = {
@@ -15,4 +16,5 @@ export interface TabbarProps {
   label: string;
   key: string;
   tooltip?: string;
+  badge?: number;
 }

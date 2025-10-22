@@ -71,7 +71,6 @@ export function useTabbar() {
 
   // 点击tab,跳转路由
   const handleClick = (key: string) => {
-    console.log('key', key);
     router.push(key);
   };
 

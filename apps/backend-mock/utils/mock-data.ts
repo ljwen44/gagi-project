@@ -21,7 +21,7 @@ export const MOCK_USERS: UserInfo[] = [
     realName: 'Admin',
     roles: ['admin'],
     username: 'admin',
-    homePath: '/home/workspace',
+    homePath: '/home/analytics',
   },
   {
     id: 2,
@@ -29,7 +29,7 @@ export const MOCK_USERS: UserInfo[] = [
     realName: 'Jack',
     roles: ['user'],
     username: 'jack',
-    homePath: '/home/workspace',
+    homePath: '/home/analytics',
   },
 ];
 
@@ -67,7 +67,7 @@ const dashboardMenus = [
         path: '/analytics',
         component: '/dashboard/analytics/index',
         meta: {
-          affixTab: true,
+          // affixTab: true,
           title: 'page.dashboard.analytics',
         },
       },

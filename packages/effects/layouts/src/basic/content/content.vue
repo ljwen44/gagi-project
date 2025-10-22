@@ -13,7 +13,6 @@ import { storeToRefs, useTabbarStore } from '@vben/stores';
 import { IFrameRouterView } from '../../iframe';
 
 defineOptions({ name: 'LayoutContent' });
-
 const tabbarStore = useTabbarStore();
 const { keepAlive } = usePreferences();
 

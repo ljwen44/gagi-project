@@ -1,7 +1,15 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import TableLayout from '#/components/table-layout/index.vue';
+
+import { columns, formItems } from './config';
+</script>
 
 <template>
-  <div>客户管理 - 客户公海</div>
+  <TableLayout :api="() => []" :columns :form-items="formItems">
+    <template #action>
+      <el-button size="small" type="primary"> 批量领取 </el-button>
+    </template>
+  </TableLayout>
 </template>
 
 <style lang="scss" scoped></style>

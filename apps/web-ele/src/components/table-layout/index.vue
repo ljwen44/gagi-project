@@ -4,10 +4,10 @@ import type { FormItemType, TabbarProps } from '@vben/types';
 import { onMounted, ref } from 'vue';
 
 import { Plus, Search } from '@vben/icons';
-import { VbenHelpTooltip } from '@vben-core/shadcn-ui';
+import { VbenHelpTooltip, VbenSelect } from '@vben-core/shadcn-ui';
 
 import ATable, { type ITableColumnProps } from '../common/table/index.vue';
-import { type IProps, useTableSheet } from './useTableSheet';
+import { type IProps, symbolOptions, useTableSheet } from './useTableSheet';
 
 type TableLayoutProps = {
   columns: ITableColumnProps[];
@@ -24,16 +24,19 @@ const {
   formRef,
   tableData,
   paginationModel,
+  Modal,
+  ModalApi,
+  filters,
+  filterKeys,
   query,
   reset,
   setForm,
   getForm,
+  appendFilter,
+  removeFilter,
 } = useTableSheet(props);
 
-const showAdvancedFilterModal = ref(false);
 const activeTab = ref('');
-
-const removeTag = () => {};
 
 const handleTabClick = () => {
   emits('tabClick', activeTab.value);
@@ -63,13 +66,15 @@ defineExpose({
       >
         <el-tab-pane v-for="tab in tabbar" :key="tab.key" :name="tab.key">
           <template #label>
-            <span>{{ tab.label }}</span>
-            <el-tooltip v-if="tab.tooltip" effect="dark" placement="top">
-              <template #content>
-                <div class="whitespace-pre-wrap">{{ tab.tooltip }}</div>
-              </template>
-              <VbenHelpTooltip />
-            </el-tooltip>
+            <el-badge :max="99" :offset="[5, 0]" :value="tab.badge">
+              {{ tab.label }}
+            </el-badge>
+            <VbenHelpTooltip
+              v-if="tab.tooltip"
+              trigger-class="size-4 text-[#f00] ml-1"
+            >
+              <div class="whitespace-pre-wrap">{{ tab.tooltip }}</div>
+            </VbenHelpTooltip>
           </template>
         </el-tab-pane>
       </el-tabs>
@@ -88,18 +93,19 @@ defineExpose({
           <el-form-item
             v-for="item in formItems"
             :key="item.key"
+            :label-width="item.width"
             :prop="item.key"
-            class="!mr-3"
+            class="!mr-3 flex items-center"
           >
             <template #label>
               <div class="flex items-center gap-1">
                 <span>{{ item.label }}</span>
-                <el-tooltip v-if="item.tooltip" effect="dark" placement="top">
-                  <template #content>
-                    <div class="whitespace-pre-wrap">{{ item.tooltip }}</div>
-                  </template>
-                  <VbenHelpTooltip trigger-class="size-4 text-[#f00]" />
-                </el-tooltip>
+                <VbenHelpTooltip
+                  v-if="item.tooltip"
+                  trigger-class="size-4 text-[#f00]"
+                >
+                  <div class="whitespace-pre-wrap">{{ item.tooltip }}</div>
+                </VbenHelpTooltip>
               </div>
             </template>
             <component
@@ -115,10 +121,11 @@ defineExpose({
             </el-button>
             <el-button @click="reset">重置</el-button>
             <el-button
+              v-if="!hiddenFilter"
               :icon="Plus"
               link
               type="primary"
-              @click="showAdvancedFilterModal = true"
+              @click="ModalApi.open()"
             >
               高级筛选
             </el-button>
@@ -127,24 +134,52 @@ defineExpose({
         <slot :form :query name="action"></slot>
       </div>
       <!-- 高级筛选展示区域 -->
-      <div class="flex flex-wrap">
+      <div class="flex flex-wrap gap-2">
         <el-tag
-          v-for="tag in 1"
-          :key="tag"
+          v-for="(tag, index) in filters"
+          :key="tag.key"
           closable
           type="primary"
-          @close="removeTag"
+          @close="removeFilter(index)"
         >
-          高级筛选
+          {{ tag.label }}
         </el-tag>
       </div>
     </div>
     <ATable
-      :columns="props.columns"
+      :columns
       :data="tableData"
       :pagination="paginationModel"
       class="h-full flex-1"
-    />
+    >
+      <!-- 透传所有插槽到ATable组件 -->
+      <template v-for="(_, name) in $slots" #[name]="slotData">
+        <slot :name="name" v-bind="slotData"></slot>
+      </template>
+    </ATable>
+
+    <Modal>
+      <el-form :model="form">
+        <el-form-item v-for="item in form.filters" :key="item.key">
+          <div class="mb-4 grid w-full grid-cols-3 gap-2">
+            <VbenSelect
+              v-model="item.key"
+              :options="filterKeys"
+              placeholder="请选择"
+            />
+            <VbenSelect
+              v-model="item.symbol"
+              :options="symbolOptions"
+              placeholder="请选择"
+            />
+            <el-input v-model="item.value" placeholder="请输入" />
+          </div>
+        </el-form-item>
+        <el-button class="w-full" @click="appendFilter">
+          <Plus class="size-5" />
+        </el-button>
+      </el-form>
+    </Modal>
   </div>
 </template>
 
@@ -154,6 +189,7 @@ defineExpose({
     margin-bottom: 0;
   }
 }
+
 .el-form-item {
   margin-bottom: 0;
 }

@@ -12,6 +12,7 @@ import { computed } from 'vue';
 import EmptyPng from '#/assets/images/empty.png';
 
 export type ITableColumnProps = {
+  disabledFilter?: boolean;
   format?: (val: any) => any;
 } & Partial<TableColumnInstance>;
 
@@ -38,7 +39,11 @@ export interface ATableProps<T> {
   paginationEvent?: PaginationEmits;
 }
 
-const { columns, data: tableData } = defineProps<ATableProps<any>>();
+const {
+  columns,
+  data: tableData,
+  tableEvent = {},
+} = defineProps<ATableProps<any>>();
 
 const selectionColumn = computed(() =>
   columns.find((col) => col.type === 'selection'),
@@ -76,7 +81,7 @@ const restColumns = computed(() =>
         v-for="column in restColumns"
         :key="column.prop"
         v-bind="column"
-        min-width="120"
+        :min-width="column.sortable ? 120 : 0"
         resizable
       >
         <template #header>
