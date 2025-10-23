@@ -1,7 +1,11 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import TableLayout from '#/components/table-layout/index.vue';
+
+import { columns, formItems } from './config';
+</script>
 
 <template>
-  <div>工单管理 - 专项服务</div>
+  <TableLayout :api="() => []" :columns :form-items="formItems" />
 </template>
 
 <style lang="scss" scoped></style>

@@ -2,13 +2,27 @@ import type { FormItemType } from '@vben/types';
 
 import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
+import { VbenSelect } from '@vben-core/shadcn-ui';
+
 export const formItems: FormItemType[] = [
   {
-    label: '请假单号',
+    label: '国家',
+    key: 'keyword',
+    width: 36,
+    component: VbenSelect,
+    props: {
+      placeholder: '请选择国家',
+      options: [],
+    },
+  },
+  {
+    label: '关键字',
+    tooltip:
+      '支持客户编号/协议编号/工单编号模糊查询,或任一类型编号的精准多号查询,编号之间用英文逗号分割(,)',
     key: 'keyword',
     props: {
-      placeholder:
-        '请输入请假单号,支持多编号精准查询,编号之间用英文逗号分割(,)',
+      placeholder: '客户编号/协议编号/工单编号',
+      class: 'w-[220px]',
     },
   },
 ];
@@ -21,54 +35,44 @@ export const columns: ITableColumnProps[] = [
     disabledFilter: true,
   },
   {
-    label: '请假单号',
+    label: '工单编号',
     prop: 'number',
     sortable: true,
   },
   {
-    label: '请假性质',
-    prop: 'type',
-    sortable: true,
-  },
-  {
-    label: '审核状态',
-    prop: 'status',
-    width: 120,
-    sortable: true,
-  },
-  {
-    label: '开始时间',
+    label: '回执时间',
     prop: 'time',
-    width: 140,
     sortable: true,
   },
   {
-    label: '截止时间',
-    prop: 'endTime',
-    width: 140,
+    label: '客户编号',
+    prop: 'customerNumber',
     sortable: true,
   },
   {
-    label: '请假天数(天)',
-    prop: 'days',
-    width: 140,
+    label: '协议编号',
+    prop: 'protocolNumber',
     sortable: true,
   },
   {
-    label: '申请人',
-    prop: 'apply',
-    width: 100,
+    label: '国家',
+    prop: 'country',
     sortable: true,
   },
   {
-    label: '申请时间',
-    prop: 'applyTime',
+    label: '说明',
+    prop: 'desc',
+    sortable: true,
+  },
+  {
+    label: '所属人',
+    prop: 'owner',
     sortable: true,
   },
   {
     label: '真实名',
     prop: 'username',
-    width: 120,
+    width: 100,
   },
   {
     label: '所属部门',
@@ -82,6 +86,10 @@ export const columns: ITableColumnProps[] = [
   {
     label: '所属公司',
     prop: 'company',
+  },
+  {
+    label: '创建时间',
+    prop: 'createTime',
   },
   {
     label: '操作',

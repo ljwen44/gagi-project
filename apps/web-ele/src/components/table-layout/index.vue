@@ -4,7 +4,7 @@ import type { FormItemType, TabbarProps } from '@vben/types';
 import { onMounted, ref } from 'vue';
 
 import { Plus, Search } from '@vben/icons';
-import { VbenHelpTooltip, VbenSelect } from '@vben-core/shadcn-ui';
+import { Input, VbenHelpTooltip, VbenSelect } from '@vben-core/shadcn-ui';
 
 import ATable, { type ITableColumnProps } from '../common/table/index.vue';
 import { type IProps, symbolOptions, useTableSheet } from './useTableSheet';
@@ -88,7 +88,6 @@ defineExpose({
           inline
           label-position="left"
           label-width="auto"
-          size="small"
         >
           <el-form-item
             v-for="item in formItems"
@@ -99,7 +98,7 @@ defineExpose({
           >
             <template #label>
               <div class="flex items-center gap-1">
-                <span>{{ item.label }}</span>
+                <span class="whitespace-nowrap">{{ item.label }}</span>
                 <VbenHelpTooltip
                   v-if="item.tooltip"
                   trigger-class="size-4 text-[#f00]"
@@ -109,7 +108,7 @@ defineExpose({
               </div>
             </template>
             <component
-              :is="item.component"
+              :is="item.component || Input"
               v-bind="item.props"
               v-model="form[item.key]"
               clearable

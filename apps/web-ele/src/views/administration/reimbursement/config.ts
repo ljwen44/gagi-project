@@ -2,12 +2,9 @@ import type { FormItemType, TabbarProps } from '@vben/types';
 
 import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
-import { ElInput } from 'element-plus';
-
 export const formItems: FormItemType[] = [
   {
     label: '报销单号',
-    component: ElInput,
     key: 'keyword',
     props: {
       placeholder:
@@ -44,6 +41,7 @@ export const columns: ITableColumnProps[] = [
     label: '编号',
     type: 'index',
     width: 60,
+    disabledFilter: true,
   },
   {
     label: '报销单号',
@@ -103,5 +101,6 @@ export const columns: ITableColumnProps[] = [
     label: '操作',
     prop: 'operator',
     fixed: 'right',
+    disabledFilter: true,
   },
 ];

@@ -2,12 +2,9 @@ import type { FormItemType } from '@vben/types';
 
 import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
-import { ElInput } from 'element-plus';
-
 export const formItems: FormItemType[] = [
   {
     label: '关键字',
-    component: ElInput,
     key: 'keyword',
     tooltip:
       '支持发票编号/协议编号/开票抬头/纳税人识别号/身份证号码/收件人名称/收件人手机/收件人邮箱,或发票编号/协议编号的精准多号查询,编号之间用英文逗号分割(,)',
@@ -23,6 +20,7 @@ export const columns: ITableColumnProps[] = [
     label: '编号',
     type: 'index',
     width: 60,
+    disabledFilter: true,
   },
   {
     label: '发票单号',
@@ -127,5 +125,6 @@ export const columns: ITableColumnProps[] = [
     label: '操作',
     prop: 'operator',
     fixed: 'right',
+    disabledFilter: true,
   },
 ];

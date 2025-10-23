@@ -4,8 +4,6 @@ import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
 import { VbenSelect } from '@vben-core/shadcn-ui';
 
-import { ElInput } from 'element-plus';
-
 export const formItems: FormItemType[] = [
   {
     label: '国家',
@@ -19,7 +17,6 @@ export const formItems: FormItemType[] = [
   },
   {
     label: '关键字',
-    component: ElInput,
     key: 'keyword',
     tooltip:
       '支持产品编号/产品名称,或产品编号/产品名称的精准多号查询,编号之间用英文逗号分割(,)',
@@ -34,6 +31,7 @@ export const columns: ITableColumnProps[] = [
     label: '编号',
     type: 'index',
     width: 60,
+    disabledFilter: true,
   },
   {
     label: '产品编号',

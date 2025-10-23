@@ -43,6 +43,8 @@ const {
   columns,
   data: tableData,
   tableEvent = {},
+  paginationEvent = {},
+  showPagination = true,
 } = defineProps<ATableProps<any>>();
 
 const selectionColumn = computed(() =>

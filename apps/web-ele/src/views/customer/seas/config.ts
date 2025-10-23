@@ -2,14 +2,11 @@ import type { FormItemType } from '@vben/types';
 
 import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
-import { ElInput } from 'element-plus';
-
 export const formItems: FormItemType[] = [
   {
     label: '关键字',
     tooltip:
       '支持客户编码/手机/客户名称/公司名称/职务/标签/,或客户编号的精准多号查询,编号之间用英文逗号分割(,)',
-    component: ElInput,
     key: 'keyword',
   },
 ];
@@ -18,11 +15,13 @@ export const columns: ITableColumnProps[] = [
   {
     type: 'selection',
     fixed: 'left',
+    disabledFilter: true,
   },
   {
     label: '编号',
     type: 'index',
     width: 60,
+    disabledFilter: true,
   },
   {
     label: '客户编号',
@@ -78,5 +77,6 @@ export const columns: ITableColumnProps[] = [
     label: '操作',
     prop: 'operator',
     fixed: 'right',
+    disabledFilter: true,
   },
 ];

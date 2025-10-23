@@ -10,53 +10,27 @@ export const formItems: FormItemType[] = [
   {
     label: '关键字',
     tooltip:
-      '支持客户编码/手机/客户名称/公司名称/职务/标签/,或客户编号的精准多号查询,编号之间用英文逗号分割(,)',
+      '支持协议编号/客户编码/客户抬头/联系人/联系手机,或协议编号/客户编号的精准多号查询,编号之间用英文逗号分割(,)',
     key: 'keyword',
   },
 ];
 
 export const tabbar: TabbarProps[] = [
   {
-    label: '全部客户',
+    label: '全部协议',
     key: 'all',
   },
   {
-    label: '未成交',
-    key: 'noOk',
+    label: '普通协议',
+    key: 'normal',
   },
   {
-    label: '已成交',
-    key: 'ok',
-  },
-  {
-    label: '共享给我',
-    key: 'sharedMe',
-    tooltip: '其他人共享给我的',
-  },
-  {
-    label: '我共享的',
-    key: 'MyShare',
-    tooltip: '我共享出去的',
-  },
-  {
-    label: '协同客户',
-    key: 'coCustomer',
-    tooltip: '渠道客户通过协同来的',
-  },
-  {
-    label: '自主活动',
-    key: 'free',
-    tooltip:
-      '开启自动流转公海规则,且按系统配置设置的提醒日期天数为过滤条件\n公司自主组织的活动获得的新增客户',
+    label: '异常协议',
+    key: 'abnormal',
   },
 ];
 
 export const columns: ITableColumnProps[] = [
-  {
-    type: 'selection',
-    fixed: 'left',
-    disabledFilter: true,
-  },
   {
     label: '编号',
     type: 'index',
@@ -64,9 +38,10 @@ export const columns: ITableColumnProps[] = [
     disabledFilter: true,
   },
   {
-    label: '客户标识',
-    prop: 'customerFlag',
-    width: 40,
+    label: '协议编号',
+    prop: 'protocolNumber',
+    sortable: true,
+    width: 180,
   },
   {
     label: '客户编号',
@@ -84,42 +59,32 @@ export const columns: ITableColumnProps[] = [
     sortable: true,
   },
   {
-    label: '职务',
-    prop: 'position',
+    label: '审核状态',
+    prop: 'status',
     sortable: true,
   },
   {
-    label: '标签',
-    prop: 'tag',
+    label: '工单状况',
+    prop: 'workOrderStatus',
     sortable: true,
   },
   {
-    label: '已成交次数',
-    prop: 'times',
-    width: 120,
+    label: '回款状态',
+    prop: 'amountStatus',
     sortable: true,
   },
   {
-    label: '最近成交时间',
-    prop: 'lastTime',
-    width: 140,
+    label: '业绩分配',
+    prop: 'allocation',
     sortable: true,
   },
   {
-    label: '距最近成交天数',
-    prop: 'recent',
-    width: 150,
-    sortable: true,
+    label: '协议金额',
+    prop: 'protocolAmount',
   },
   {
-    label: '客户级别',
-    prop: 'customerLevel',
-    sortable: true,
-  },
-  {
-    label: '客户来源',
-    prop: 'customerOrigin',
-    sortable: true,
+    label: '实收金额',
+    prop: 'amount',
   },
   {
     label: '操作',
