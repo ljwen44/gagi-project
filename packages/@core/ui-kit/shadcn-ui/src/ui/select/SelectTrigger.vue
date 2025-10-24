@@ -11,7 +11,9 @@ import {
   useForwardProps,
 } from 'radix-vue';
 
-const props = defineProps<{ class?: any } & SelectTriggerProps>();
+const props = defineProps<
+  { class?: any; size?: 'default' | 'large' | 'small' } & SelectTriggerProps
+>();
 
 const delegatedProps = computed(() => {
   const { class: _, ...delegated } = props;
@@ -28,6 +30,11 @@ const forwardedProps = useForwardProps(delegatedProps);
     :class="
       cn(
         'border-input ring-offset-background placeholder:text-muted-foreground focus:ring-ring flex h-10 w-full items-center justify-between whitespace-nowrap rounded-md border bg-transparent px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1',
+        props.size === 'large'
+          ? 'h-10'
+          : props.size === 'small'
+            ? 'h-6'
+            : 'h-8',
         props.class,
       )
     "

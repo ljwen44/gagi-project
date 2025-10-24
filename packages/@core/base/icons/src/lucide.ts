@@ -64,6 +64,7 @@ export {
   SwatchBook,
   TrendingUp,
   Triangle,
+  Upload,
   UserRoundPen,
   X,
 } from 'lucide-vue-next';

@@ -7,7 +7,7 @@ import { columns, formItems } from './config';
 <template>
   <TableLayout :api="() => []" :columns :form-items="formItems">
     <template #action>
-      <el-button size="small" type="primary"> 批量领取 </el-button>
+      <el-button type="primary"> 批量领取 </el-button>
     </template>
   </TableLayout>
 </template>

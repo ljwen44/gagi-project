@@ -57,7 +57,7 @@ const restColumns = computed(() =>
 </script>
 
 <template>
-  <div class="flex flex-col gap-2">
+  <div class="flex w-full flex-col gap-2">
     <el-table
       v-bind="tableConfig"
       :data="tableData"
@@ -83,7 +83,7 @@ const restColumns = computed(() =>
         v-for="column in restColumns"
         :key="column.prop"
         v-bind="column"
-        :min-width="column.sortable ? 120 : 0"
+        :min-width="column.sortable ? 140 : column.width"
         resizable
       >
         <template #header>

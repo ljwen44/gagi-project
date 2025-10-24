@@ -12,6 +12,9 @@ export const formItems: FormItemType[] = [
     tooltip:
       '支持协议编号/客户编码/客户抬头/联系人/联系手机,或协议编号/客户编号的精准多号查询,编号之间用英文逗号分割(,)',
     key: 'keyword',
+    props: {
+      placeholder: '请输入协议编号/客户编码/客户抬头/联系人/联系手机',
+    },
   },
 ];
 

@@ -292,6 +292,8 @@ const getAppendTo = computed(() => {
             </slot>
           </component>
 
+          <slot name="center-footer"></slot>
+
           <component
             :is="components.PrimaryButton || VbenButton"
             v-if="showConfirmButton"

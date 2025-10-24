@@ -3,8 +3,6 @@ import type { FormItemProps } from 'element-plus';
 
 import { useAttrs, useTemplateRef } from 'vue';
 
-import { Input } from '@vben-core/shadcn-ui';
-
 export interface IFormItem extends Partial<FormItemProps> {
   component?: any;
   componentProps?: Record<string, any>;
@@ -23,6 +21,13 @@ const formRef = useTemplateRef('formRef');
 
 const attrs = useAttrs();
 
+const getDisabled = (item: IFormItem) => {
+  if (typeof item.componentProps?.disabled === 'function') {
+    return item.componentProps?.disabled(form.value);
+  }
+  return item.componentProps?.disabled;
+};
+
 defineExpose({
   instance: formRef,
 });
@@ -32,13 +37,16 @@ defineExpose({
   <el-form :model="form" v-bind="attrs" ref="formRef">
     <el-form-item v-for="item in items" v-bind="item" :key="item.prop">
       <template #label>
-        <slot :name="`${item.prop}Label`">{{ item.label }}</slot>
+        <slot :label="item.label" :name="`${item.prop}Label`">
+          {{ item.label }}
+        </slot>
       </template>
       <slot :form :name="item.prop">
         <component
-          :is="item.component || Input"
+          :is="item.component || 'el-input'"
           v-model="form[item.prop as string]"
           v-bind="item.componentProps"
+          :disabled="getDisabled(item)"
         />
       </slot>
     </el-form-item>

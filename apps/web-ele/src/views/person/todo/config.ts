@@ -11,6 +11,9 @@ export const formItems: FormItemType[] = [
       '支持模糊查询和多编号查询,模糊查询不能使用逗号分隔符,多编号查询必须是完整编号且编号之间用英文逗号分割(,)',
     component: ElInput,
     key: 'keyword',
+    props: {
+      placeholder: '请输入协议编号, 支持模糊查询',
+    },
   },
 ];
 

@@ -12,7 +12,7 @@ import { columns, formItems, tabbar } from './config';
     :tabbar="tabbar"
   >
     <template #action>
-      <el-button size="small" type="primary"> 添加 </el-button>
+      <el-button type="primary"> 添加 </el-button>
     </template>
   </TableLayout>
 </template>
