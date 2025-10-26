@@ -44,7 +44,7 @@ export const columns: ITableColumnProps[] = [
     label: '协议编号',
     prop: 'protocolNumber',
     sortable: true,
-    width: 180,
+    width: 150,
   },
   {
     label: '客户编号',
@@ -72,7 +72,7 @@ export const columns: ITableColumnProps[] = [
     sortable: true,
   },
   {
-    label: '回款状态',
+    label: '回款状况',
     prop: 'amountStatus',
     sortable: true,
   },
@@ -88,6 +88,100 @@ export const columns: ITableColumnProps[] = [
   {
     label: '实收金额',
     prop: 'amount',
+    sortable: true,
+  },
+  {
+    label: '是否含税',
+    prop: 'includeTax',
+    sortable: true,
+  },
+  {
+    label: '是否开票',
+    prop: 'hasTicket',
+    sortable: true,
+  },
+  {
+    label: '是否修正',
+    prop: 'hasUpdate',
+    sortable: true,
+  },
+  {
+    label: '预算业绩',
+    prop: 'budget',
+  },
+  {
+    label: '实际业绩',
+    prop: 'actual',
+    sortable: true,
+  },
+  {
+    label: '到款金额',
+    prop: 'money',
+    sortable: true,
+  },
+  {
+    label: '到款时间',
+    prop: 'timeToAccount',
+    sortable: true,
+  },
+  {
+    label: '折扣金额',
+    prop: 'disacountAmount',
+    sortable: true,
+  },
+  {
+    label: '销售成本',
+    prop: 'saleCost',
+    sortable: true,
+  },
+  {
+    label: '协议类型',
+    prop: 'protocolType',
+    sortable: true,
+  },
+  {
+    label: '客户抬头',
+    prop: 'customerHead',
+    sortable: true,
+  },
+  {
+    label: '订单备注',
+    prop: 'orderRemark',
+    sortable: true,
+  },
+  {
+    label: '协议备注',
+    prop: 'protocolRemark',
+    sortable: true,
+  },
+  {
+    label: '所属人',
+    prop: 'username',
+  },
+  {
+    label: '真实名',
+    prop: 'username',
+  },
+  {
+    label: '所属部门',
+    prop: 'group',
+  },
+  {
+    label: '部门负责人',
+    prop: 'leader',
+    width: 120,
+  },
+  {
+    label: '所属公司',
+    prop: 'belongCompany',
+  },
+  {
+    label: '创建时间',
+    prop: 'createdTime',
+  },
+  {
+    label: '更新时间',
+    prop: 'updatedTime',
   },
   {
     label: '操作',

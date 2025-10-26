@@ -97,13 +97,11 @@ export const columns: ITableColumnProps[] = [
   {
     label: '已成交次数',
     prop: 'times',
-    width: 120,
     sortable: true,
   },
   {
     label: '最近成交时间',
     prop: 'lastTime',
-    width: 140,
     sortable: true,
   },
   {

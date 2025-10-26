@@ -106,6 +106,46 @@ export const columns: ITableColumnProps[] = [
     sortable: true,
   },
   {
+    label: '处理方式',
+    prop: 'method',
+    sortable: true,
+  },
+  {
+    label: '所属人',
+    prop: 'username',
+  },
+  {
+    label: '真实名',
+    prop: 'username',
+  },
+  {
+    label: '所属部门',
+    prop: 'group',
+  },
+  {
+    label: '部门负责人',
+    prop: 'leader',
+  },
+  {
+    label: '所属公司',
+    prop: 'belongCompany',
+  },
+  {
+    label: '主做单人',
+    prop: 'owner',
+    sortable: true,
+  },
+  {
+    label: '创建人',
+    prop: 'createdBy',
+    sortable: true,
+  },
+  {
+    label: '创建时间',
+    prop: 'createdTime',
+    sortable: true,
+  },
+  {
     label: '操作',
     prop: 'operator',
     fixed: 'right',

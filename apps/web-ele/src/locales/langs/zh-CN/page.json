@@ -14,6 +14,7 @@
   "customer": {
     "title": "客户管理",
     "list": "客户列表",
+    "channel": "渠道池",
     "seas": "客户公海"
   },
   "administration": {
@@ -54,5 +55,9 @@
     "title": "个人中心",
     "todoTasks": "待办任务",
     "warningRemind": "预警提醒"
+  },
+  "activity": {
+    "title": "活动管理",
+    "list": "活动列表"
   }
 }

@@ -81,10 +81,11 @@ defineExpose({
     </slot>
     <div class="flex flex-col gap-2">
       <!-- 搜索区域 + 操作区域 -->
-      <div class="flex flex-wrap items-center justify-between">
+      <div class="flex flex-wrap items-center justify-between gap-2">
         <el-form
           ref="formRef"
           :form
+          class="flex flex-wrap items-center gap-2"
           inline
           label-position="left"
           label-width="auto"
@@ -130,7 +131,9 @@ defineExpose({
             </el-button>
           </el-form-item>
         </el-form>
-        <slot :form :query name="action"></slot>
+        <div class="flex items-center gap-2">
+          <slot :form :query name="action"></slot>
+        </div>
       </div>
       <!-- 高级筛选展示区域 -->
       <div class="flex flex-wrap gap-2">
@@ -145,17 +148,20 @@ defineExpose({
         </el-tag>
       </div>
     </div>
-    <ATable
-      :columns
-      :data="tableData"
-      :pagination="paginationModel"
-      class="h-full flex-1"
-    >
-      <!-- 透传所有插槽到ATable组件 -->
-      <template v-for="(_, name) in $slots" #[name]="slotData">
-        <slot :name="name" v-bind="slotData"></slot>
-      </template>
-    </ATable>
+    <div class="flex h-full w-full flex-1 overflow-hidden">
+      <slot name="tableBar"></slot>
+      <ATable
+        :columns
+        :data="tableData"
+        :pagination="paginationModel"
+        class="h-full min-w-0 flex-1"
+      >
+        <!-- 透传所有插槽到ATable组件 -->
+        <template v-for="(_, name) in $slots" #[name]="slotData">
+          <slot :name="name" v-bind="slotData"></slot>
+        </template>
+      </ATable>
+    </div>
 
     <Modal>
       <el-form :model="form">

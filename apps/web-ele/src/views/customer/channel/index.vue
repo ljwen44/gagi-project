@@ -8,19 +8,14 @@ import Drawer from '#/components/drawer-layout/layout.vue';
 import TableLayout from '#/components/table-layout/index.vue';
 import CustomerForm from '#/components/ui/customer/form.vue';
 
-import { columns, customerFlagMap, formItems, tabbar } from './config';
+import { columns, customerFlagMap, formItems } from './config';
 
 const customerFormRef = useTemplateRef('customerFormRef');
 const modelType = ref('');
 </script>
 
 <template>
-  <TableLayout
-    :api="() => []"
-    :columns
-    :form-items="formItems"
-    :tabbar="tabbar"
-  >
+  <TableLayout :api="() => []" :columns :form-items>
     <template #action>
       <el-button type="primary" @click="customerFormRef?.openModal()">
         新增

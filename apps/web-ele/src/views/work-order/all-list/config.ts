@@ -102,6 +102,91 @@ export const columns: ITableColumnProps[] = [
     sortable: true,
   },
   {
+    label: '做单状态',
+    prop: 'orderStatus',
+    sortable: true,
+  },
+  {
+    label: '结单确认',
+    prop: 'finishConfirm',
+    sortable: true,
+  },
+  {
+    label: '所属人',
+    prop: 'username',
+  },
+  {
+    label: '真实名',
+    prop: 'username',
+  },
+  {
+    label: '所属部门',
+    prop: 'group',
+  },
+  {
+    label: '部门负责人',
+    prop: 'leader',
+  },
+  {
+    label: '所属公司',
+    prop: 'belongCompany',
+  },
+  {
+    label: '主做单人',
+    prop: 'owner',
+    sortable: true,
+  },
+  {
+    label: '创建人',
+    prop: 'createdBy',
+    sortable: true,
+  },
+  {
+    label: '创建时间',
+    prop: 'createdTime',
+    sortable: true,
+  },
+  {
+    label: '客户确认时间',
+    prop: 'customerConfirmTime',
+    sortable: true,
+  },
+  {
+    label: '接单时间',
+    prop: 'orderTime',
+    sortable: true,
+  },
+  {
+    label: '结单时间',
+    prop: 'finishTime',
+    sortable: true,
+  },
+  {
+    label: '结单确认时间',
+    prop: 'finishConfirmTime',
+    sortable: true,
+  },
+  {
+    label: '前置项接单时间',
+    prop: 'preOrderTime',
+    sortable: true,
+  },
+  {
+    label: '前置项结项时间',
+    prop: 'preFinishTime',
+    sortable: true,
+  },
+  {
+    label: '附加项分配时间',
+    prop: 'attachTime',
+    sortable: true,
+  },
+  {
+    label: '附加项结项时间',
+    prop: 'attachFinishTime',
+    sortable: true,
+  },
+  {
     label: '操作',
     prop: 'operator',
     fixed: 'right',

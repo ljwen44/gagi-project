@@ -19,18 +19,20 @@ withDefaults(defineProps<Props>(), {
 </script>
 <template>
   <div class="card-box flex flex-col gap-4 p-4">
-    <div class="flex gap-4">
-      <VbenAvatar :src="avatar" class="size-20" />
-      <div
-        v-if="$slots.title || $slots.description"
-        class="flex flex-col justify-center md:mt-0"
-      >
-        <h1 v-if="$slots.title" class="text-md font-semibold md:text-xl">
-          <slot name="title"></slot>
-        </h1>
-        <span v-if="$slots.description" class="text-foreground/80 mt-1">
-          <slot name="description"></slot>
-        </span>
+    <div class="flex flex-wrap gap-4">
+      <div class="flex items-center gap-4">
+        <VbenAvatar :src="avatar" class="size-20" />
+        <div
+          v-if="$slots.title || $slots.description"
+          class="flex flex-col justify-center md:mt-0"
+        >
+          <h1 v-if="$slots.title" class="text-md font-semibold md:text-xl">
+            <slot name="title"></slot>
+          </h1>
+          <span v-if="$slots.description" class="text-foreground/80 mt-1">
+            <slot name="description"></slot>
+          </span>
+        </div>
       </div>
       <div class="mt-4 flex flex-1 justify-end gap-8 md:mt-0">
         <div class="flex flex-col items-center justify-center gap-2">
@@ -51,21 +53,29 @@ withDefaults(defineProps<Props>(), {
     </div>
 
     <div class="flex w-full items-center justify-between gap-4 text-white">
-      <div class="box flex flex-1 flex-col gap-3 rounded-xl px-4 py-3">
-        <span class="text-3xl font-bold">20000</span>
+      <div class="box flex w-1/4 flex-1 flex-col gap-3 rounded-xl px-4 py-3">
         <span class="text-sm font-light">业绩目标(元)</span>
+        <span class="inline-block w-full truncate text-3xl font-bold" title="0">
+          20
+        </span>
       </div>
-      <div class="box flex flex-1 flex-col gap-3 rounded-xl px-4 py-3">
-        <span class="text-3xl font-bold">0</span>
+      <div class="box flex w-1/4 flex-1 flex-col gap-3 rounded-xl px-4 py-3">
         <span class="text-sm font-light">已完成(元)</span>
+        <span class="inline-block w-full truncate text-3xl font-bold" title="0">
+          0
+        </span>
       </div>
-      <div class="box flex flex-1 flex-col gap-3 rounded-xl px-4 py-3">
-        <span class="text-3xl font-bold">0</span>
+      <div class="box flex w-1/4 flex-1 flex-col gap-3 rounded-xl px-4 py-3">
         <span class="text-sm font-light">未完成(元)</span>
+        <span class="inline-block w-full truncate text-3xl font-bold" title="0">
+          0
+        </span>
       </div>
-      <div class="box flex flex-1 flex-col gap-3 rounded-xl px-4 py-3">
-        <span class="text-3xl font-bold">0%</span>
+      <div class="box flex w-1/4 flex-1 flex-col gap-3 rounded-xl px-4 py-3">
         <span class="text-sm font-light">完成率</span>
+        <span class="inline-block w-full truncate text-3xl font-bold" title="0">
+          0%
+        </span>
       </div>
     </div>
   </div>

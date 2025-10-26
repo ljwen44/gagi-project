@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-
-import {
-  EchartsUI,
-  type EchartsUIType,
-  useEcharts,
-} from '@vben/plugins/echarts';
+import { HandCoins, MessageSquare, TrendingUp, Users } from '@vben/icons';
 import { Card, CardContent, CardHeader, CardTitle } from '@vben-core/shadcn-ui';
+
+import dayjs from 'dayjs';
 
 export interface IProps {
   title: string;
@@ -15,93 +11,40 @@ defineOptions({
   name: 'WorkbenchContent',
 });
 defineProps<IProps>();
-const chartRef = ref<EchartsUIType>();
-const { renderEcharts } = useEcharts(chartRef);
 
-onMounted(() => {
-  renderEcharts({
-    legend: {
-      top: '2%',
-      left: 'center',
-      data: ['客户数(人)', '跟进数(条)', '回款全额(元)', '业绩全额(元)'],
-    },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'shadow',
-      },
-    },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true,
-    },
-    xAxis: {
-      type: 'category',
-      data: ['2024-01', '2024-02', '2024-03', '2024-04', '2024-05', '2024-06'],
-      axisLabel: {
-        interval: 0,
-      },
-    },
-    yAxis: {
-      type: 'value',
-      axisLabel: {
-        show: false,
-      },
-    },
-    series: [
-      {
-        name: '客户数(人)',
-        type: 'bar',
-        data: [120, 132, 101, 134, 90, 230],
-        itemStyle: {
-          color: '#FF6B6B', // 红色
-        },
-        label: {
-          show: true,
-          position: 'top',
-        },
-      },
-      {
-        name: '跟进数(条)',
-        type: 'bar',
-        data: [220, 182, 191, 234, 290, 330],
-        itemStyle: {
-          color: '#4ECDC4', // 青色
-        },
-        label: {
-          show: true,
-          position: 'top',
-        },
-      },
-      {
-        name: '回款全额(元)',
-        type: 'bar',
-        data: [150, 232, 201, 154, 190, 330],
-        itemStyle: {
-          color: '#45B7D1', // 蓝色
-        },
-        label: {
-          show: true,
-          position: 'top',
-        },
-      },
-      {
-        name: '业绩全额(元)',
-        type: 'bar',
-        data: [320, 332, 301, 334, 390, 330],
-        itemStyle: {
-          color: '#96CEB4', // 绿色
-        },
-        label: {
-          show: true,
-          position: 'top',
-        },
-      },
-    ],
-  });
-});
+const items = [
+  {
+    label: '客户数(人)',
+    key: 'customerCount',
+    icon: Users,
+    color: '#FF6B6B',
+  },
+  {
+    label: '跟进数(条)',
+    key: 'followUpCount',
+    icon: MessageSquare,
+    color: '#4ECDC4',
+  },
+  {
+    label: '回款全额(元)',
+    key: 'paymentAmount',
+    icon: HandCoins,
+    color: '#45B7D1',
+  },
+  {
+    label: '业绩全额(元)',
+    key: 'performanceAmount',
+    icon: TrendingUp,
+    color: '#96CEB4',
+  },
+];
+
+const last6Month = Array.from(
+  {
+    length: 6,
+  },
+  (_, index) => dayjs().subtract(index, 'month').format('YYYY-MM'),
+);
 </script>
 
 <template>
@@ -110,7 +53,34 @@ onMounted(() => {
       <CardTitle class="text-xl">{{ title }}</CardTitle>
     </CardHeader>
     <CardContent>
-      <EchartsUI ref="chartRef" />
+      <div class="grid w-full grid-cols-4 gap-4 max-md:grid-cols-2">
+        <template v-for="item in items" :key="item.key">
+          <Card>
+            <CardTitle class="flex items-center gap-2 border-b p-4">
+              <div
+                :style="`background-color: ${item.color}`"
+                class="rounded-full p-1.5"
+              >
+                <component :is="item.icon" class="size-6" />
+              </div>
+              <span>
+                {{ item.label }}
+              </span>
+              <span>0</span>
+            </CardTitle>
+            <CardContent class="flex flex-col gap-2 p-4">
+              <div
+                v-for="month in last6Month"
+                :key="month"
+                class="flex items-center gap-2"
+              >
+                <span class="text-lg">较 {{ month }}</span>
+                <span class="text-xl">-</span>
+              </div>
+            </CardContent>
+          </Card>
+        </template>
+      </div>
     </CardContent>
   </Card>
 </template>

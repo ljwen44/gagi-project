@@ -43,6 +43,10 @@ export const tabbar: TabbarProps[] = [
     key: 'outcome',
   },
   {
+    label: '请假申请',
+    key: 'rest',
+  },
+  {
     label: '离职申请',
     key: 'outApply',
   },
@@ -101,7 +105,6 @@ export const columns: ITableColumnProps[] = [
   {
     label: '真实名',
     prop: 'username',
-    width: 120,
   },
   {
     label: '所属部门',
@@ -110,6 +113,7 @@ export const columns: ITableColumnProps[] = [
   {
     label: '部门负责人',
     prop: 'leader',
+    width: 140,
   },
   {
     label: '所属公司',

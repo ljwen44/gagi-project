@@ -2,6 +2,8 @@ import type { FormItemType } from '@vben/types';
 
 import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
+import { Navigation, Share2, Triangle } from '@vben/icons';
+
 export const formItems: FormItemType[] = [
   {
     label: '关键字',
@@ -96,14 +98,61 @@ export const columns: ITableColumnProps[] = [
     sortable: true,
   },
   {
-    label: '入海时间',
-    prop: 'inTime',
-    sortable: true,
-  },
-  {
     label: '操作',
     prop: 'operator',
     fixed: 'right',
     disabledFilter: true,
   },
 ];
+
+export const customerFlagMap = {
+  share: {
+    component: Share2,
+    props: {
+      class: 'size-3 text-[#f00]',
+      fill: '#f00',
+    },
+  },
+  downRed: {
+    component: Triangle,
+    props: {
+      class: 'size-3 text-[#f00] rotate-180',
+      fill: '#f00',
+    },
+  },
+  downGreen: {
+    component: Triangle,
+    props: {
+      class: 'size-3 text-[#0f0] rotate-180',
+      fill: '#0f0',
+    },
+  },
+  upRed: {
+    component: Triangle,
+    props: {
+      class: 'size-3 text-[#f00]',
+      fill: '#f00',
+    },
+  },
+  upGreen: {
+    component: Triangle,
+    props: {
+      class: 'size-3 text-[#0f0]',
+      fill: '#0f0',
+    },
+  },
+  coordinated: {
+    component: Navigation,
+    props: {
+      class: 'size-3 text-[#f00]',
+      fill: '#f00',
+    },
+  },
+  notCoordinated: {
+    component: Navigation,
+    props: {
+      class: 'size-3 text-[#555b63]',
+      fill: '#555b63',
+    },
+  },
+};

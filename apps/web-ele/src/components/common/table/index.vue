@@ -16,14 +16,14 @@ export type ITableColumnProps = {
   format?: (val: any) => any;
 } & Partial<TableColumnInstance>;
 
-export type ITableEvent<T> = {
+export type ITableEvent = {
   'expand-change'?: (row: any, expandedRows: any[]) => void;
   scroll?: (args: { scrollLeft: number; scrollTop: number }) => void;
   select?: (selectedRows: any[], row: any) => void;
   'select-all'?: (selectedRows: any[]) => void;
   'selection-change'?: (selectedRows: any[]) => void;
   'sort-change'?: (options: {
-    column: TableColumnCtx<T>;
+    column: TableColumnCtx<any>;
     order: any;
     prop: string;
   }) => void;
@@ -31,8 +31,8 @@ export type ITableEvent<T> = {
 
 export interface ATableProps<T> {
   data: T[]; // 表格数据;
-  tableConfig?: TableProps<T>; // 表格配置
-  tableEvent?: ITableEvent<T>;
+  tableConfig?: TableProps<any>; // 表格配置
+  tableEvent?: ITableEvent;
   columns: ITableColumnProps[]; // 列配置
   showPagination?: boolean; // 是否显示分页
   pagination?: Partial<PaginationProps>; // 分页配置
@@ -57,7 +57,7 @@ const restColumns = computed(() =>
 </script>
 
 <template>
-  <div class="flex w-full flex-col gap-2">
+  <div class="flex flex-col gap-2">
     <el-table
       v-bind="tableConfig"
       :data="tableData"
