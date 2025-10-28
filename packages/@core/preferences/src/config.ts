@@ -1,5 +1,7 @@
 import type { Preferences } from './types';
 
+import Logo from './logo.png';
+
 const defaultPreferences: Preferences = {
   app: {
     accessMode: 'frontend',
@@ -51,7 +53,8 @@ const defaultPreferences: Preferences = {
   },
   logo: {
     enable: true,
-    source: 'https://unpkg.com/@vbenjs/static-source@0.1.7/source/logo-v1.webp',
+    // source: 'https://unpkg.com/@vbenjs/static-source@0.1.7/source/logo-v1.webp',
+    source: Logo,
   },
   navigation: {
     accordion: true,

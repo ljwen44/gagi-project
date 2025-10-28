@@ -1,7 +1,15 @@
 <script lang="ts" setup>
+import type { UploadProps } from 'element-plus';
+
 import { useAttrs } from 'vue';
 
 import { Upload } from '@vben/icons';
+
+interface IProps extends Partial<UploadProps> {
+  hiddenTip?: boolean;
+}
+
+defineProps<IProps>();
 
 const uploadFiles = defineModel();
 
@@ -21,7 +29,7 @@ const attrs = useAttrs();
       </div>
     </slot>
     <template #tip>
-      <p>{{ attrs.tip || '单个文件限制大小1M' }}</p>
+      <p v-if="!hiddenTip">{{ attrs.tip || '单个文件限制大小1M' }}</p>
     </template>
   </el-upload>
 </template>

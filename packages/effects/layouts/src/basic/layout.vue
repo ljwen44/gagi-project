@@ -208,7 +208,7 @@ const headerSlots = computed(() => {
         :collapsed="logoCollapsed"
         :src="preferences.logo.source"
         :theme="showHeaderNav ? headerTheme : theme"
-        text="Awen"
+        text="驰威"
       />
     </template>
     <!-- 头部区域 -->

@@ -7,6 +7,7 @@ export interface IFormItem extends Partial<FormItemProps> {
   component?: any;
   componentProps?: Record<string, any>;
   class?: string;
+  prop: string;
 }
 
 interface IFormProps {

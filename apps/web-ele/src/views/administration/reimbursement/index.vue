@@ -1,12 +1,15 @@
 <script lang="ts" setup>
-import { useTemplateRef } from 'vue';
+import { ref, useTemplateRef } from 'vue';
 
 import TableLayout from '#/components/table-layout/index.vue';
 import RemibursementForm from '#/components/ui/administration/reimbursement/form.vue';
+import RemibursementDrawer from '#/components/ui/drawers/administration/reimbursementDrawer.vue';
 
 import { columns, formItems, tabbar } from './config';
 
 const remibursementFormRef = useTemplateRef('remibursementFormRef');
+
+const show = ref(false);
 </script>
 
 <template>
@@ -24,9 +27,14 @@ const remibursementFormRef = useTemplateRef('remibursementFormRef');
       >
         添加
       </el-button>
+      <el-button size="default" type="primary" @click="show = true">
+        抽屉
+      </el-button>
     </template>
 
     <RemibursementForm ref="remibursementFormRef" />
+
+    <RemibursementDrawer :show @closed="show = false" />
   </TableLayout>
 </template>
 

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { FormItemType, TabbarProps } from '@vben/types';
 
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref, useAttrs } from 'vue';
 
 import { Plus, Search } from '@vben/icons';
 import { Input, VbenHelpTooltip, VbenSelect } from '@vben-core/shadcn-ui';
@@ -42,6 +42,21 @@ const handleTabClick = () => {
   emits('tabClick', activeTab.value);
 };
 
+const attrs = useAttrs();
+const tableEeventMap: Record<string, string> = {
+  onExpandChange: 'expand-change',
+  onScroll: 'scorll',
+  onSelect: 'select',
+  onSelectAll: 'select-all',
+  onSelection: 'selection',
+  onSelectionChange: 'selection-change',
+  onSortChange: 'sort-change',
+};
+const tableEvent = computed(() =>
+  Object.fromEntries(
+    Object.keys(tableEeventMap).map((key) => [key, attrs[key]]),
+  ),
+);
 onMounted(() => {
   if (props.tabbar && props.tabbar.length > 0) {
     activeTab.value = props.tabbar[0]?.key!;
@@ -115,21 +130,23 @@ defineExpose({
               clearable
             />
           </el-form-item>
-          <el-form-item>
-            <el-button :icon="Search" type="primary" @click="query">
-              查询
-            </el-button>
-            <el-button @click="reset">重置</el-button>
-            <el-button
-              v-if="!hiddenFilter"
-              :icon="Plus"
-              link
-              type="primary"
-              @click="ModalApi.open()"
-            >
-              高级筛选
-            </el-button>
-          </el-form-item>
+          <template v-if="formItems.length > 0">
+            <el-form-item>
+              <el-button :icon="Search" type="primary" @click="query">
+                查询
+              </el-button>
+              <el-button @click="reset">重置</el-button>
+              <el-button
+                v-if="!hiddenFilter"
+                :icon="Plus"
+                link
+                type="primary"
+                @click="ModalApi.open()"
+              >
+                高级筛选
+              </el-button>
+            </el-form-item>
+          </template>
         </el-form>
         <div class="flex items-center gap-2">
           <slot :form :query name="action"></slot>
@@ -154,6 +171,7 @@ defineExpose({
         :columns
         :data="tableData"
         :pagination="paginationModel"
+        :table-event="tableEvent"
         class="h-full min-w-0 flex-1"
       >
         <!-- 透传所有插槽到ATable组件 -->

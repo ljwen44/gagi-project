@@ -1,10 +1,15 @@
 <script lang="ts" setup>
+import { ref } from 'vue';
+
 import { AlertCircle } from '@vben/icons';
 import { VbenHelpTooltip } from '@vben-core/shadcn-ui';
 
 import TableLayout from '#/components/table-layout/index.vue';
+import ProtocolDrawer from '#/components/ui/drawers/protocol/protocolDrawer.vue';
 
 import { columns, formItems, tabbar } from './config';
+
+const show = ref(false);
 </script>
 
 <template>
@@ -16,6 +21,7 @@ import { columns, formItems, tabbar } from './config';
   >
     <template #action>
       <el-button type="primary"> 新增 </el-button>
+      <el-button type="primary" @click="show = true"> 抽屉 </el-button>
     </template>
     <template #protocolNumberHeader>
       <VbenHelpTooltip>
@@ -26,6 +32,8 @@ import { columns, formItems, tabbar } from './config';
         <div class="flex flex-col gap-2">111</div>
       </VbenHelpTooltip>
     </template>
+
+    <ProtocolDrawer :show @closed="show = false" />
   </TableLayout>
 </template>
 

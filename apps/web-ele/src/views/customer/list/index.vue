@@ -4,14 +4,14 @@ import { ref, useTemplateRef } from 'vue';
 import { AlertCircle } from '@vben/icons';
 import { VbenHelpTooltip } from '@vben-core/shadcn-ui';
 
-import Drawer from '#/components/drawer-layout/layout.vue';
 import TableLayout from '#/components/table-layout/index.vue';
 import CustomerForm from '#/components/ui/customer/form.vue';
+import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetail.vue';
 
 import { columns, customerFlagMap, formItems, tabbar } from './config';
 
 const customerFormRef = useTemplateRef('customerFormRef');
-const modelType = ref('');
+const modalType = ref('');
 </script>
 
 <template>
@@ -25,7 +25,7 @@ const modelType = ref('');
       <el-button type="primary" @click="customerFormRef?.openModal()">
         新增
       </el-button>
-      <el-button type="primary" @click="modelType = 'customer'">
+      <el-button type="primary" @click="modalType = 'customer'">
         抽屉
       </el-button>
     </template>
@@ -86,12 +86,11 @@ const modelType = ref('');
 
     <CustomerForm ref="customerFormRef" />
 
-    <Drawer :show="modelType === 'customer'" @closed="modelType = ''">
-      <template #title>
-        <div>111</div>
-      </template>
-      <div>111</div>
-    </Drawer>
+    <CustomerDetailDrawer
+      id=""
+      :show="modalType === 'customer'"
+      @closed="modalType = ''"
+    />
   </TableLayout>
 </template>
 

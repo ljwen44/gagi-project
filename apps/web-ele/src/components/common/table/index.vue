@@ -9,7 +9,7 @@ import type {
 
 import { computed } from 'vue';
 
-import EmptyPng from '#/assets/images/empty.png';
+import AEmpty from '#/components/common/empty/index.vue';
 
 export type ITableColumnProps = {
   disabledFilter?: boolean;
@@ -67,11 +67,7 @@ const restColumns = computed(() =>
       v-on="tableEvent"
     >
       <template #empty>
-        <el-empty
-          :image="EmptyPng"
-          class="empty-class"
-          description="暂无数据"
-        />
+        <AEmpty />
       </template>
       <template v-if="selectionColumn">
         <el-table-column v-bind="selectionColumn" />
@@ -110,11 +106,3 @@ const restColumns = computed(() =>
     />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.empty-class {
-  :deep(.el-empty__description) {
-    margin-top: 0;
-  }
-}
-</style>

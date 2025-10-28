@@ -5,10 +5,10 @@ import { useAttrs } from 'vue';
 
 interface OptionItem {
   label: string;
-  value: string;
+  value: number | string;
 }
 
-interface IProps extends RadioProps {
+interface IProps extends Partial<RadioProps> {
   options: OptionItem[];
 }
 
