@@ -92,6 +92,7 @@ export const columns: ITableColumnProps[] = [
   {
     label: '部门负责人',
     prop: 'leader',
+    width: 100,
   },
   {
     label: '所属公司',

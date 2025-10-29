@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { FormItemType } from '@vben/types';
 
+import { ref } from 'vue';
+
 import TableLayout from '#/components/table-layout/index.vue';
 
 import { orderRecordColumns } from '../config';
@@ -14,6 +16,8 @@ const formItems: FormItemType[] = [
     },
   },
 ];
+
+const showModal = ref(false);
 </script>
 
 <template>
@@ -24,7 +28,7 @@ const formItems: FormItemType[] = [
     :hidden-filter="true"
   >
     <template #action>
-      <el-button type="primary">添加</el-button>
+      <el-button type="primary" @click="showModal = true">添加</el-button>
     </template>
   </TableLayout>
 </template>

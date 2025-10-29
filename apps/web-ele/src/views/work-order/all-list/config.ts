@@ -126,6 +126,7 @@ export const columns: ITableColumnProps[] = [
   {
     label: '部门负责人',
     prop: 'leader',
+    width: 100,
   },
   {
     label: '所属公司',
@@ -170,21 +171,25 @@ export const columns: ITableColumnProps[] = [
     label: '前置项接单时间',
     prop: 'preOrderTime',
     sortable: true,
+    width: 160,
   },
   {
     label: '前置项结项时间',
     prop: 'preFinishTime',
     sortable: true,
+    width: 160,
   },
   {
     label: '附加项分配时间',
     prop: 'attachTime',
     sortable: true,
+    width: 160,
   },
   {
     label: '附加项结项时间',
     prop: 'attachFinishTime',
     sortable: true,
+    width: 160,
   },
   {
     label: '操作',

@@ -1,12 +1,9 @@
+import type { IComponent } from '../common/type';
+
 import type { IFormItem } from '#/components/common/form/index.vue';
 import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
 import { defineAsyncComponent } from 'vue';
-
-interface IComponent {
-  component: any;
-  props?: Record<string, any>;
-}
 
 export enum ProtocolTabEnum {
   allocationRecord = 'allocationRecord',

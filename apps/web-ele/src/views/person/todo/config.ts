@@ -77,6 +77,7 @@ export const columns: ITableColumnProps[] = [
     label: '编号',
     type: 'index',
     width: 60,
+    disabledFilter: true,
   },
   {
     label: '待办任务',

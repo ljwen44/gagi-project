@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import { useAttrs } from 'vue';
+import type { TimelineItemProps } from 'element-plus';
 
-import { Circle } from '@vben/icons';
+import { useAttrs } from 'vue';
 
 import dayjs from 'dayjs';
 
 import AEmpty from '#/components/common/empty/index.vue';
 
-interface IRecord {
+interface IRecord extends Partial<TimelineItemProps> {
   time: string;
   operator?: string;
   action?: string;
@@ -23,27 +23,18 @@ const attrs = useAttrs();
 </script>
 
 <template>
-  <el-steps
-    :space="100"
-    direction="vertical"
-    v-bind="attrs"
-    v-if="records.length > 0"
-  >
-    <el-step v-for="record in records" :key="record.time">
-      <template #icon>
-        <slot name="icon">
-          <Circle class="size-3 text-[#409eff]" fill="#409eff" />
-        </slot>
-      </template>
-      <template #title>
-        <slot name="title">
-          {{ dayjs(record.time).format('YYYY-MM-DD HH:mm:ss') }}
-        </slot>
-      </template>
-      <template #description>
-        <slot name="description"></slot>
-      </template>
-    </el-step>
-  </el-steps>
+  <el-timeline v-bind="attrs" v-if="records.length > 0">
+    <el-timeline-item
+      v-for="(record, index) in records"
+      :key="index"
+      :timestamp="dayjs(record.time).format('YYYY-MM-DD HH:mm:ss')"
+      placement="top"
+      v-bind="record"
+    >
+      <slot>
+        {{ record.action }}
+      </slot>
+    </el-timeline-item>
+  </el-timeline>
   <AEmpty v-else />
 </template>
