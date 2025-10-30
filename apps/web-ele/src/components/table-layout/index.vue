@@ -72,7 +72,9 @@ defineExpose({
 </script>
 
 <template>
-  <div class="card-box flex h-full flex-col gap-2 overflow-auto px-4 py-2">
+  <div
+    class="card-box flex max-h-full min-h-full flex-col gap-2 overflow-hidden px-4 py-2"
+  >
     <slot name="tabbar">
       <el-tabs
         v-if="props.tabbar"
@@ -165,14 +167,13 @@ defineExpose({
         </el-tag>
       </div>
     </div>
-    <div class="flex h-full w-full flex-1 overflow-hidden">
+    <div class="flex min-h-0 w-full flex-1 overflow-hidden">
       <slot name="tableBar"></slot>
       <ATable
+        v-model:pagination="paginationModel"
         :columns
         :data="tableData"
-        :pagination="paginationModel"
         :table-event="tableEvent"
-        class="h-full min-w-0 flex-1"
       >
         <!-- 透传所有插槽到ATable组件 -->
         <template v-for="(_, name) in $slots" #[name]="slotData">

@@ -365,3 +365,14 @@ export const searchRecordFinishedColumns: ITableColumnProps[] = [
   { label: '申请国家', prop: 'country', sortable: true },
   { label: '操作', prop: 'operator', fixed: 'right' },
 ];
+
+export const protocolProductColumns: ITableColumnProps[] = [
+  { label: '产品名称', prop: 'name' },
+  { label: '服务分类', prop: 'service' },
+  { label: '国家', prop: 'country' },
+  { label: '官费(元)', prop: 'official' },
+  { label: '售价(元)', prop: 'price' },
+  { label: '数量(标)', prop: 'number' },
+  { label: '附加项', prop: 'extra' },
+  { label: '操作', prop: 'operator', fixed: 'right' },
+];

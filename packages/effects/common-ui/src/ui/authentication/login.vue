@@ -5,7 +5,6 @@ import type { VbenFormSchema } from '@vben-core/form-ui';
 import type { AuthenticationProps } from './types';
 
 import { computed, onMounted, reactive, ref } from 'vue';
-import { useRouter } from 'vue-router';
 
 import { $t } from '@vben/locales';
 import { useVbenForm } from '@vben-core/form-ui';
@@ -53,7 +52,7 @@ const [Form, formApi] = useVbenForm(
     showDefaultActions: false,
   }),
 );
-const router = useRouter();
+// const router = useRouter();
 
 const REMEMBER_ME_KEY = `REMEMBER_ME_USERNAME_${location.hostname}`;
 
@@ -73,9 +72,9 @@ async function handleSubmit() {
   }
 }
 
-function handleGo(path: string) {
-  router.push(path);
-}
+// function handleGo(path: string) {
+//   router.push(path);
+// }
 
 onMounted(() => {
   if (localUsername) {
@@ -114,13 +113,13 @@ defineExpose({
         </VbenCheckbox>
       </div>
 
-      <span
+      <!-- <span
         v-if="showForgetPassword"
         class="vben-link text-sm font-normal"
         @click="handleGo(forgetPasswordPath)"
       >
         {{ $t('authentication.forgetPassword') }}
-      </span>
+      </span> -->
     </div>
     <VbenButton
       :class="{
@@ -134,7 +133,7 @@ defineExpose({
       {{ submitButtonText || $t('common.login') }}
     </VbenButton>
 
-    <div
+    <!-- <div
       v-if="showCodeLogin || showQrcodeLogin"
       class="mb-2 mt-4 flex items-center justify-between"
     >
@@ -146,6 +145,6 @@ defineExpose({
       >
         {{ $t('authentication.mobileLogin') }}
       </VbenButton>
-    </div>
+    </div> -->
   </div>
 </template>

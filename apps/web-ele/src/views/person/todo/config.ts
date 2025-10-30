@@ -21,6 +21,7 @@ export const tabbar: TabbarProps[] = [
   {
     label: '协议',
     key: 'protocol',
+    badge: 1,
   },
   {
     label: '异常协议',
@@ -132,3 +133,24 @@ export const columns: ITableColumnProps[] = [
     sortable: true,
   },
 ];
+
+export const mockApi = async () => {
+  return await new Promise((resolve) => {
+    const keys: string[] = columns
+      .map((item) => item.prop)
+      .filter(Boolean) as string[];
+    const data = Array.from({ length: 10 }, (_, index) => {
+      const result: Record<string, any> = {
+        index: index + 1,
+      };
+      for (const key of keys) {
+        result[key] = 'mock data';
+      }
+      return result;
+    });
+    resolve({
+      list: data,
+      count: 30,
+    });
+  });
+};

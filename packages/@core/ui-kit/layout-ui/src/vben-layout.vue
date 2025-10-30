@@ -506,7 +506,7 @@ const idMainContent = ELEMENT_ID_MAIN_CONTENT;
 
     <div
       ref="contentRef"
-      class="flex flex-1 flex-col overflow-hidden transition-all duration-300 ease-in"
+      class="flex h-screen flex-1 flex-col overflow-hidden transition-all duration-300 ease-in"
     >
       <div
         :class="[
@@ -565,7 +565,7 @@ const idMainContent = ELEMENT_ID_MAIN_CONTENT;
         :padding-right="contentPaddingRight"
         :padding-top="contentPaddingTop"
         :style="contentStyle"
-        class="transition-[margin-top] duration-200"
+        class="min-h-0 transition-[margin-top] duration-200"
       >
         <slot name="content"></slot>
 

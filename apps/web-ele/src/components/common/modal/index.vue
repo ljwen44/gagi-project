@@ -36,12 +36,7 @@ const handleConfirm = () => {
   >
     <!-- 标题插槽 -->
     <template #header="{ close, titleId, titleClass }">
-      <slot
-        :close="close"
-        :title-class="titleClass"
-        :title-id="titleId"
-        name="header"
-      >
+      <slot :close :title-class="titleClass" :title-id="titleId" name="header">
         {{ title }}
       </slot>
     </template>

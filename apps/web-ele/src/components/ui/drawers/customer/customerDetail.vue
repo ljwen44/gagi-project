@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
+import { Database, SquarePen } from '@vben/icons';
+
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
 
 import {
@@ -35,6 +37,19 @@ const handleClosed = () => {
     title="查看客户详情"
     @closed="handleClosed"
   >
+    <template #pre-content>
+      <div class="flex items-center gap-2 pt-4">
+        <div class="cursor-pointer rounded-md bg-blue-200 p-2" title="修改">
+          <SquarePen class="size-3 text-blue-600" />
+        </div>
+        <div
+          class="cursor-pointer rounded-md bg-orange-200 p-2"
+          title="放入公海"
+        >
+          <Database class="size-3 text-orange-600" />
+        </div>
+      </div>
+    </template>
     <div class="flex flex-col gap-2 py-4">
       <el-tabs v-model="activeTab">
         <el-tab-pane

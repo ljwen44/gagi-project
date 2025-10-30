@@ -53,7 +53,7 @@ export const useTableSheet = (props: IProps) => {
   const tableData = ref([]);
   const paginationModel = ref({
     total: 0,
-    page: 1,
+    currentPage: 1,
     pageSize: 20,
     pageSizes: [10, 20, 30, 40, 50, 100],
   });
@@ -95,7 +95,7 @@ export const useTableSheet = (props: IProps) => {
       ...form.value,
     };
     if (showPagination) {
-      queryParams.page = paginationModel.value.page;
+      queryParams.page = paginationModel.value.currentPage;
       queryParams.pageSize = paginationModel.value.pageSize;
     }
     beforeQuery && beforeQuery(queryParams);
@@ -119,7 +119,7 @@ export const useTableSheet = (props: IProps) => {
 
   const getForm = () => ({
     ...form.value,
-    currentPage: paginationModel.value.page,
+    currentPage: paginationModel.value.currentPage,
     pageSize: paginationModel.value.pageSize,
   });
 

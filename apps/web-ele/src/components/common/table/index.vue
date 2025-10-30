@@ -35,7 +35,7 @@ export interface ATableProps<T> {
   tableEvent?: ITableEvent;
   columns: ITableColumnProps[]; // 列配置
   showPagination?: boolean; // 是否显示分页
-  pagination?: Partial<PaginationProps>; // 分页配置
+  // pagination?: Partial<PaginationProps>; // 分页配置
   paginationEvent?: PaginationEmits;
 }
 
@@ -47,6 +47,10 @@ const {
   showPagination = true,
 } = defineProps<ATableProps<any>>();
 
+const pagination = defineModel<Partial<PaginationProps>>('pagination', {
+  default: {},
+});
+
 const selectionColumn = computed(() =>
   columns.find((col) => col.type === 'selection'),
 );
@@ -57,12 +61,12 @@ const restColumns = computed(() =>
 </script>
 
 <template>
-  <div class="flex flex-col gap-2">
+  <div class="flex min-w-0 flex-1 flex-col gap-2">
     <el-table
       v-bind="tableConfig"
       :data="tableData"
+      class="table-class min-h-0 flex-1"
       fit
-      height="100%"
       stripe
       v-on="tableEvent"
     >
@@ -79,9 +83,9 @@ const restColumns = computed(() =>
         v-for="column in restColumns"
         :key="column.prop"
         v-bind="column"
-        :min-width="column.sortable ? 140 : column.width"
         resizable
       >
+        <!-- :min-width="column.sortable ? 140 : column.width" -->
         <template #header>
           <slot :name="`${column.prop}Header`" v-bind="column">
             {{ column.label }}
@@ -97,12 +101,30 @@ const restColumns = computed(() =>
         </template>
       </el-table-column>
     </el-table>
-
-    <el-pagination
-      v-if="showPagination"
-      v-bind="pagination"
-      :layout="pagination?.layout || 'total, prev, pager, next, sizes, jumper'"
-      v-on="paginationEvent"
-    />
+    <template v-if="showPagination">
+      <el-pagination
+        v-model:current-page="pagination.currentPage"
+        v-model:page-size="pagination.pageSize"
+        :layout="
+          pagination?.layout || 'total, prev, pager, next, sizes, jumper'
+        "
+        :page-sizes="pagination.pageSizes"
+        :total="pagination.total"
+        background
+        class="justify-end"
+        v-on="paginationEvent"
+      />
+    </template>
   </div>
 </template>
+
+<style scoped lang="scss">
+.table-class {
+  :deep(thead th .cell) {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    white-space: nowrap;
+  }
+}
+</style>
