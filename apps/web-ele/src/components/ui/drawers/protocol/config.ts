@@ -31,7 +31,7 @@ export const protocolFormItems: IFormItem[] = [
   },
   {
     label: '客户编号',
-    prop: 'customerNumber',
+    prop: 'customerCode',
   },
   {
     label: '客户名称',

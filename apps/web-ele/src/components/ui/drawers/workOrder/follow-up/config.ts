@@ -5,53 +5,47 @@ import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
 import { defineAsyncComponent } from 'vue';
 
-export enum BrandUpdateTabEnum {
+export enum FollowUpEnum {
   attachment = 'attachment',
   confirm = 'confirm',
   detail = 'detail',
   followRecord = 'followRecord',
   operatorRecord = 'operatorRecord',
-  protocol = 'protocol',
-  share = 'share',
+  replySlip = 'replySlip',
 }
 
 export const drawerFormItems: IFormItem[] = [
   { label: '工单编号', prop: 'number' },
   { label: '工单类型', prop: 'type' },
-  { label: '工单状态', prop: 'status', class: 'col-span-2' },
+  { label: '工单状态', prop: 'status' },
   { label: '客户编号', prop: 'customerCode' },
-  { label: '协议编号', prop: 'protocolCode', class: 'col-span-3' },
+  { label: '协议编号', prop: 'protocolCode', class: 'col-span-2' },
   { label: '国家', prop: 'country' },
   { label: '产品名称', prop: 'productName' },
   { label: '所属人', prop: 'owner', class: 'col-span-2' },
+  { label: '附加项', prop: 'extra', class: 'col-span-3' },
   // { label: '', prop: 'finalStatus', class: 'col-span-4' },
   // { label: '状态', prop: 'status' },
   // { label: '是否完结', prop: 'finished' },
   // { label: '状态备注', prop: 'remark' },
 ];
 
-export const brandUpdateTabs = [
-  { label: '工单详情', key: BrandUpdateTabEnum.detail },
-  { label: '工单确认书', key: BrandUpdateTabEnum.confirm },
-  { label: '工单附件', key: BrandUpdateTabEnum.attachment },
-  { label: '关联协议', key: BrandUpdateTabEnum.protocol },
-  { label: '跟进记录', key: BrandUpdateTabEnum.followRecord },
-  { label: '共享人员', key: BrandUpdateTabEnum.share },
-  { label: '操作记录', key: BrandUpdateTabEnum.operatorRecord },
+export const followUpTabs = [
+  { label: '跟进记录', key: FollowUpEnum.followRecord },
+  { label: '工单详情', key: FollowUpEnum.detail },
+  { label: '工单附件', key: FollowUpEnum.attachment },
+  { label: '工单确认书', key: FollowUpEnum.confirm },
+  { label: '工单回执', key: FollowUpEnum.replySlip },
+  { label: '操作记录', key: FollowUpEnum.operatorRecord },
 ];
 
 export const componentsMap: Record<any, IComponent> = {
-  [BrandUpdateTabEnum.followRecord]: {
+  [FollowUpEnum.followRecord]: {
     component: defineAsyncComponent(
       () => import('../../common/FollowUpRecord.vue'),
     ),
   },
-  [BrandUpdateTabEnum.share]: {
-    component: defineAsyncComponent(
-      () => import('../../common/SharePerson.vue'),
-    ),
-  },
-  [BrandUpdateTabEnum.operatorRecord]: {
+  [FollowUpEnum.operatorRecord]: {
     component: defineAsyncComponent(
       () => import('../../common/OperatorRecord.vue'),
     ),
@@ -59,40 +53,37 @@ export const componentsMap: Record<any, IComponent> = {
       records: [],
     },
   },
-  [BrandUpdateTabEnum.detail]: {
+  [FollowUpEnum.detail]: {
     component: defineAsyncComponent(
       () => import('./components/OrderDetail.vue'),
     ),
   },
-  [BrandUpdateTabEnum.confirm]: {
+  [FollowUpEnum.confirm]: {
     component: defineAsyncComponent(
       () => import('./components/OrderConfirm.vue'),
     ),
   },
-  [BrandUpdateTabEnum.attachment]: {
+  [FollowUpEnum.attachment]: {
     component: defineAsyncComponent(
       () => import('./components/OrderAttachment.vue'),
-    ),
-  },
-  [BrandUpdateTabEnum.protocol]: {
-    component: defineAsyncComponent(
-      () => import('./components/ProtocolTable.vue'),
     ),
   },
 };
 
 export const detailFormItems: IFormItem[] = [
-  { label: '目标申请号/注册号 ', prop: 'targetRegister', class: 'col-span-2' },
+  { label: '回执号', prop: 'receiptNumber', class: 'col-span-2' },
   { label: '申请人名称', prop: 'applicantName' },
-  { label: '新申请人名称', prop: 'newApplicantName' },
   { label: '法人名称', prop: 'legalName' },
-  { label: '新法人名称', prop: 'newLegalName' },
   { label: '申请人地址', prop: 'applicantAddress' },
-  { label: '新申请人地址', prop: 'newApplicantAddress' },
   { label: '申请人邮编', prop: 'applicantZipCode' },
-  { label: '新申请人邮编', prop: 'newApplicantZipCode' },
-  { label: '申请人邮箱', prop: 'applicantEmail' },
-  { label: '新申请人邮箱', prop: 'newApplicantEmail' },
+  { label: '发明人/创作人名称', prop: 'inventorName' },
+  { label: '发明人/创作人地址', prop: 'inventorAddress' },
+  { label: '发明人/创作人邮编', prop: 'inventorZipCode', class: 'col-span-2' },
+  { label: '知识产权名称', prop: 'knowledgeName' },
+  { label: '专利类型', prop: 'patentType' },
+  { label: '知识产权图', prop: 'knowledgeImage', class: 'col-span-2' },
+  { label: '产品是否已公开', prop: 'productPublic', class: 'col-span-2' },
+  { label: '其他国家是否申请', prop: 'otherCountryApply', class: 'col-span-2' },
   { label: '说明', prop: 'description', class: 'col-span-2' },
 ];
 
@@ -148,4 +139,15 @@ export const abnormalOrderColumns: ITableColumnProps[] = [
   { label: '创建人', prop: 'createdBy', sortable: true },
   { label: '创建时间', prop: 'createdTime', sortable: true },
   { label: '操作', prop: 'operator', fixed: 'right' },
+];
+
+export const extraColumns: ITableColumnProps[] = [
+  { type: 'selection' },
+  { type: 'index', label: '编号' },
+  { label: '文件名称', prop: 'fileName' },
+  { label: '文件类型', prop: 'fileType' },
+  { label: '文件大小', prop: 'fileSize' },
+  { label: '上传人', prop: 'createdBy' },
+  { label: '上传时间', prop: 'time' },
+  { label: '操作', prop: 'operator' },
 ];

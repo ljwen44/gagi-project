@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import { ref, useTemplateRef } from 'vue';
 
-import { useVbenModal } from '@vben-core/popup-ui';
-import { Input, VbenHelpTooltip, VbenSelect } from '@vben-core/shadcn-ui';
+import { CircleHelp } from '@vben/icons';
+import { Input } from '@vben-core/shadcn-ui';
 
 import AForm from '#/components/common/form/index.vue';
+import AModal from '#/components/common/modal/index.vue';
+import ASelect from '#/components/common/select/index.vue';
 
 import { modalFormItems, rules } from './config';
 
@@ -26,6 +28,7 @@ export interface FormRefProps {
 }
 
 interface IProps {
+  title?: string;
   defaultForm?: FormRefProps;
 }
 
@@ -39,32 +42,23 @@ const form = ref<FormRefProps>(
     customerPhone: '',
   },
 );
+const showModal = ref(false);
 const formRef = useTemplateRef('formRef');
 
-const [Modal, ModalApi] = useVbenModal({
-  closeOnClickModal: false,
-  fullscreenButton: false,
-  draggable: true,
-  class: 'w-[750px]',
-  onConfirm: () => {
-    formRef.value?.instance.validate((valid: boolean) => {
-      if (valid) {
-        // TODO 提交表单
-        ModalApi.close();
-      }
-    });
-  },
-});
-
-const openModal = (title: string = '新增客户') => {
-  ModalApi.setState({
-    title,
-    isOpen: true,
+const onConfirm = () => {
+  formRef.value?.instance.validate((valid: boolean) => {
+    if (valid) {
+      // TODO 提交表单
+    }
   });
 };
 
+const openModal = () => {
+  showModal.value = true;
+};
+
 const closeModal = () => {
-  ModalApi.close();
+  showModal.value = false;
 };
 
 defineExpose({
@@ -74,7 +68,12 @@ defineExpose({
 </script>
 
 <template>
-  <Modal>
+  <AModal
+    v-model="showModal"
+    :title="title || '新增客户'"
+    width="750px"
+    @confirm="onConfirm"
+  >
     <AForm
       ref="formRef"
       v-model="form"
@@ -86,7 +85,7 @@ defineExpose({
     >
       <template #address>
         <div class="flex w-full items-center gap-2">
-          <VbenSelect
+          <ASelect
             v-model="form.area"
             :options="[]"
             class="w-[200px]"
@@ -102,9 +101,9 @@ defineExpose({
       <template #optionalTagsLabel>
         <div class="flex items-center gap-1">
           <span>可选标签</span>
-          <VbenHelpTooltip trigger-class="size-4 text-[#f00]">
-            <div class="whitespace-pre-wrap">todo</div>
-          </VbenHelpTooltip>
+          <el-tooltip content="todo" placement="top">
+            <CircleHelp class="size-4 text-[#f00]" />
+          </el-tooltip>
         </div>
       </template>
       <template #optionalTags>
@@ -120,5 +119,5 @@ defineExpose({
         </div>
       </template>
     </AForm>
-  </Modal>
+  </AModal>
 </template>

@@ -19,13 +19,11 @@ export const formItems: FormItemType[] = [
 export const columns: ITableColumnProps[] = [
   {
     type: 'selection',
-    fixed: 'left',
     disabledFilter: true,
   },
   {
     label: '编号',
     type: 'index',
-    fixed: 'left',
     width: 60,
     disabledFilter: true,
   },

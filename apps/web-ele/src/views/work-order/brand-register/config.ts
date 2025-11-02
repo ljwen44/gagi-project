@@ -1,5 +1,13 @@
 import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
+export enum MODAL_TYPE {
+  BRANDREGISTER = 'brand-register',
+  CUSTOMER = 'customer',
+  INIT = '',
+  PROTOCOL = 'protocol',
+  WORKORDER = 'workOrder',
+}
+
 export const columns: ITableColumnProps[] = [
   {
     label: '编号',
@@ -8,7 +16,7 @@ export const columns: ITableColumnProps[] = [
     disabledFilter: true,
   },
   {
-    label: '异常单号',
+    label: '工单编号',
     prop: 'number',
     sortable: true,
   },
@@ -29,17 +37,17 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '客户编号',
-    prop: 'customerNumber',
+    prop: 'customerCode',
     sortable: true,
   },
   {
     label: '协议编号',
-    prop: 'protocolNumber',
+    prop: 'protocol',
     sortable: true,
   },
   {
     label: '关联工单',
-    prop: 'workOrderNumber',
+    prop: 'workOrderCode',
     sortable: true,
   },
   {

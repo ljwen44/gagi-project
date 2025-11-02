@@ -4,6 +4,12 @@ import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
 import { ElInput } from 'element-plus';
 
+export enum MODAL_TYPE {
+  CUSTOMER = 'customer',
+  INIT = '',
+  PROTOCOL = 'protocol',
+}
+
 export const formItems: FormItemType[] = [
   {
     label: '关键字',
@@ -83,6 +89,7 @@ export const columns: ITableColumnProps[] = [
   {
     label: '待办任务',
     prop: 'task',
+    width: 200,
   },
   {
     label: '客户编码',
@@ -133,24 +140,3 @@ export const columns: ITableColumnProps[] = [
     sortable: true,
   },
 ];
-
-export const mockApi = async () => {
-  return await new Promise((resolve) => {
-    const keys: string[] = columns
-      .map((item) => item.prop)
-      .filter(Boolean) as string[];
-    const data = Array.from({ length: 10 }, (_, index) => {
-      const result: Record<string, any> = {
-        index: index + 1,
-      };
-      for (const key of keys) {
-        result[key] = 'mock data';
-      }
-      return result;
-    });
-    resolve({
-      list: data,
-      count: 30,
-    });
-  });
-};

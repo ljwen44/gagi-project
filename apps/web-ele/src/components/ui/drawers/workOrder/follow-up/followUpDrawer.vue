@@ -1,21 +1,18 @@
-<!-- eslint-disable unicorn/no-array-reduce -->
 <script lang="ts" setup>
-import { ref, useTemplateRef } from 'vue';
+import { ref } from 'vue';
 
-import { Database, SquarePen } from '@vben/icons';
+import { Bell, Star } from '@vben/icons';
 
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
-import CustomerForm from '#/components/ui/customer/form.vue';
 
 import {
   componentsMap,
-  CustomerTabEnum,
-  customerTabs,
   drawerFormItems,
+  FollowUpEnum,
+  followUpTabs,
 } from './config';
 
 interface IProps {
-  id: string;
   show: boolean;
 }
 
@@ -23,54 +20,45 @@ defineProps<IProps>();
 
 const emits = defineEmits(['closed']);
 
-const activeTab = ref<CustomerTabEnum>(CustomerTabEnum.followRecord);
-const customerFormRef = useTemplateRef('customerFormRef');
+const activeTab = ref<FollowUpEnum>(FollowUpEnum.followRecord);
 
 const handleClosed = () => {
   emits('closed');
 };
-
-const form = drawerFormItems.reduce(
-  (prev, next) => {
-    prev[next.prop] = 'mock data';
-    return prev;
-  },
-  {} as Record<string, any>,
-);
 </script>
 
 <template>
   <DrawerLayout
-    :form
+    :form="{}"
     :form-items="drawerFormItems"
     :show
     grid-cols="3"
-    title="查看客户详情"
+    title="查看工单详情"
     @closed="handleClosed"
   >
     <template #pre-content>
-      <slot name="form-action">
+      <div class="flex flex-col gap-2">
+        <el-alert title="xxx 通过了" type="success" />
+
         <div class="flex items-center gap-2">
-          <el-tooltip content="修改" placement="top">
-            <div
-              class="cursor-pointer rounded-md bg-blue-200 p-2"
-              @click="customerFormRef?.openModal()"
-            >
-              <SquarePen class="size-3 text-blue-600" />
+          <el-tooltip content="收藏" placement="top">
+            <div class="cursor-pointer rounded-md bg-orange-200 p-2">
+              <Star class="size-3 text-orange-600" />
             </div>
           </el-tooltip>
-          <el-tooltip content="放入公海" placement="top">
-            <div class="cursor-pointer rounded-md bg-orange-200 p-2">
-              <Database class="size-3 text-orange-600" />
+          <el-tooltip content="提醒" placement="top">
+            <div class="cursor-pointer rounded-md bg-lime-200 p-2">
+              <Bell class="size-3 text-lime-600" />
             </div>
           </el-tooltip>
         </div>
-      </slot>
+      </div>
     </template>
+
     <div class="flex flex-col gap-2 py-4">
       <el-tabs v-model="activeTab">
         <el-tab-pane
-          v-for="item in customerTabs"
+          v-for="item in followUpTabs"
           :key="item.key"
           :label="item.label"
           :name="item.key"
@@ -88,7 +76,27 @@ const form = drawerFormItems.reduce(
         </Suspense>
       </KeepAlive>
     </div>
-
-    <CustomerForm ref="customerFormRef" title="修改客户" />
   </DrawerLayout>
 </template>
+
+<style scoped lang="scss">
+.final-status {
+  &::before,
+  &::after {
+    position: absolute;
+    top: 50%;
+    width: 45%;
+    height: 1px;
+    content: '';
+    background-color: #e0e0e0;
+  }
+
+  &::before {
+    left: 0;
+  }
+
+  &::after {
+    right: 0;
+  }
+}
+</style>

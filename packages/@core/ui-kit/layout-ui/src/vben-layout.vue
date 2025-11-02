@@ -565,7 +565,7 @@ const idMainContent = ELEMENT_ID_MAIN_CONTENT;
         :padding-right="contentPaddingRight"
         :padding-top="contentPaddingTop"
         :style="contentStyle"
-        class="min-h-0 transition-[margin-top] duration-200"
+        class="min-h-0 overflow-auto transition-[margin-top] duration-200"
       >
         <slot name="content"></slot>
 

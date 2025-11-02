@@ -36,7 +36,7 @@ export interface ATableProps<T> {
   columns: ITableColumnProps[]; // 列配置
   showPagination?: boolean; // 是否显示分页
   // pagination?: Partial<PaginationProps>; // 分页配置
-  paginationEvent?: PaginationEmits;
+  paginationEvent?: Partial<PaginationEmits>;
 }
 
 const {
@@ -46,11 +46,9 @@ const {
   paginationEvent = {},
   showPagination = true,
 } = defineProps<ATableProps<any>>();
-
 const pagination = defineModel<Partial<PaginationProps>>('pagination', {
   default: {},
 });
-
 const selectionColumn = computed(() =>
   columns.find((col) => col.type === 'selection'),
 );
@@ -61,12 +59,12 @@ const restColumns = computed(() =>
 </script>
 
 <template>
-  <div class="flex min-w-0 flex-1 flex-col gap-2">
+  <div class="flex w-full min-w-0 flex-1 flex-col gap-4">
     <el-table
       v-bind="tableConfig"
+      :border="true"
       :data="tableData"
       class="table-class min-h-0 flex-1"
-      fit
       stripe
       v-on="tableEvent"
     >
@@ -74,18 +72,19 @@ const restColumns = computed(() =>
         <AEmpty />
       </template>
       <template v-if="selectionColumn">
-        <el-table-column v-bind="selectionColumn" />
+        <el-table-column fixed="left" v-bind="selectionColumn" />
       </template>
       <template v-if="indexColumn">
-        <el-table-column v-bind="indexColumn" />
+        <el-table-column align="center" fixed="left" v-bind="indexColumn" />
       </template>
       <el-table-column
         v-for="column in restColumns"
         :key="column.prop"
         v-bind="column"
+        :min-width="column.sortable ? 140 : column.width || 100"
         resizable
+        show-overflow-tooltip
       >
-        <!-- :min-width="column.sortable ? 140 : column.width" -->
         <template #header>
           <slot :name="`${column.prop}Header`" v-bind="column">
             {{ column.label }}
@@ -117,14 +116,3 @@ const restColumns = computed(() =>
     </template>
   </div>
 </template>
-
-<style scoped lang="scss">
-.table-class {
-  :deep(thead th .cell) {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-    white-space: nowrap;
-  }
-}
-</style>

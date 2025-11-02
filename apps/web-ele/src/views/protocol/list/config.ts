@@ -42,7 +42,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '协议编号',
-    prop: 'protocolNumber',
+    prop: 'protocolCode',
     sortable: true,
     width: 150,
   },

@@ -28,26 +28,31 @@ const handleClosed = () => {
 const handleClick = (_: string) => {
   // todo
 };
+
+const form: Record<string, any> = {};
+for (const item of protocolFormItems) {
+  form[item.prop] = 'mock data';
+}
 </script>
 
 <template>
   <DrawerLayout
-    :form="{}"
+    :form
     :form-items="protocolFormItems"
     :show
     grid-cols="3"
-    title="查看发票申请详情"
+    title="查看协议详情"
     @closed="handleClosed"
   >
     <template #pre-content>
-      <el-alert class="!mt-4" title="xxx 通过了审核" type="success" />
+      <el-alert title="xxx 通过了审核" type="success" />
       <el-alert :closable="false" title="此协议由 xxx 转化而来" type="info" />
     </template>
 
     <AuditProgress />
 
     <template #content-footer>
-      <div class="flex flex-col gap-2 py-4">
+      <div class="flex flex-col gap-2 pb-4 pt-2">
         <el-tabs v-model="activeTab" @tab-click="handleClick">
           <el-tab-pane
             v-for="item in protocolTabs"

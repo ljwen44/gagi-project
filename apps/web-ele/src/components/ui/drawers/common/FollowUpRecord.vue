@@ -63,11 +63,11 @@ const options = [
         </el-form-item>
         <el-form-item class="!mb-0">
           <div class="flex items-center gap-2">
-            <Aupload :hidden-tip="true">
+            <Aupload :has-custom-class="false" :hidden-tip="true">
               <Image class="mr-2 size-4" />
               <span>图片</span>
             </Aupload>
-            <Aupload :hidden-tip="true">
+            <Aupload :has-custom-class="false" :hidden-tip="true">
               <Folder class="mr-2 size-4" />
               <span>附件</span>
             </Aupload>

@@ -65,7 +65,7 @@ const handleClosed = () => {
         <div>{{ title }}</div>
       </slot>
     </template>
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2 py-4">
       <!-- <div class="flex items-center justify-end gap-4 px-4 pt-4">
         <div
           class="flex cursor-pointer items-center gap-2 rounded-md border p-2"
@@ -80,21 +80,29 @@ const handleClosed = () => {
       </div> -->
       <slot name="pre-content"></slot>
       <slot name="content-header">
-        <div :class="`grid gap-3 grid-cols-${gridCols} border-b py-4`">
-          <div
+        <el-form
+          :class="`grid grid-cols-${gridCols} border-b pb-2`"
+          label-position="right"
+          label-width="80px"
+        >
+          <el-form-item
             v-for="item in formItems"
             :key="item.prop"
-            class="flex flex-wrap gap-2 text-sm"
+            class="!mb-0 flex flex-wrap gap-2 text-sm"
             v-bind="item"
           >
-            <slot :name="`${item.prop}Label`">
-              <span class="text-foreground/80">{{ item.label }}:</span>
-            </slot>
+            <template #label>
+              <slot :name="`${item.prop}Label`">
+                <span class="text-foreground/80 inline-block min-w-[80px]">
+                  {{ item.label }}:
+                </span>
+              </slot>
+            </template>
             <slot :data="form[item.prop!]" :name="item.prop">
               <el-text type="primary">{{ form[item.prop!] }}</el-text>
             </slot>
-          </div>
-        </div>
+          </el-form-item>
+        </el-form>
       </slot>
       <slot></slot>
       <slot name="content-footer"></slot>

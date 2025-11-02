@@ -39,19 +39,25 @@ const handleClosed = () => {
     @closed="handleClosed"
   >
     <template #pre-content>
-      <div class="flex flex-col gap-2 pt-4">
+      <div class="flex flex-col gap-2">
         <el-alert title="xxx 通过了" type="success" />
 
         <div class="flex items-center gap-2">
-          <div class="cursor-pointer rounded-md bg-blue-200 p-2">
-            <SquarePen class="size-3 text-blue-600" />
-          </div>
-          <div class="cursor-pointer rounded-md bg-gray-200 p-2">
-            <RefreshCcw class="size-3 text-gray-600" />
-          </div>
-          <div class="cursor-pointer rounded-md bg-lime-200 p-2">
-            <Bell class="size-3 text-lime-600" />
-          </div>
+          <el-tooltip content="编辑" placement="top">
+            <div class="cursor-pointer rounded-md bg-blue-200 p-2">
+              <SquarePen class="size-3 text-blue-600" />
+            </div>
+          </el-tooltip>
+          <el-tooltip content="刷新" placement="top">
+            <div class="cursor-pointer rounded-md bg-gray-200 p-2">
+              <RefreshCcw class="size-3 text-gray-600" />
+            </div>
+          </el-tooltip>
+          <el-tooltip content="提醒" placement="top">
+            <div class="cursor-pointer rounded-md bg-lime-200 p-2">
+              <Bell class="size-3 text-lime-600" />
+            </div>
+          </el-tooltip>
         </div>
       </div>
     </template>

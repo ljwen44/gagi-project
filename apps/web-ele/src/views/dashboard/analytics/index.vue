@@ -25,7 +25,7 @@ const greeting = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-4 pb-4">
     <WorkbenchHeader
       :avatar="userStore.userInfo?.avatar || preferences.app.defaultAvatar"
     >

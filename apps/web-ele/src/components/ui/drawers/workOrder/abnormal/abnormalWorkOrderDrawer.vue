@@ -6,10 +6,10 @@ import { Bell } from '@vben/icons';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
 
 import OrderArea from '../../common/OrderArea.vue';
-import AbnormalDetail from './components/AbnormalDetail.vue';
 import {
   AbnormalWorkOrderEnum,
   abnormalWorkOrderTabs,
+  componentsMap,
   drawerFormItems,
 } from './config';
 
@@ -38,13 +38,15 @@ const handleClosed = () => {
     @closed="handleClosed"
   >
     <template #pre-content>
-      <div class="flex flex-col gap-2 pt-4">
+      <div class="flex flex-col gap-2">
         <el-alert title="xxx 通过了" type="success" />
 
         <div class="flex items-center gap-2">
-          <div class="cursor-pointer rounded-md bg-lime-200 p-2">
-            <Bell class="size-3 text-lime-600" />
-          </div>
+          <el-tooltip content="提醒" placement="top">
+            <div class="cursor-pointer rounded-md bg-lime-200 p-2">
+              <Bell class="size-3 text-lime-600" />
+            </div>
+          </el-tooltip>
         </div>
       </div>
     </template>
@@ -58,8 +60,7 @@ const handleClosed = () => {
           :name="item.key"
         />
       </el-tabs>
-      <AbnormalDetail />
-      <!-- <KeepAlive>
+      <KeepAlive>
         <Suspense>
           <component
             :is="componentsMap[activeTab]?.component"
@@ -69,7 +70,7 @@ const handleClosed = () => {
             <div class="p-4 text-center">loading...</div>
           </template>
         </Suspense>
-      </KeepAlive> -->
+      </KeepAlive>
     </div>
   </DrawerLayout>
 </template>

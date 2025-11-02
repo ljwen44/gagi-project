@@ -4,7 +4,6 @@ import { ref, useTemplateRef } from 'vue';
 import { AlertCircle } from '@vben/icons';
 import { VbenHelpTooltip } from '@vben-core/shadcn-ui';
 
-import Drawer from '#/components/drawer-layout/layout.vue';
 import TableLayout from '#/components/table-layout/index.vue';
 import CustomerForm from '#/components/ui/customer/form.vue';
 
@@ -80,13 +79,6 @@ const modelType = ref('');
     </template>
 
     <CustomerForm ref="customerFormRef" />
-
-    <Drawer :show="modelType === 'customer'" @closed="modelType = ''">
-      <template #title>
-        <div>111</div>
-      </template>
-      <div>111</div>
-    </Drawer>
   </TableLayout>
 </template>
 

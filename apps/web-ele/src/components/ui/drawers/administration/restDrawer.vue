@@ -26,7 +26,7 @@ const handleClosed = () => {
     @closed="handleClosed"
   >
     <template #pre-content>
-      <el-alert class="!mt-4" title="xxx 通过了审核" type="success" />
+      <el-alert title="xxx 通过了审核" type="success" />
     </template>
 
     <AuditProgress />

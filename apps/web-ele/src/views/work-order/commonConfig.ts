@@ -2,6 +2,23 @@ import type { FormItemType, TabbarProps } from '@vben/types';
 
 import { VbenSelect } from '@vben-core/shadcn-ui';
 
+export enum MODAL_TYPE {
+  BRANDOBJECTION = 'brand-objection',
+  BRANDPDATE = 'brand-update',
+  BRANDREGISTER = 'brand-register',
+  BRANDRENEWAL = 'brand-renewal',
+  COPYRIGHT = 'copyright',
+  CUSTOMER = 'customer',
+  INIT = '',
+  PATENTAPPLY = 'patent-apply',
+  PATENTOBJECTION = 'patent-objection',
+  PATENTUPDATE = 'patent-update',
+  PROTOCOL = 'protocol',
+  REVIEW = 'review',
+  SPECIAL = 'special',
+  WORKORDER = 'workOrder',
+}
+
 export const formItems: FormItemType[] = [
   {
     label: '国家',

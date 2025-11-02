@@ -18,11 +18,19 @@ const emits = defineEmits(['closed']);
 const handleClosed = () => {
   emits('closed');
 };
+
+const form: Record<string, any> = {};
+for (const item of reimbursementFormItems) {
+  if (!item.prop) {
+    continue;
+  }
+  form[item.prop] = 'mock data';
+}
 </script>
 
 <template>
   <DrawerLayout
-    :form="{}"
+    :form
     :form-items="reimbursementFormItems"
     :show
     @closed="handleClosed"

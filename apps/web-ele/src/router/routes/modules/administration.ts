@@ -20,7 +20,7 @@ const routes: RouteRecordRaw[] = [
         component: () =>
           import('#/views/administration/reimbursement/index.vue'),
         meta: {
-          icon: 'lucide:receipt',
+          icon: 'lucide:hand-coins',
           title: $t('page.administration.reimbursement'),
         },
       },

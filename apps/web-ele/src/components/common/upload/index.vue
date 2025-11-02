@@ -7,9 +7,12 @@ import { Upload } from '@vben/icons';
 
 interface IProps extends Partial<UploadProps> {
   hiddenTip?: boolean;
+  hasCustomClass?: boolean;
 }
 
-defineProps<IProps>();
+withDefaults(defineProps<IProps>(), {
+  hasCustomClass: true,
+});
 
 const uploadFiles = defineModel();
 
@@ -20,7 +23,7 @@ const attrs = useAttrs();
   <el-upload
     v-bind="attrs"
     v-model:file-list="uploadFiles"
-    class="custom-upload"
+    :class="[hasCustomClass ? 'custom-upload' : '']"
   >
     <slot>
       <div class="flex items-center justify-center gap-2">
@@ -36,6 +39,20 @@ const attrs = useAttrs();
 
 <style scoped lang="scss">
 .custom-upload {
+  display: flex;
+  flex-direction: column;
+
+  :deep(.el-upload) {
+    padding: 8px;
+    border: 1px dashed;
+    border-radius: 8px;
+
+    &:hover {
+      color: var(--el-color-primary);
+      border-color: var(--el-color-primary);
+    }
+  }
+
   :deep(.el-upload-dragger) {
     padding: 8px;
   }

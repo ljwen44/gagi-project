@@ -55,7 +55,6 @@ export const tabbar: TabbarProps[] = [
 export const columns: ITableColumnProps[] = [
   {
     type: 'selection',
-    fixed: 'left',
     disabledFilter: true,
   },
   {

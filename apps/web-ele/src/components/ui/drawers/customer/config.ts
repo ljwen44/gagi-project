@@ -201,7 +201,7 @@ export const businessRecordColumns: ITableColumnProps[] = [
 
 export const orderRecordColumns: ITableColumnProps[] = [
   { label: '编号', type: 'index', fixed: 'left', width: 60 },
-  { label: '协议编号', prop: 'protocolNumber', sortable: true },
+  { label: '协议编号', prop: 'protocolCode', sortable: true },
   { label: '审核状态', prop: 'auditStatus', sortable: true },
   { label: '工单状况', prop: 'workOrder', sortable: true },
   { label: '回款状况', prop: 'collection', sortable: true },
@@ -221,7 +221,7 @@ export const workOrderRecordColumns: ITableColumnProps[] = [
   { label: '工单类型', prop: 'type', sortable: true },
   { label: '国家', prop: 'country', sortable: true },
   { label: '产品名称', prop: 'productName', sortable: true },
-  { label: '协议编号', prop: 'protocolNumber', sortable: true },
+  { label: '协议编号', prop: 'protocolCode', sortable: true },
   { label: '审核状态', prop: 'status', sortable: true },
   { label: '客户确认', prop: 'customerConfirm', sortable: true },
   { label: '接单状态', prop: 'acceptStatus', sortable: true },
@@ -320,7 +320,7 @@ export const ActivityResultColumns: ITableColumnProps[] = [
   { label: '活动类型', prop: 'type', sortable: true },
   { label: '新增协议数(个)', prop: 'addNumber', sortable: true, width: 150 },
   { label: '已成交协议数(个)', prop: 'dealNumber', sortable: true, width: 160 },
-  { label: '协议成交率(%)', prop: 'dealRate', sortable: true },
+  { label: '协议成交率(%)', prop: 'dealRate', sortable: true, width: 150 },
   { label: '协议总金额(元)', prop: 'totalAmount', sortable: true, width: 150 },
   { label: '可成交业绩(元)', prop: 'canEvaluate', sortable: true, width: 150 },
   { label: '已成交业绩(元)', prop: 'evaluate', sortable: true, width: 150 },

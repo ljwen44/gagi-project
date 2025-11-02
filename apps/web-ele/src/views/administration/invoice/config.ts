@@ -2,6 +2,12 @@ import type { FormItemType } from '@vben/types';
 
 import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
+export const MODAL_TYPE = {
+  INIT: 'init',
+  PROTOCOL: 'protocol',
+  INVOICE: 'invoice',
+};
+
 export const formItems: FormItemType[] = [
   {
     label: '关键字',

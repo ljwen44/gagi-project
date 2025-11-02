@@ -60,17 +60,14 @@ export const reimbursementDetailColumns: ITableColumnProps[] = [
   {
     label: '报销类型',
     prop: 'type',
-    width: 100,
   },
   {
     label: '报销时间',
     prop: 'time',
-    width: 120,
   },
   {
     label: '报销金额(元)',
     prop: 'amount',
-    width: 120,
   },
   {
     label: '报销说明',
@@ -248,7 +245,7 @@ export const refundFormItems: IFormItem[] = [
   },
   {
     label: '协议编号',
-    prop: 'protocolNumber',
+    prop: 'protocolCode',
   },
   {
     label: '退款金额',

@@ -1,6 +1,6 @@
 import type { IFormItem } from '#/components/common/form/index.vue';
 
-import { VbenSelect } from '@vben-core/shadcn-ui';
+import ASelect from '#/components/common/select/index.vue';
 
 export const modalFormItems: IFormItem[] = [
   {
@@ -40,28 +40,31 @@ export const modalFormItems: IFormItem[] = [
   {
     label: '客户来源',
     prop: 'customerOrigin',
-    component: VbenSelect,
+    component: ASelect,
     componentProps: {
       placeholder: '请选择客户来源',
       options: [],
+      width: '100%',
     },
   },
   {
     label: '客户级别',
     prop: 'customerLevel',
-    component: VbenSelect,
+    component: ASelect,
     componentProps: {
       placeholder: '请选择客户级别',
       options: [],
+      width: '100%',
     },
   },
   {
     label: '客户行业',
     prop: 'customerIndustry',
-    component: VbenSelect,
+    component: ASelect,
     componentProps: {
       placeholder: '请选择客户行业',
       options: [],
+      width: '100%',
     },
   },
   {
@@ -94,10 +97,10 @@ export const modalFormItems: IFormItem[] = [
     label: '标签',
     prop: 'tags',
     class: 'col-span-2',
-    component: VbenSelect,
+    component: ASelect,
     componentProps: {
-      class: 'w-[200px]',
       placeholder: '请选择/输入标签',
+      options: [],
     },
   },
   {

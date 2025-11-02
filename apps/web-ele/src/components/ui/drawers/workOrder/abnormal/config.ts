@@ -17,8 +17,8 @@ export enum AbnormalWorkOrderEnum {
 export const drawerFormItems: IFormItem[] = [
   { label: '异常单号', prop: 'number' },
   { label: '工单状态', prop: 'status' },
-  { label: '客户编号', prop: 'customerNumber' },
-  { label: '协议编号', prop: 'protocolNumber' },
+  { label: '客户编号', prop: 'customerCode' },
+  { label: '协议编号', prop: 'protocolCode' },
   { label: '国家', prop: 'country' },
   { label: '产品名称', prop: 'productName' },
   { label: '所属人', prop: 'owner' },

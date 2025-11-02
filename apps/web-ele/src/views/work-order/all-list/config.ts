@@ -4,6 +4,13 @@ import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
 import { VbenSelect } from '@vben-core/shadcn-ui';
 
+export enum MODAL_TYPE {
+  CUSTOMER = 'customer',
+  INIT = '',
+  PROTOCOL = 'protocol',
+  WORKORDER = 'workOrder',
+}
+
 export const formItems: FormItemType[] = [
   {
     label: '国家',
@@ -78,12 +85,12 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '客户编号',
-    prop: 'customerNumber',
+    prop: 'customerCode',
     sortable: true,
   },
   {
     label: '协议编号',
-    prop: 'protocolNumber',
+    prop: 'protocol',
     sortable: true,
   },
   {

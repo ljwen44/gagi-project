@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { ref, useTemplateRef } from 'vue';
 
-import { AlertCircle } from '@vben/icons';
+import { AlertCircle, Database, Edit } from '@vben/icons';
+import { mockApi } from '@vben/utils';
 import { VbenHelpTooltip } from '@vben-core/shadcn-ui';
 
 import TableLayout from '#/components/table-layout/index.vue';
@@ -11,22 +12,23 @@ import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetai
 import { columns, customerFlagMap, formItems, tabbar } from './config';
 
 const customerFormRef = useTemplateRef('customerFormRef');
-const modalType = ref('');
+const showModal = ref(false);
+const handleSelectionChange = () => {
+  // todo
+};
 </script>
 
 <template>
   <TableLayout
-    :api="() => []"
+    :api="() => mockApi(columns)"
     :columns
     :form-items="formItems"
     :tabbar="tabbar"
+    @select="handleSelectionChange"
   >
     <template #action>
       <el-button type="primary" @click="customerFormRef?.openModal()">
         新增
-      </el-button>
-      <el-button type="primary" @click="modalType = 'customer'">
-        抽屉
       </el-button>
     </template>
     <template #customerFlagHeader>
@@ -83,14 +85,29 @@ const modalType = ref('');
         </div>
       </VbenHelpTooltip>
     </template>
+    <template #customerFlag>
+      <span></span>
+    </template>
+    <template #customerCode="{ row }">
+      <el-link type="primary" @click="showModal = true">
+        {{ row.customerCode }}
+      </el-link>
+    </template>
+    <template #tag="{ row }">
+      <el-tag v-for="tag in row.tag" :key="tag" class="mr-0.5" type="primary">
+        {{ tag }}
+      </el-tag>
+    </template>
+    <template #operator>
+      <div class="flex items-center gap-2">
+        <Edit class="size-4 cursor-pointer text-[var(--el-color-primary)]" />
+        <Database class="size-4 cursor-pointer text-orange-600" />
+      </div>
+    </template>
 
     <CustomerForm ref="customerFormRef" />
 
-    <CustomerDetailDrawer
-      id=""
-      :show="modalType === 'customer'"
-      @closed="modalType = ''"
-    />
+    <CustomerDetailDrawer id="" :show="showModal" @closed="showModal = false" />
   </TableLayout>
 </template>
 

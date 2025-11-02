@@ -2,6 +2,13 @@ import type { FormItemType, TabbarProps } from '@vben/types';
 
 import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
+export const MODAL_TYPE = {
+  INIT: 'init',
+  PROTOCOL: 'protocol',
+  CUSTOMER: 'customer',
+  REFUND: 'refund',
+};
+
 export const formItems: FormItemType[] = [
   {
     label: '关键字',
@@ -57,19 +64,19 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '客户编号',
-    prop: 'amount',
+    prop: 'customerCode',
     sortable: true,
     width: 150,
   },
   {
     label: '退款类型',
-    prop: 'status',
+    prop: 'type',
     width: 120,
     sortable: true,
   },
   {
     label: '退款金额(元)',
-    prop: 'name',
+    prop: 'amount',
     sortable: true,
     width: 160,
   },

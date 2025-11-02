@@ -15,7 +15,10 @@ type TableLayoutProps = {
   tabbar?: TabbarProps[];
 } & IProps;
 
-const props = defineProps<TableLayoutProps>();
+const props = withDefaults(defineProps<TableLayoutProps>(), {
+  firstLoad: true,
+  tabbar: () => [],
+});
 
 const emits = defineEmits(['tabClick']);
 
@@ -43,20 +46,23 @@ const handleTabClick = () => {
 };
 
 const attrs = useAttrs();
+
 const tableEeventMap: Record<string, string> = {
   onExpandChange: 'expand-change',
-  onScroll: 'scorll',
+  onScroll: 'scroll',
   onSelect: 'select',
   onSelectAll: 'select-all',
-  onSelection: 'selection',
   onSelectionChange: 'selection-change',
   onSortChange: 'sort-change',
 };
 const tableEvent = computed(() =>
   Object.fromEntries(
-    Object.keys(tableEeventMap).map((key) => [key, attrs[key]]),
+    Object.keys(tableEeventMap).map((key) => [tableEeventMap[key], attrs[key]]),
   ),
 );
+const paginationEvent: any = {
+  change: query,
+};
 onMounted(() => {
   if (props.tabbar && props.tabbar.length > 0) {
     activeTab.value = props.tabbar[0]?.key!;
@@ -73,7 +79,7 @@ defineExpose({
 
 <template>
   <div
-    class="card-box flex max-h-full min-h-full flex-col gap-2 overflow-hidden px-4 py-2"
+    class="card-box flex max-h-full min-h-full flex-col gap-2 overflow-hidden px-4 pt-2"
   >
     <slot name="tabbar">
       <el-tabs
@@ -173,6 +179,7 @@ defineExpose({
         v-model:pagination="paginationModel"
         :columns
         :data="tableData"
+        :pagination-event="paginationEvent"
         :table-event="tableEvent"
       >
         <!-- 透传所有插槽到ATable组件 -->

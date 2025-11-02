@@ -32,7 +32,9 @@ const handleConfirm = () => {
     :before-close="handleClose"
     :title
     :width
+    close-on-press-escape
     modal
+    show-close
   >
     <!-- 标题插槽 -->
     <template #header="{ close, titleId, titleClass }">
@@ -42,9 +44,7 @@ const handleConfirm = () => {
     </template>
 
     <!-- 默认内容插槽 -->
-    <slot>
-      <p>默认内容</p>
-    </slot>
+    <slot> </slot>
 
     <!-- 底部插槽 -->
     <template #footer>
