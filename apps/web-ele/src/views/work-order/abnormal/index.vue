@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
+import { Bell, Bug } from '@vben/icons';
 import { mockApi } from '@vben/utils';
 
 import TableLayout from '#/components/table-layout/index.vue';
@@ -61,6 +62,19 @@ const modalType = ref(MODAL_TYPE.INIT);
       <el-tag effect="dark" type="success">
         {{ row.acceptStatus }}
       </el-tag>
+    </template>
+
+    <template #method="{ row }">
+      <el-tag effect="dark" type="error">
+        {{ row.method }}
+      </el-tag>
+    </template>
+
+    <template #operator>
+      <div class="flex items-center justify-center gap-1">
+        <Bug class="size-4 cursor-pointer text-red-600" />
+        <Bell class="size-4 cursor-pointer text-green-600" />
+      </div>
     </template>
 
     <WorkOrderDrawer

@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { FormItemType } from '@vben/types';
 
+import { ref } from 'vue';
+
 import ASelect from '#/components/common/select/index.vue';
 import TableLayout from '#/components/table-layout/index.vue';
 
@@ -24,6 +26,8 @@ const formItems: FormItemType[] = [
     },
   },
 ];
+
+const selection = ref<string[]>([]);
 </script>
 
 <template>
@@ -35,7 +39,9 @@ const formItems: FormItemType[] = [
   >
     <template #action>
       <el-button type="primary">添加</el-button>
-      <el-button type="danger">批量删除</el-button>
+      <el-button :disabled="selection.length === 0" type="danger">
+        批量删除
+      </el-button>
     </template>
   </TableLayout>
 </template>

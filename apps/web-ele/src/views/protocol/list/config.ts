@@ -6,6 +6,12 @@ import type { ITableColumnProps } from '#/components/common/table/index.vue';
 import { Navigation, Share2, Triangle } from '@vben/icons';
 import { VbenSelect } from '@vben-core/shadcn-ui';
 
+export enum MODAL_TYPE {
+  CUSTOMER = 'customer',
+  INIT = '',
+  PROTOCOL = 'protocol',
+}
+
 export const formItems: FormItemType[] = [
   {
     label: '关键字',
@@ -42,7 +48,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '协议编号',
-    prop: 'protocolCode',
+    prop: 'protocol',
     sortable: true,
     width: 150,
   },

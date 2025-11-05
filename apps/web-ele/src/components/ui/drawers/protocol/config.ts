@@ -10,6 +10,7 @@ export enum ProtocolTabEnum {
   amountRecord = 'amountRecord',
   file = 'file',
   followRecord = 'followRecord',
+  invoice = 'invoice',
   operatorRecord = 'operatorRecord',
   protocol = 'protocol',
   share = 'share',
@@ -134,6 +135,7 @@ export const protocolTabs = [
   { label: '合同文件', key: ProtocolTabEnum.file },
   { label: '工单记录', key: ProtocolTabEnum.workOrderRecord },
   { label: '回款记录', key: ProtocolTabEnum.amountRecord },
+  { label: '发票记录', key: ProtocolTabEnum.invoice },
   { label: '分配记录', key: ProtocolTabEnum.allocationRecord },
   { label: '跟进记录', key: ProtocolTabEnum.followRecord },
   { label: '共享人员', key: ProtocolTabEnum.share },
@@ -378,6 +380,18 @@ export const allocationRecordColumns: ITableColumnProps[] = [
   },
 ];
 
+export const invoiceColumns: ITableColumnProps[] = [
+  { label: '编号', type: 'index', width: 60 },
+  { label: '发票单号', prop: 'number' },
+  { label: '开票类型', prop: 'type' },
+  { label: '审核状态', prop: 'status' },
+  { label: '开票抬头', prop: 'head' },
+  { label: '抬头类型', prop: 'headType' },
+  { label: '申请人', prop: 'apply' },
+  { label: '申请时间', prop: 'time' },
+  { label: '操作', prop: 'operator' },
+];
+
 export const componentsMap: Record<any, IComponent> = {
   [ProtocolTabEnum.protocol]: {
     component: defineAsyncComponent(
@@ -417,5 +431,8 @@ export const componentsMap: Record<any, IComponent> = {
     props: {
       records: [],
     },
+  },
+  [ProtocolTabEnum.invoice]: {
+    component: defineAsyncComponent(() => import('./components/Invoice.vue')),
   },
 };

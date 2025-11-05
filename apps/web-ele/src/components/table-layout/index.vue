@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<TableLayoutProps>(), {
   tabbar: () => [],
 });
 
-const emits = defineEmits(['tabClick']);
+const emits = defineEmits(['tabChange']);
 
 const {
   form,
@@ -41,8 +41,8 @@ const {
 
 const activeTab = ref('');
 
-const handleTabClick = () => {
-  emits('tabClick', activeTab.value);
+const handleTabChange = (value: string) => {
+  emits('tabChange', value);
 };
 
 const attrs = useAttrs();
@@ -79,13 +79,13 @@ defineExpose({
 
 <template>
   <div
-    class="card-box flex max-h-full min-h-full flex-col gap-2 overflow-hidden px-4 pt-2"
+    class="card-box flex max-h-full min-h-full flex-col gap-2 overflow-hidden px-4 py-2"
   >
     <slot name="tabbar">
       <el-tabs
         v-if="props.tabbar"
         v-model="activeTab"
-        @tab-click="handleTabClick"
+        @tab-change="handleTabChange"
       >
         <el-tab-pane v-for="tab in tabbar" :key="tab.key" :name="tab.key">
           <template #label>

@@ -27,6 +27,10 @@ const activeTab = ref<BrandRenewalTabEnum>(BrandRenewalTabEnum.detail);
 const handleClosed = () => {
   emits('closed');
 };
+
+const handleTabChange = (activeName: BrandRenewalTabEnum) => {
+  activeTab.value = activeName;
+};
 </script>
 
 <template>
@@ -39,27 +43,26 @@ const handleClosed = () => {
     @closed="handleClosed"
   >
     <template #pre-content>
-      <div class="flex flex-col gap-2 pt-4">
+      <div class="flex flex-col gap-2">
         <el-alert title="xxx 通过了" type="success" />
 
         <div class="flex items-center gap-2">
-          <div class="cursor-pointer rounded-md bg-orange-200 p-2">
-            <Star class="size-3 text-orange-600" />
-          </div>
-          <div class="cursor-pointer rounded-md bg-lime-200 p-2">
-            <Bell class="size-3 text-lime-600" />
-          </div>
+          <el-tooltip content="收藏" placement="top">
+            <div class="cursor-pointer rounded-md bg-orange-200 p-2">
+              <Star class="size-3 text-orange-600" />
+            </div>
+          </el-tooltip>
+          <el-tooltip content="提醒" placement="top">
+            <div class="cursor-pointer rounded-md bg-lime-200 p-2">
+              <Bell class="size-3 text-lime-600" />
+            </div>
+          </el-tooltip>
         </div>
       </div>
     </template>
 
     <template #finalStatusLabel>
-      <span></span>
-    </template>
-    <template #finalStatus>
-      <div class="final-status relative w-full text-center text-lg font-bold">
-        最终状态
-      </div>
+      <span class="font-bold text-[var(--el-color-primary)]">最终状态</span>
     </template>
 
     <AuditProgress />
@@ -67,7 +70,7 @@ const handleClosed = () => {
     <OrderArea />
 
     <div class="flex flex-col gap-2 py-4">
-      <el-tabs v-model="activeTab">
+      <el-tabs v-model="activeTab" @tab-change="handleTabChange">
         <el-tab-pane
           v-for="item in brandRenewalTabs"
           :key="item.key"
@@ -89,25 +92,3 @@ const handleClosed = () => {
     </div>
   </DrawerLayout>
 </template>
-
-<style scoped lang="scss">
-.final-status {
-  &::before,
-  &::after {
-    position: absolute;
-    top: 50%;
-    width: 45%;
-    height: 1px;
-    content: '';
-    background-color: #e0e0e0;
-  }
-
-  &::before {
-    left: 0;
-  }
-
-  &::after {
-    right: 0;
-  }
-}
-</style>

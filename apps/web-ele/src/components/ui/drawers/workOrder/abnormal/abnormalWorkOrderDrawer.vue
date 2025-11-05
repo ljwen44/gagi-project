@@ -26,6 +26,10 @@ const activeTab = ref<AbnormalWorkOrderEnum>(AbnormalWorkOrderEnum.detail);
 const handleClosed = () => {
   emits('closed');
 };
+
+const handleTabChange = (activeName: AbnormalWorkOrderEnum) => {
+  activeTab.value = activeName;
+};
 </script>
 
 <template>
@@ -52,7 +56,7 @@ const handleClosed = () => {
     </template>
     <OrderArea />
     <div class="flex flex-col gap-2 py-4">
-      <el-tabs v-model="activeTab">
+      <el-tabs v-model="activeTab" @tab-change="handleTabChange">
         <el-tab-pane
           v-for="item in abnormalWorkOrderTabs"
           :key="item.key"

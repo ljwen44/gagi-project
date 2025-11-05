@@ -94,6 +94,11 @@ export const columns: ITableColumnProps[] = [
     sortable: true,
   },
   {
+    label: '距载入公海',
+    prop: 'publicSea',
+    sortable: true,
+  },
+  {
     label: '已成交次数',
     prop: 'times',
     sortable: true,
@@ -124,6 +129,7 @@ export const columns: ITableColumnProps[] = [
     prop: 'operator',
     fixed: 'right',
     disabledFilter: true,
+    align: 'center',
   },
 ];
 

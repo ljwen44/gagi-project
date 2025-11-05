@@ -99,8 +99,11 @@ const handleSelectionChange = () => {
       </el-tag>
     </template>
     <template #operator>
-      <div class="flex items-center gap-2">
-        <Edit class="size-4 cursor-pointer text-[var(--el-color-primary)]" />
+      <div class="flex items-center justify-center gap-2">
+        <Edit
+          class="size-4 cursor-pointer text-[var(--el-color-primary)]"
+          @click="showModal = true"
+        />
         <Database class="size-4 cursor-pointer text-orange-600" />
       </div>
     </template>

@@ -1,11 +1,18 @@
 <script lang="ts" setup>
+import { mockApi } from '@vben/utils';
+
 import TableLayout from '#/components/table-layout/index.vue';
 
 import { columns, formItems, tabbar, tableBar } from './config';
 </script>
 
 <template>
-  <TableLayout :api="() => []" :columns :form-items="formItems" :tabbar>
+  <TableLayout
+    :api="() => mockApi(columns)"
+    :columns
+    :form-items="formItems"
+    :tabbar
+  >
     <template #action>
       <el-button type="primary">添加</el-button>
     </template>
@@ -20,6 +27,12 @@ import { columns, formItems, tabbar, tableBar } from './config';
           />
         </el-tabs>
       </div>
+    </template>
+    <template #activityName="{ row }">
+      <el-link type="primary">{{ row.activityName }}</el-link>
+    </template>
+    <template #status="{ row }">
+      <el-tag type="info">{{ row.status }}</el-tag>
     </template>
   </TableLayout>
 </template>

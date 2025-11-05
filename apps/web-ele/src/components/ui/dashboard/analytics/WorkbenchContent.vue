@@ -61,7 +61,7 @@ const last6Month = Array.from(
                 :style="`background-color: ${item.color}`"
                 class="rounded-full p-1.5"
               >
-                <component :is="item.icon" class="size-6" />
+                <component :is="item.icon" class="size-6 text-white" />
               </div>
               <span>
                 {{ item.label }}

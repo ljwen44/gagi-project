@@ -25,8 +25,8 @@ const handleClosed = () => {
   emits('closed');
 };
 
-const handleClick = (_: string) => {
-  // todo
+const handleTabChange = (activeName: ProtocolTabEnum) => {
+  activeTab.value = activeName;
 };
 
 const form: Record<string, any> = {};
@@ -53,7 +53,7 @@ for (const item of protocolFormItems) {
 
     <template #content-footer>
       <div class="flex flex-col gap-2 pb-4 pt-2">
-        <el-tabs v-model="activeTab" @tab-click="handleClick">
+        <el-tabs v-model="activeTab" @tab-change="handleTabChange">
           <el-tab-pane
             v-for="item in protocolTabs"
             :key="item.key"

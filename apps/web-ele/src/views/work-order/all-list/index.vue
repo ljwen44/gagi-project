@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
+import { Bell, Flag, NotebookText, RefreshCcw } from '@vben/icons';
 import { mockApi } from '@vben/utils';
 
 import TableLayout from '#/components/table-layout/index.vue';
@@ -45,7 +46,7 @@ const modalType = ref(MODAL_TYPE.INIT);
     </template>
 
     <template #confirm="{ row }">
-      <el-tag effect="dark" type="success">
+      <el-tag effect="dark" type="info">
         {{ row.confirm }}
       </el-tag>
     </template>
@@ -66,6 +67,16 @@ const modalType = ref(MODAL_TYPE.INIT);
       <el-tag effect="dark" type="success">
         {{ row.finishConfirm }}
       </el-tag>
+    </template>
+
+    <template #operator>
+      <div class="flex items-center justify-center gap-1">
+        <Flag class="size-4 cursor-pointer text-[red]" fill="red" />
+        <Flag class="size-4 cursor-pointer text-[orange]" fill="orange" />
+        <NotebookText class="size-4 cursor-pointer text-purple-600" />
+        <Bell class="size-4 cursor-pointer text-green-600" />
+        <RefreshCcw class="size-4 cursor-pointer text-red-600" />
+      </div>
     </template>
 
     <WorkOrderDrawer

@@ -25,49 +25,49 @@ const items = [
     label: '未完成工单数(个)',
     key: 'unfinishedWorkOrder',
     icon: FileText,
-    color: 'text-blue-500',
+    color: '#3B82F6',
   },
   {
     label: '销售待办工单数(个)',
     key: 'saleTodoWorkOrder',
     icon: ShoppingCart,
-    color: 'text-green-500',
+    color: '#10B981',
   },
   {
     label: '后端未接单工单数(个)',
     key: 'bkWorkOrder',
     icon: Server,
-    color: 'text-purple-500',
+    color: '#A855F7',
   },
   {
     label: '后端未完结工单数(个)',
     key: 'bkfinishedWorkOrder',
     icon: CheckCircle,
-    color: 'text-emerald-500',
+    color: '#34D399',
   },
   {
     label: '销售待办异常工单数(个)',
     key: 'saleTodoAbnormalWorkOrder',
     icon: AlertTriangle,
-    color: 'text-orange-500',
+    color: '#F97316',
   },
   {
     label: '后端待办异常工单数(个)',
     key: 'bkTodoAbnormalWorkOrder',
     icon: AlertTriangle,
-    color: 'text-red-500',
+    color: '#EF4444',
   },
   {
     label: '未回款协议数(个)',
     key: 'unpaidAgreement',
     icon: ShieldAlert,
-    color: 'text-yellow-500',
+    color: '#EAB308',
   },
   {
     label: '未回访工单数(个)',
     key: 'unvisitedWorkOrder',
     icon: Phone,
-    color: 'text-indigo-500',
+    color: '#6366F1',
   },
 ];
 
@@ -87,7 +87,12 @@ const data = computed<Record<string, any>>(() => ({}));
           }"
           class="border-border group flex w-full items-center gap-4 border-r border-t p-4 transition-all hover:shadow-xl md:w-1/2 lg:w-1/4"
         >
-          <component :is="item.icon" :class="`size-6 ${item.color}`" />
+          <div
+            :style="`background-color: ${item.color}`"
+            class="rounded-full p-1.5"
+          >
+            <component :is="item.icon" class="size-6 text-white" />
+          </div>
           <div class="flex flex-1 flex-col gap-1">
             <span class="text-foreground/60"> {{ item.label }} </span>
             <span class="inline-block w-full truncate text-3xl">

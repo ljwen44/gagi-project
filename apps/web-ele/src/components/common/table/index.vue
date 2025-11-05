@@ -7,7 +7,9 @@ import type {
   TableProps,
 } from 'element-plus';
 
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
+
+import { mockApi } from '@vben/utils';
 
 import AEmpty from '#/components/common/empty/index.vue';
 
@@ -56,6 +58,23 @@ const indexColumn = computed(() => columns.find((col) => col.type === 'index'));
 const restColumns = computed(() =>
   columns.filter((col) => !['index', 'selection'].includes(col.type!)),
 );
+const tmpData = ref<any>([]);
+
+watch(
+  () => tableData,
+  async (nv) => {
+    if (nv.length === 0) {
+      const result = await mockApi(columns);
+      tmpData.value = (result as any).list;
+    } else {
+      tmpData.value = nv;
+    }
+  },
+  {
+    deep: true,
+    immediate: true,
+  },
+);
 </script>
 
 <template>
@@ -63,7 +82,7 @@ const restColumns = computed(() =>
     <el-table
       v-bind="tableConfig"
       :border="true"
-      :data="tableData"
+      :data="tmpData"
       class="table-class min-h-0 flex-1"
       stripe
       v-on="tableEvent"

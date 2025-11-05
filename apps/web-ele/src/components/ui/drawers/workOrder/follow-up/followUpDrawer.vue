@@ -25,6 +25,10 @@ const activeTab = ref<FollowUpEnum>(FollowUpEnum.followRecord);
 const handleClosed = () => {
   emits('closed');
 };
+
+const handleTabChange = (activeName: FollowUpEnum) => {
+  activeTab.value = activeName;
+};
 </script>
 
 <template>
@@ -56,7 +60,7 @@ const handleClosed = () => {
     </template>
 
     <div class="flex flex-col gap-2 py-4">
-      <el-tabs v-model="activeTab">
+      <el-tabs v-model="activeTab" @tab-change="handleTabChange">
         <el-tab-pane
           v-for="item in followUpTabs"
           :key="item.key"
@@ -78,25 +82,3 @@ const handleClosed = () => {
     </div>
   </DrawerLayout>
 </template>
-
-<style scoped lang="scss">
-.final-status {
-  &::before,
-  &::after {
-    position: absolute;
-    top: 50%;
-    width: 45%;
-    height: 1px;
-    content: '';
-    background-color: #e0e0e0;
-  }
-
-  &::before {
-    left: 0;
-  }
-
-  &::after {
-    right: 0;
-  }
-}
-</style>

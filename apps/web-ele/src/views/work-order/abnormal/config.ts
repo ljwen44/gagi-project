@@ -159,5 +159,6 @@ export const columns: ITableColumnProps[] = [
     prop: 'operator',
     fixed: 'right',
     disabledFilter: true,
+    align: 'center',
   },
 ];

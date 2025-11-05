@@ -23,7 +23,8 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '工单编号',
-    prop: 'task',
+    prop: 'number',
+    width: 140,
   },
   {
     label: '预警内容',
@@ -34,15 +35,19 @@ export const columns: ITableColumnProps[] = [
     label: '预警时间',
     prop: 'time',
     sortable: true,
+    width: 160,
   },
   {
     label: '预警状态',
     prop: 'status',
     sortable: true,
+    width: 120,
   },
   {
     label: '操作',
     prop: 'operator',
     fixed: 'right',
+    width: 80,
+    align: 'center',
   },
 ];

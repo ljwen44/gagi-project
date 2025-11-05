@@ -5,6 +5,8 @@ import type { IFormItem } from '../common/form/index.vue';
 
 import { useAttrs, watch } from 'vue';
 
+import { ArrowLeft, ArrowRight } from '@vben/icons';
+
 // import { ArrowLeft, ArrowRight, Check, CircleX, Users } from '@vben/icons';
 
 interface IProps extends Partial<DrawerProps> {
@@ -61,9 +63,25 @@ const handleClosed = () => {
     @open="handleOpen"
   >
     <template #title>
-      <slot name="title">
-        <div>{{ title }}</div>
-      </slot>
+      <div class="flex items-center gap-4">
+        <slot name="title">
+          <div>{{ title }}</div>
+        </slot>
+
+        <div class="flex items-center justify-center">
+          <el-button :icon="ArrowLeft" size="small" type="primary">
+            上一页
+          </el-button>
+          <el-button
+            :icon="ArrowRight"
+            class="flex-row-reverse gap-1"
+            size="small"
+            type="primary"
+          >
+            下一页
+          </el-button>
+        </div>
+      </div>
     </template>
     <div class="flex flex-col gap-2 py-4">
       <!-- <div class="flex items-center justify-end gap-4 px-4 pt-4">

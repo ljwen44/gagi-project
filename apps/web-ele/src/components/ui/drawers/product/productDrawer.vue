@@ -23,6 +23,10 @@ const activeTab = ref<ProductTabEnum>(ProductTabEnum.additionalItem);
 const handleClosed = () => {
   emits('closed');
 };
+
+const handleTabChange = (activeName: ProductTabEnum) => {
+  activeTab.value = activeName;
+};
 </script>
 
 <template>
@@ -35,7 +39,7 @@ const handleClosed = () => {
     @closed="handleClosed"
   >
     <div class="flex flex-col gap-2 py-4">
-      <el-tabs v-model="activeTab">
+      <el-tabs v-model="activeTab" @tab-change="handleTabChange">
         <el-tab-pane
           v-for="item in productTabs"
           :key="item.key"

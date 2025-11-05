@@ -17,7 +17,7 @@ const calcColumns = computed(() =>
     : columns.filter((col) => col.prop !== 'contact'),
 );
 
-const handleTabClick = (tab: string) => {
+const handleTabChange = (tab: string) => {
   currentTab.value = tab;
 };
 
@@ -30,7 +30,7 @@ const modalType = ref('');
     :columns="calcColumns"
     :form-items="formItems"
     :tabbar
-    @tab-click="handleTabClick"
+    @tab-change="handleTabChange"
   >
     <template #customerCode="{ row }">
       <el-link type="primary" @click="modalType = MODAL_TYPE.CUSTOMER">

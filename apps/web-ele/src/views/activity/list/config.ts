@@ -36,7 +36,6 @@ export const columns: ITableColumnProps[] = [
     type: 'index',
     width: 60,
     disabledFilter: true,
-    fixed: 'left',
   },
   {
     label: '活动名称',
