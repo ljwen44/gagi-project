@@ -53,7 +53,7 @@ onMounted(() => {
     series: [
       {
         name: '客户数(人)',
-        type: 'bar',
+        type: 'line',
         data: [120, 132, 101, 134, 90, 230],
         itemStyle: {
           color: '#FF6B6B', // 红色
@@ -65,7 +65,7 @@ onMounted(() => {
       },
       {
         name: '跟进数(条)',
-        type: 'bar',
+        type: 'line',
         data: [220, 182, 191, 234, 290, 330],
         itemStyle: {
           color: '#4ECDC4', // 青色
@@ -77,7 +77,7 @@ onMounted(() => {
       },
       {
         name: '回款全额(元)',
-        type: 'bar',
+        type: 'line',
         data: [150, 232, 201, 154, 190, 330],
         itemStyle: {
           color: '#45B7D1', // 蓝色
@@ -89,7 +89,7 @@ onMounted(() => {
       },
       {
         name: '业绩全额(元)',
-        type: 'bar',
+        type: 'line',
         data: [320, 332, 301, 334, 390, 330],
         itemStyle: {
           color: '#96CEB4', // 绿色

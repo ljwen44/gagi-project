@@ -3,9 +3,10 @@ import type { SelectProps } from 'element-plus';
 
 import { defineModel, useAttrs } from 'vue';
 
-interface IProps extends Partial<SelectProps> {
+type IProps = {
   options: Array<{ disabled?: boolean; label: string; value: any }>;
-}
+  placeholder?: string;
+} & Partial<SelectProps>;
 
 defineProps<IProps>();
 
@@ -19,6 +20,7 @@ const attrs = useAttrs();
     v-model="modelValue"
     :style="{ width: attrs.width || '200px' }"
     v-bind="attrs"
+    :placeholder
   >
     <el-option
       v-for="item in options"

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Check, CircleX, Users } from '@vben/icons';
+import { Check, CircleDashed, CircleX, LoaderCircle, Users } from '@vben/icons';
 </script>
 
 <template>
@@ -17,14 +17,31 @@ import { Check, CircleX, Users } from '@vben/icons';
       </div>
     </div>
     <el-steps
-      :active="2"
+      :active="1"
       align-center
       finish-status="success"
       process-status="process"
     >
       <el-step description="Some description" title="Step 1" />
-      <el-step description="Some description" title="Step 2" />
-      <el-step description="Some description" title="Step 3" />
+      <el-step
+        :icon="LoaderCircle"
+        class="current-step"
+        description="Some description"
+        title="Step 2"
+      />
+      <el-step
+        :icon="CircleDashed"
+        description="Some description"
+        title="Step 3"
+      />
     </el-steps>
   </div>
 </template>
+
+<style scoped lang="scss">
+.current-step {
+  :deep(.el-step__icon.is-icon) {
+    color: #3131ff;
+  }
+}
+</style>

@@ -112,7 +112,7 @@ export const customerTabs = [
   { label: '检索记录', key: CustomerTabEnum.searchRecord },
   { label: '检索统计', key: CustomerTabEnum.searchStatistics },
   { label: '活动记录', key: CustomerTabEnum.activityRecord },
-  { label: '操作记录', key: CustomerTabEnum.activityResult },
+  { label: '活动效果', key: CustomerTabEnum.activityResult },
   { label: '操作记录', key: CustomerTabEnum.operatorRecord },
 ];
 
@@ -363,16 +363,5 @@ export const searchRecordFinishedColumns: ITableColumnProps[] = [
   { label: '申请大类', prop: 'item', sortable: true },
   { label: '保护产品', prop: 'product', sortable: true },
   { label: '申请国家', prop: 'country', sortable: true },
-  { label: '操作', prop: 'operator', fixed: 'right' },
-];
-
-export const protocolProductColumns: ITableColumnProps[] = [
-  { label: '产品名称', prop: 'name' },
-  { label: '服务分类', prop: 'service' },
-  { label: '国家', prop: 'country' },
-  { label: '官费(元)', prop: 'official' },
-  { label: '售价(元)', prop: 'price' },
-  { label: '数量(标)', prop: 'number' },
-  { label: '附加项', prop: 'extra' },
   { label: '操作', prop: 'operator', fixed: 'right' },
 ];

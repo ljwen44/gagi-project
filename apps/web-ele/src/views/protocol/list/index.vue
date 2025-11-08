@@ -1,28 +1,38 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-import { AlertCircle } from '@vben/icons';
+import { AlertCircle, Bug } from '@vben/icons';
 import { mockApi } from '@vben/utils';
 import { VbenHelpTooltip } from '@vben-core/shadcn-ui';
 
+import ATable from '#/components/common/table/index.vue';
 import TableLayout from '#/components/table-layout/index.vue';
 import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetail.vue';
 import ProtocolDrawer from '#/components/ui/drawers/protocol/protocolDrawer.vue';
+import ProtocolForm from '#/components/ui/protocol/form.vue';
 
-import { columns, formItems, MODAL_TYPE, tabbar } from './config';
+import {
+  columns,
+  detailColumns,
+  formItems,
+  MODAL_TYPE,
+  tabbar,
+} from './config';
 
 const modalType = ref(MODAL_TYPE.INIT);
+const showModal = ref(false);
 </script>
 
 <template>
   <TableLayout
     :api="() => mockApi(columns)"
     :columns
+    :expand="true"
     :form-items="formItems"
     :tabbar="tabbar"
   >
     <template #action>
-      <el-button type="primary"> 新增 </el-button>
+      <el-button type="primary" @click="showModal = true"> 新增 </el-button>
     </template>
     <template #protocolHeader>
       <VbenHelpTooltip>
@@ -70,6 +80,22 @@ const modalType = ref(MODAL_TYPE.INIT);
     <template #protocolType="{ row }">
       <el-tag type="primary">{{ row.protocolType }}</el-tag>
     </template>
+
+    <template #expand>
+      <Bug
+        class="flex size-4 w-full cursor-pointer items-center justify-center text-red-600"
+      />
+    </template>
+
+    <template #expand-content>
+      <ATable :columns="detailColumns" :data="[]" class="pl-[108px]">
+        <template #price="{ row }">
+          <span class="text-red-600">{{ row.price }}</span>
+        </template>
+      </ATable>
+    </template>
+
+    <ProtocolForm v-model="showModal" />
 
     <ProtocolDrawer
       :show="modalType === MODAL_TYPE.PROTOCOL"

@@ -9,5 +9,9 @@ import { allocationRecordColumns } from '../config';
     :columns="allocationRecordColumns"
     :data="[]"
     :show-pagination="false"
-  />
+  >
+    <template #isOwner="{ row }">
+      <el-tag type="primary">{{ row.isOwner ? '是' : '否' }}</el-tag>
+    </template>
+  </Atable>
 </template>

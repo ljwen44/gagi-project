@@ -11,6 +11,7 @@ import { type IProps, symbolOptions, useTableSheet } from './useTableSheet';
 
 type TableLayoutProps = {
   columns: ITableColumnProps[];
+  expand?: boolean;
   formItems: FormItemType[];
   tabbar?: TabbarProps[];
 } & IProps;
@@ -179,6 +180,7 @@ defineExpose({
         v-model:pagination="paginationModel"
         :columns
         :data="tableData"
+        :expand
         :pagination-event="paginationEvent"
         :table-event="tableEvent"
       >

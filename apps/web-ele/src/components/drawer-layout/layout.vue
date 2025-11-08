@@ -28,7 +28,7 @@ const props = withDefaults(defineProps<IProps>(), {
   progresses: () => [],
 });
 
-const emits = defineEmits(['open', 'closed']);
+const emits = defineEmits(['open', 'closed', 'prev', 'next']);
 
 const showModal = defineModel({
   default: false,
@@ -50,6 +50,14 @@ const handleOpen = () => {
 const handleClosed = () => {
   emits('closed');
 };
+
+const handlePrev = () => {
+  emits('prev');
+};
+
+const handleNext = () => {
+  emits('next');
+};
 </script>
 
 <template>
@@ -63,13 +71,18 @@ const handleClosed = () => {
     @open="handleOpen"
   >
     <template #title>
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2">
         <slot name="title">
           <div>{{ title }}</div>
         </slot>
 
         <div class="flex items-center justify-center">
-          <el-button :icon="ArrowLeft" size="small" type="primary">
+          <el-button
+            :icon="ArrowLeft"
+            size="small"
+            type="primary"
+            @click="handlePrev"
+          >
             上一页
           </el-button>
           <el-button
@@ -77,6 +90,7 @@ const handleClosed = () => {
             class="flex-row-reverse gap-1"
             size="small"
             type="primary"
+            @click="handleNext"
           >
             下一页
           </el-button>

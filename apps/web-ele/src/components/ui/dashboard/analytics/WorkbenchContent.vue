@@ -14,25 +14,25 @@ defineProps<IProps>();
 
 const items = [
   {
-    label: '客户数(人)',
+    label: '客户数（人）',
     key: 'customerCount',
     icon: Users,
     color: '#FF6B6B',
   },
   {
-    label: '跟进数(条)',
+    label: '跟进数（条）',
     key: 'followUpCount',
     icon: MessageSquare,
     color: '#4ECDC4',
   },
   {
-    label: '回款全额(元)',
+    label: '回款全额（元）',
     key: 'paymentAmount',
     icon: HandCoins,
     color: '#45B7D1',
   },
   {
-    label: '业绩全额(元)',
+    label: '业绩全额（元）',
     key: 'performanceAmount',
     icon: TrendingUp,
     color: '#96CEB4',

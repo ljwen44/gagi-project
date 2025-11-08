@@ -102,7 +102,7 @@ const handleSelectionChange = () => {
       <div class="flex items-center justify-center gap-2">
         <Edit
           class="size-4 cursor-pointer text-[var(--el-color-primary)]"
-          @click="showModal = true"
+          @click="customerFormRef?.openModal()"
         />
         <Database class="size-4 cursor-pointer text-orange-600" />
       </div>

@@ -4,8 +4,9 @@ import type { Attachment } from '@vben/types';
 import { ref } from 'vue';
 
 import { Folder, Image } from '@vben/icons';
-import { Card, CardContent, VbenSelect } from '@vben-core/shadcn-ui';
+import { Card, CardContent } from '@vben-core/shadcn-ui';
 
+import ASelect from '#/components/common/select/index.vue';
 import Aupload from '#/components/common/upload/index.vue';
 
 const form = ref<{
@@ -38,11 +39,7 @@ const options = [
       <el-form :model="form">
         <div class="flex items-center gap-2">
           <el-form-item prop="type">
-            <VbenSelect
-              v-model="form.type"
-              :options
-              placeholder="选择跟进方式"
-            />
+            <ASelect v-model="form.type" :options placeholder="选择跟进方式" />
           </el-form-item>
           <el-form-item prop="time">
             <el-date-picker

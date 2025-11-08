@@ -6,6 +6,9 @@ import { protocolDetailColumns } from '../config';
 
 <template>
   <Atable :columns="protocolDetailColumns" :data="[]" :show-pagination="false">
+    <template #price="{ row }">
+      <span class="text-red-600">{{ row.price }}</span>
+    </template>
     <template #attach>
       <div>todo</div>
     </template>

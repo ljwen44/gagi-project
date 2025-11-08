@@ -39,6 +39,12 @@ const modalType = ref(MODAL_TYPE.INIT);
       </el-link>
     </template>
 
+    <template #handle="{ row }">
+      <el-tag effect="dark" type="primary">
+        {{ row.handle }}
+      </el-tag>
+    </template>
+
     <ReviewCommentDrawer
       :show="modalType === MODAL_TYPE.REVIEW"
       @closed="modalType = MODAL_TYPE.INIT"

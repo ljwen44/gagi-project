@@ -9,5 +9,9 @@ import { collectionRecordColumns } from '../config';
     :columns="collectionRecordColumns"
     :data="[]"
     :show-pagination="false"
-  />
+  >
+    <template #hasConfirm="{ row }">
+      <el-tag effect="dark" type="success">{{ row.hasConfirm }}</el-tag>
+    </template>
+  </Atable>
 </template>

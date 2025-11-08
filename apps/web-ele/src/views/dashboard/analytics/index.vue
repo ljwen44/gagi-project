@@ -37,9 +37,7 @@ const greeting = computed(() => {
       </template>
     </WorkbenchHeader>
 
-    <WorkbenchContent title="环比数据监控">
-      <div>aaa</div>
-    </WorkbenchContent>
+    <WorkbenchContent title="环比数据监控" />
 
     <WorkbenchFooter />
   </div>

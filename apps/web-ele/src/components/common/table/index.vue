@@ -39,6 +39,7 @@ export interface ATableProps<T> {
   showPagination?: boolean; // 是否显示分页
   // pagination?: Partial<PaginationProps>; // 分页配置
   paginationEvent?: Partial<PaginationEmits>;
+  expand?: boolean;
 }
 
 const {
@@ -47,6 +48,7 @@ const {
   tableEvent = {},
   paginationEvent = {},
   showPagination = true,
+  expand,
 } = defineProps<ATableProps<any>>();
 const pagination = defineModel<Partial<PaginationProps>>('pagination', {
   default: {},
@@ -95,6 +97,16 @@ watch(
       </template>
       <template v-if="indexColumn">
         <el-table-column align="center" fixed="left" v-bind="indexColumn" />
+      </template>
+      <template v-if="expand">
+        <el-table-column type="expand">
+          <template #default="{ row }">
+            <slot :data="row" name="expand-content"></slot>
+          </template>
+          <template #expand>
+            <slot name="expand"></slot>
+          </template>
+        </el-table-column>
       </template>
       <el-table-column
         v-for="column in restColumns"

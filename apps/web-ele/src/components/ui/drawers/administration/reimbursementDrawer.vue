@@ -38,7 +38,7 @@ for (const item of reimbursementFormItems) {
     <template #title>
       <div class="flex items-center gap-2">
         <span>查看报销申请详情</span>
-        <el-button type="primary">打印</el-button>
+        <el-button size="small" type="primary">打印</el-button>
       </div>
     </template>
 

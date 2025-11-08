@@ -216,6 +216,8 @@ export const fileColumns: ITableColumnProps[] = [
     label: '操作',
     prop: 'operator',
     fixed: 'right',
+    width: 80,
+    align: 'center',
   },
 ];
 
@@ -288,6 +290,7 @@ export const workOrderColumns: ITableColumnProps[] = [
     label: '操作',
     prop: 'operator',
     fixed: 'right',
+    align: 'center',
   },
 ];
 
@@ -342,6 +345,7 @@ export const collectionRecordColumns: ITableColumnProps[] = [
     label: '操作',
     prop: 'operator',
     fixed: 'right',
+    align: 'center',
   },
 ];
 
@@ -365,6 +369,8 @@ export const allocationRecordColumns: ITableColumnProps[] = [
     label: '是否主单人',
     prop: 'isOwner',
     sortable: true,
+    align: 'center',
+    width: 120,
   },
   {
     label: '所属部门',
@@ -389,7 +395,13 @@ export const invoiceColumns: ITableColumnProps[] = [
   { label: '抬头类型', prop: 'headType' },
   { label: '申请人', prop: 'apply' },
   { label: '申请时间', prop: 'time' },
-  { label: '操作', prop: 'operator' },
+  {
+    label: '操作',
+    prop: 'operator',
+    fixed: 'right',
+    align: 'center',
+    width: 80,
+  },
 ];
 
 export const componentsMap: Record<any, IComponent> = {

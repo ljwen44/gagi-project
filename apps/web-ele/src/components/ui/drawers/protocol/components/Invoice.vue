@@ -11,6 +11,22 @@ import { invoiceColumns } from '../config';
     <el-button :icon="Plus" style="width: 120px" type="primary">
       开局工具
     </el-button>
-    <Atable :columns="invoiceColumns" :data="[]" :show-pagination="false" />
+    <Atable :columns="invoiceColumns" :data="[]" :show-pagination="false">
+      <template #number="{ row }">
+        <el-link type="primary">
+          {{ row.number }}
+        </el-link>
+      </template>
+
+      <template #type="{ row }">
+        <el-tag type="info">{{ row.type }}</el-tag>
+      </template>
+      <template #status="{ row }">
+        <el-tag type="info">{{ row.status }}</el-tag>
+      </template>
+      <template #headType="{ row }">
+        <el-tag type="primary">{{ row.headType }}</el-tag>
+      </template>
+    </Atable>
   </div>
 </template>
