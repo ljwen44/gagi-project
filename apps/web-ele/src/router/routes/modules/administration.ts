@@ -10,6 +10,7 @@ const routes: RouteRecordRaw[] = [
       icon: 'lucide:briefcase',
       order: 7,
       title: $t('page.administration.title'),
+      permissionCode: 'admin:view',
     },
     name: 'Administration',
     path: '/administration',
@@ -22,6 +23,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           icon: 'lucide:hand-coins',
           title: $t('page.administration.reimbursement'),
+          permissionCode: 'admin:expense:view',
         },
       },
       {
@@ -31,6 +33,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           icon: 'lucide:send',
           title: $t('page.administration.payment'),
+          permissionCode: 'admin:payment:view',
         },
       },
       {
@@ -40,6 +43,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           icon: 'lucide:calendar-plus',
           title: $t('page.administration.rest'),
+          permissionCode: 'admin:leave:view',
         },
       },
       {
@@ -49,6 +53,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           icon: 'lucide:undo',
           title: $t('page.administration.refund'),
+          permissionCode: 'admin:refund:view',
         },
       },
       {
@@ -58,6 +63,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           icon: 'lucide:file-spreadsheet',
           title: $t('page.administration.invoice'),
+          permissionCode: 'admin:invoice:view',
         },
       },
     ],

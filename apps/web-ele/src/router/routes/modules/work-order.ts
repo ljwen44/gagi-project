@@ -10,6 +10,7 @@ const routes: RouteRecordRaw[] = [
       icon: 'lucide:clipboard-list',
       order: 4,
       title: $t('page.work.title'),
+      permissionCode: 'workorder:view',
     },
     name: 'WorkOrder',
     path: '/work-order',
@@ -20,6 +21,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           icon: 'lucide:list',
           title: $t('page.work.list'),
+          permissionCode: 'workorder:all:view',
         },
         children: [
           {
@@ -40,6 +42,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           icon: 'lucide:alert-triangle',
           title: $t('page.work.abnormal'),
+          permissionCode: 'workorder:abnormal:view',
         },
       },
       {
@@ -48,6 +51,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           icon: 'lucide:search',
           title: $t('page.work.query'),
+          permissionCode: 'workorder:query:view',
         },
         children: [
           {
@@ -58,6 +62,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               icon: 'lucide:copyright',
               title: $t('page.work.brandRegister'),
+              permissionCode: 'workorder:query:view',
             },
           },
           {
@@ -68,6 +73,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               icon: 'lucide:file-plus-2',
               title: $t('page.work.patentApply'),
+              permissionCode: 'workorder:query:view',
             },
           },
           {
@@ -78,6 +84,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               icon: 'lucide:book-marked',
               title: $t('page.work.copyRightRegistration'),
+              permissionCode: 'workorder:query:view',
             },
           },
           {
@@ -88,6 +95,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               icon: 'lucide:file-cog',
               title: $t('page.work.patentUpdate'),
+              permissionCode: 'workorder:query:view',
             },
           },
           {
@@ -98,6 +106,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               icon: 'lucide:refresh-ccw',
               title: $t('page.work.brandUpdate'),
+              permissionCode: 'workorder:query:view',
             },
           },
           {
@@ -108,6 +117,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               icon: 'lucide:swords',
               title: $t('page.work.brandObjection'),
+              permissionCode: 'workorder:query:view',
             },
           },
           {
@@ -118,6 +128,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               icon: 'lucide:message-square-warning',
               title: $t('page.work.patentObjection'),
+              permissionCode: 'workorder:query:view',
             },
           },
           {
@@ -128,6 +139,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               icon: 'lucide:calendar-clock',
               title: $t('page.work.brandRenewal'),
+              permissionCode: 'workorder:query:view',
             },
           },
           {
@@ -138,6 +150,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               icon: 'lucide:sparkles',
               title: $t('page.work.specialService'),
+              permissionCode: 'workorder:query:view',
             },
           },
           {
@@ -148,6 +161,7 @@ const routes: RouteRecordRaw[] = [
             meta: {
               icon: 'lucide:clipboard-edit',
               title: $t('page.work.reviewComment'),
+              permissionCode: 'workorder:query:view',
             },
           },
         ],

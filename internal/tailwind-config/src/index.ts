@@ -123,6 +123,9 @@ export default {
     ),
   ],
   darkMode: 'selector',
+  future: {
+    removeDeprecatedGapUtilities: true,
+  },
   plugins: [
     animate,
     typographyPlugin,

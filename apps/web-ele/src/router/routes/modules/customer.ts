@@ -10,6 +10,7 @@ const routes: RouteRecordRaw[] = [
       icon: 'lucide:contact',
       order: 2,
       title: $t('page.customer.title'),
+      permissionCode: 'customer:view',
     },
     name: 'Customer',
     path: '/customer',
@@ -21,6 +22,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           icon: 'lucide:contact',
           title: $t('page.customer.list'),
+          permissionCode: 'customer:list:view',
         },
       },
       {
@@ -34,11 +36,12 @@ const routes: RouteRecordRaw[] = [
       },
       {
         name: 'CustomerSeas',
-        path: '/customer/seas',
+        path: '/customer/pool',
         component: () => import('#/views/customer/seas/index.vue'),
         meta: {
           icon: 'lucide:database',
           title: $t('page.customer.seas'),
+          permissionCode: 'customer:pool:view',
         },
       },
     ],

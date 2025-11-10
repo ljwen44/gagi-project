@@ -10,6 +10,8 @@ import { $t } from '@vben/locales';
 import { useVbenForm } from '@vben-core/form-ui';
 import { VbenButton, VbenCheckbox } from '@vben-core/shadcn-ui';
 
+import { md5 } from 'js-md5';
+
 import Title from './auth-title.vue';
 
 interface Props extends AuthenticationProps {
@@ -68,7 +70,10 @@ async function handleSubmit() {
       REMEMBER_ME_KEY,
       rememberMe.value ? values?.username : '',
     );
-    emit('submit', values);
+    emit('submit', {
+      ...values,
+      password: md5(values.password),
+    });
   }
 }
 

@@ -10,6 +10,7 @@ const routes: RouteRecordRaw[] = [
       icon: 'lucide:package',
       order: 5,
       title: $t('page.product.title'),
+      permissionCode: 'product:view',
     },
     name: 'Product',
     path: '/product',
@@ -21,6 +22,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           icon: 'lucide:shopping-bag',
           title: $t('page.product.view'),
+          permissionCode: 'product:list:view',
         },
       },
     ],

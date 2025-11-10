@@ -11,9 +11,7 @@ async function generateRoutesByFrontend(
   forbiddenComponent?: RouteRecordRaw['component'],
 ): Promise<RouteRecordRaw[]> {
   // 根据角色标识过滤路由表,判断当前用户是否拥有指定权限
-  const finalRoutes = filterTree(routes, (route) => {
-    return hasAuthority(route, roles);
-  });
+  const finalRoutes = filterTree(routes, (route) => hasAuthority(route, roles));
 
   if (!forbiddenComponent) {
     return finalRoutes;
@@ -34,11 +32,11 @@ async function generateRoutesByFrontend(
  * @param access
  */
 function hasAuthority(route: RouteRecordRaw, access: string[]) {
-  const authority = route.meta?.authority;
-  if (!authority) {
+  const permissionCode = route.meta?.permissionCode as string;
+  if (!permissionCode) {
     return true;
   }
-  const canAccess = access.some((value) => authority.includes(value));
+  const canAccess = access.includes(permissionCode);
 
   return canAccess || (!canAccess && menuHasVisibleWithForbidden(route));
 }

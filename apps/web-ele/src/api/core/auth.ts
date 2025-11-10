@@ -44,8 +44,8 @@ export async function logoutApi() {
 }
 
 /**
- * 获取用户权限码
+ * 获取用户权限树
  */
 export async function getAccessCodesApi() {
-  return requestClient.get<string[]>('/auth/codes');
+  return requestClient.get<string[]>('/permission/tree');
 }

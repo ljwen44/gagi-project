@@ -5,11 +5,11 @@ interface BasicUserInfo {
   /**
    * 头像
    */
-  avatar: string;
+  avatar?: string;
   /**
    * 用户昵称
    */
-  realName: string;
+  realName?: string;
   /**
    * 用户角色
    */
@@ -17,7 +17,7 @@ interface BasicUserInfo {
   /**
    * 用户id
    */
-  userId: string;
+  userId?: string;
   /**
    * 用户名
    */

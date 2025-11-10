@@ -10,22 +10,24 @@ const routes: RouteRecordRaw[] = [
       icon: 'lucide:user',
       order: 1,
       title: $t('page.person.title'),
+      permissionCode: 'profile:view',
     },
     name: 'PersonCenter',
-    path: '/person',
+    path: '/profile',
     children: [
       {
         name: 'PersonCenterTodoTasks',
-        path: '/person/todo',
+        path: '/profile/todo',
         component: () => import('#/views/person/todo/index.vue'),
         meta: {
           icon: 'lucide:list-todo',
           title: $t('page.person.todoTasks'),
+          permissionCode: 'profile:todo:view',
         },
       },
       {
         name: 'PersonCenterWarningRemind',
-        path: '/person/remind',
+        path: '/profile/remind',
         component: () => import('#/views/person/remind/index.vue'),
         meta: {
           icon: 'lucide:bell-ring',

@@ -61,6 +61,7 @@
     "happy-dom": "catalog:",
     "husky": "catalog:",
     "is-ci": "catalog:",
+    "js-md5": "catalog:",
     "lint-staged": "catalog:",
     "playwright": "catalog:",
     "rimraf": "catalog:",

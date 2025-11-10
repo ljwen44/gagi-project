@@ -5,12 +5,11 @@ import { useRouter } from 'vue-router';
 
 import { DEFAULT_HOME_PATH, LOGIN_PATH } from '@vben/constants';
 import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
+import { extractPermissionCodes } from '@vben/utils';
 
-import { ElNotification } from 'element-plus';
 import { defineStore } from 'pinia';
 
 import { getAccessCodesApi, getUserInfoApi, loginApi, logoutApi } from '#/api';
-import { $t } from '#/locales';
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
@@ -29,43 +28,56 @@ export const useAuthStore = defineStore('auth', () => {
     onSuccess?: () => Promise<void> | void,
   ) {
     // 异步处理用户登录操作并获取 accessToken
-    let userInfo: null | UserInfo = null;
+    const userInfo: any | UserInfo = {
+      username: params.username as string,
+      permissions: [],
+    };
     try {
       loginLoading.value = true;
-      const { accessToken } = await loginApi(params);
+      await loginApi(params);
+      const data = await getAccessCodesApi();
+      const permissions = extractPermissionCodes(data);
+      userInfo.permissions = permissions;
+      accessStore.setAccessToken(params.password);
+      userStore.setUserInfo(userInfo);
+      accessStore.setAccessCodes(data);
+      onSuccess
+        ? await onSuccess?.()
+        : await router.push(userInfo?.homePath || DEFAULT_HOME_PATH);
+      // const { accessToken } = await loginApi(params);
 
       // 如果成功获取到 accessToken
-      if (accessToken) {
-        // 将 accessToken 存储到 accessStore 中
-        accessStore.setAccessToken(accessToken);
+      // if (accessToken) {
+      //   // 将 accessToken 存储到 accessStore 中
+      //   accessStore.setAccessToken(accessToken);
 
-        // 获取用户信息并存储到 accessStore 中
-        const [fetchUserInfoResult, accessCodes] = await Promise.all([
-          fetchUserInfo(),
-          getAccessCodesApi(),
-        ]);
+      //   // 获取用户信息并存储到 accessStore 中
+      //   const [fetchUserInfoResult, accessCodes] = await Promise.all([
+      //     fetchUserInfo(),
+      //     getAccessCodesApi(),
+      //   ]);
 
-        userInfo = fetchUserInfoResult;
+      //   userInfo = fetchUserInfoResult;
 
-        userStore.setUserInfo(userInfo);
-        accessStore.setAccessCodes(accessCodes);
+      //   userStore.setUserInfo(userInfo);
+      //   accessStore.setAccessCodes(accessCodes);
 
-        if (accessStore.loginExpired) {
-          accessStore.setLoginExpired(false);
-        } else {
-          onSuccess
-            ? await onSuccess?.()
-            : await router.push(userInfo.homePath || DEFAULT_HOME_PATH);
-        }
+      //   if (accessStore.loginExpired) {
+      //     accessStore.setLoginExpired(false);
+      //   } else {
+      //     onSuccess
+      //       ? await onSuccess?.()
+      //       : await router.push(userInfo.homePath || DEFAULT_HOME_PATH);
+      //   }
 
-        if (userInfo?.realName) {
-          ElNotification({
-            message: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
-            title: $t('authentication.loginSuccess'),
-            type: 'success',
-          });
-        }
-      }
+      //   if (userInfo?.realName) {
+      //     ElNotification({
+      //       message: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
+      //       title: $t('authentication.loginSuccess'),
+      //       type: 'success',
+      //     });
+      //   }
+      // }
     } finally {
       loginLoading.value = false;
     }
@@ -95,8 +107,17 @@ export const useAuthStore = defineStore('auth', () => {
     });
   }
 
+  async function getUserPermissions() {
+    try {
+      const data = await getAccessCodesApi();
+      return extractPermissionCodes(data);
+    } catch {
+      return [];
+    }
+  }
+
   async function fetchUserInfo() {
-    let userInfo: null | UserInfo = null;
+    let userInfo: any | UserInfo = null;
     userInfo = await getUserInfoApi();
     userStore.setUserInfo(userInfo);
     return userInfo;
@@ -110,6 +131,7 @@ export const useAuthStore = defineStore('auth', () => {
     $reset,
     authLogin,
     fetchUserInfo,
+    getUserPermissions,
     loginLoading,
     logout,
   };

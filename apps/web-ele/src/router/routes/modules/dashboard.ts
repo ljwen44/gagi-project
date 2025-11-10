@@ -10,6 +10,7 @@ const routes: RouteRecordRaw[] = [
       icon: 'lucide:layout-dashboard',
       order: -1,
       title: $t('page.dashboard.title'),
+      permissionCode: 'dashboard:view',
     },
     name: 'Dashboard',
     path: '/',
@@ -23,17 +24,9 @@ const routes: RouteRecordRaw[] = [
           // icon: 'lucide:area-chart',
           icon: 'carbon:workspace',
           title: $t('page.dashboard.workspace'),
+          permissionCode: 'dashboard:performance:view',
         },
       },
-      // {
-      //   name: 'Workspace',
-      //   path: '/home/workspace',
-      //   component: () => import('#/views/dashboard/workspace/index.vue'),
-      //   meta: {
-      //     icon: 'carbon:workspace',
-      //     title: $t('page.dashboard.workspace'),
-      //   },
-      // },
     ],
   },
 ];

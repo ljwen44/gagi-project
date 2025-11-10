@@ -99,9 +99,9 @@ export const useTableSheet = (props: IProps) => {
       queryParams.pageSize = paginationModel.value.pageSize;
     }
     beforeQuery && beforeQuery(queryParams);
-    const { count = 0, list = [] } = await requestApi(queryParams);
-    tableData.value = list;
-    paginationModel.value.total = count;
+    const { total = 0, records = [] } = await requestApi(queryParams);
+    tableData.value = records;
+    paginationModel.value.total = total;
   };
 
   const reset = async () => {
