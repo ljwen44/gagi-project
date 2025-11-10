@@ -35,7 +35,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '产品编号',
-    prop: 'number',
+    prop: 'productNo',
     sortable: true,
   },
   {
@@ -51,28 +51,28 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '产品名称',
-    prop: 'name',
+    prop: 'productName',
     width: 140,
     sortable: true,
   },
   {
     label: '是否公证',
-    prop: 'isPublicAuth',
+    prop: 'isCertified',
     sortable: true,
   },
   {
     label: '是否认证',
-    prop: 'isAuth',
+    prop: 'isNotarized',
     sortable: true,
   },
   {
     label: '标准售价(元)',
-    prop: 'saleAmount',
+    prop: 'standardPrice',
     sortable: true,
   },
   {
     label: '官费(元)',
-    prop: 'fee',
+    prop: 'officialFee',
     sortable: true,
   },
   {

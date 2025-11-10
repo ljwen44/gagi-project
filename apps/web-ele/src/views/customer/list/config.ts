@@ -70,7 +70,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '客户编号',
-    prop: 'customerCode',
+    prop: 'customerNo',
     sortable: true,
   },
   {
@@ -90,7 +90,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '标签',
-    prop: 'tag',
+    prop: 'tags',
     sortable: true,
   },
   {
@@ -121,7 +121,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '客户来源',
-    prop: 'customerOrigin',
+    prop: 'customerSource',
     sortable: true,
   },
   {

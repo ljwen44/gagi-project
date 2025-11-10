@@ -27,7 +27,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '客户编号',
-    prop: 'customerCode',
+    prop: 'customerNo',
     sortable: true,
   },
   {
@@ -47,7 +47,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '标签',
-    prop: 'tag',
+    prop: 'tags',
     sortable: true,
   },
   {
@@ -72,12 +72,12 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '县区',
-    prop: 'area',
+    prop: 'district',
     sortable: true,
   },
   {
     label: '详细地址',
-    prop: 'addr',
+    prop: 'detailAddress',
   },
   {
     label: '备注',
@@ -85,7 +85,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '创建人',
-    prop: 'createdBy',
+    prop: 'createBy',
     sortable: true,
   },
   {

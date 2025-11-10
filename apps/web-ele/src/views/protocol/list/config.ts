@@ -48,13 +48,13 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '协议编号',
-    prop: 'protocol',
+    prop: 'agreementNo',
     sortable: true,
     width: 150,
   },
   {
     label: '客户编号',
-    prop: 'customerCode',
+    prop: 'customerNo',
     sortable: true,
   },
   {
@@ -64,7 +64,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '公司名称',
-    prop: 'companyName',
+    prop: 'custTitle',
     sortable: true,
   },
   {
@@ -89,7 +89,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '协议金额',
-    prop: 'protocolAmount',
+    prop: 'agreementAmount',
   },
   {
     label: '实收金额',
@@ -113,16 +113,16 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '预算业绩',
-    prop: 'budget',
+    prop: 'budgetPerformance',
   },
   {
     label: '实际业绩',
-    prop: 'actual',
+    prop: 'actualPerformance',
     sortable: true,
   },
   {
     label: '到款金额',
-    prop: 'money',
+    prop: 'receivedAmount',
     sortable: true,
   },
   {
@@ -137,7 +137,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '销售成本',
-    prop: 'saleCost',
+    prop: 'salesCost',
     sortable: true,
   },
   {
@@ -157,7 +157,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '协议备注',
-    prop: 'protocolRemark',
+    prop: 'agreementRemark',
     sortable: true,
   },
   {
@@ -166,7 +166,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '真实名',
-    prop: 'username',
+    prop: 'realName',
   },
   {
     label: '所属部门',
@@ -183,11 +183,11 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '创建时间',
-    prop: 'createdTime',
+    prop: 'createTime',
   },
   {
     label: '更新时间',
-    prop: 'updatedTime',
+    prop: 'updateTime',
   },
   {
     label: '操作',

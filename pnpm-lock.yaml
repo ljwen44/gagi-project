@@ -1337,6 +1337,9 @@ importers:
       '@vueuse/integrations':
         specifier: 'catalog:'
         version: 12.2.0(async-validator@4.2.5)(axios@1.7.9)(change-case@5.4.4)(focus-trap@7.6.2)(nprogress@0.2.0)(qrcode@1.5.4)(sortablejs@1.15.6)(typescript@5.7.2)
+      js-md5:
+        specifier: 'catalog:'
+        version: 0.8.3
       qrcode:
         specifier: 'catalog:'
         version: 1.5.4

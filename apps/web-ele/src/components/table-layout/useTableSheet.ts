@@ -95,7 +95,7 @@ export const useTableSheet = (props: IProps) => {
       ...form.value,
     };
     if (showPagination) {
-      queryParams.page = paginationModel.value.currentPage;
+      queryParams.pageNum = paginationModel.value.currentPage;
       queryParams.pageSize = paginationModel.value.pageSize;
     }
     beforeQuery && beforeQuery(queryParams);

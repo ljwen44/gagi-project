@@ -32,9 +32,9 @@ const greeting = computed(() => {
       <template #title>
         {{ `${greeting}${userStore.userInfo?.realName}` }}
       </template>
-      <template #description>
+      <!-- <template #description>
         <el-tag type="primary"> 职级: S2 </el-tag>
-      </template>
+      </template> -->
     </WorkbenchHeader>
 
     <WorkbenchContent title="环比数据监控" />
