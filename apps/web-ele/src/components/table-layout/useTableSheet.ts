@@ -98,6 +98,12 @@ export const useTableSheet = (props: IProps) => {
       queryParams.pageNum = paginationModel.value.currentPage;
       queryParams.pageSize = paginationModel.value.pageSize;
     }
+    if (
+      queryParams.filters.length === 1 &&
+      Object.values(queryParams.filters[0]).every((i) => i === '')
+    ) {
+      delete queryParams.filters;
+    }
     beforeQuery && beforeQuery(queryParams);
     const { total = 0, records = [] } = await requestApi(queryParams);
     tableData.value = records;
@@ -138,7 +144,12 @@ export const useTableSheet = (props: IProps) => {
 
   watch(
     () => props.api,
-    (nv) => (requestApi = nv),
+    (nv, ov) => {
+      requestApi = nv;
+      if (ov && ov !== nv) {
+        query();
+      }
+    },
     { immediate: true },
   );
 

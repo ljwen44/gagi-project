@@ -40,7 +40,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '服务分类',
-    prop: 'type',
+    prop: 'categoryId',
     sortable: true,
   },
   {

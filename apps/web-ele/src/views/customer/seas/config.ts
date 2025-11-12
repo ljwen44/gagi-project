@@ -88,16 +88,16 @@ export const columns: ITableColumnProps[] = [
     prop: 'createBy',
     sortable: true,
   },
-  {
-    label: '创建时间',
-    prop: 'createdAt',
-    sortable: true,
-  },
-  {
-    label: '入海时间',
-    prop: 'inTime',
-    sortable: true,
-  },
+  // {
+  //   label: '创建时间',
+  //   prop: 'createdAt',
+  //   sortable: true,
+  // },
+  // {
+  //   label: '入海时间',
+  //   prop: 'inTime',
+  //   sortable: true,
+  // },
   {
     label: '操作',
     prop: 'operator',

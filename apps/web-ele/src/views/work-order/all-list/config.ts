@@ -63,11 +63,11 @@ export const columns: ITableColumnProps[] = [
     prop: 'orderNo',
     sortable: true,
   },
-  {
-    label: '工单类型',
-    prop: 'type',
-    sortable: true,
-  },
+  // {
+  //   label: '工单类型',
+  //   prop: 'type',
+  //   sortable: true,
+  // },
   {
     label: '国家',
     prop: 'country',
@@ -113,11 +113,11 @@ export const columns: ITableColumnProps[] = [
     prop: 'workStatus',
     sortable: true,
   },
-  {
-    label: '结单确认',
-    prop: 'finishConfirm',
-    sortable: true,
-  },
+  // {
+  //   label: '结单确认',
+  //   prop: 'finishConfirm',
+  //   sortable: true,
+  // },
   {
     label: '所属人',
     prop: 'username',
@@ -126,24 +126,24 @@ export const columns: ITableColumnProps[] = [
     label: '真实名',
     prop: 'realName',
   },
-  {
-    label: '所属部门',
-    prop: 'group',
-  },
-  {
-    label: '部门负责人',
-    prop: 'leader',
-    width: 100,
-  },
-  {
-    label: '所属公司',
-    prop: 'belongCompany',
-  },
-  {
-    label: '主做单人',
-    prop: 'owner',
-    sortable: true,
-  },
+  // {
+  //   label: '所属部门',
+  //   prop: 'group',
+  // },
+  // {
+  //   label: '部门负责人',
+  //   prop: 'leader',
+  //   width: 100,
+  // },
+  // {
+  //   label: '所属公司',
+  //   prop: 'belongCompany',
+  // },
+  // {
+  //   label: '主做单人',
+  //   prop: 'owner',
+  //   sortable: true,
+  // },
   {
     label: '创建人',
     prop: 'createdBy',
@@ -154,50 +154,50 @@ export const columns: ITableColumnProps[] = [
     prop: 'createdTime',
     sortable: true,
   },
-  {
-    label: '客户确认时间',
-    prop: 'customerConfirmTime',
-    sortable: true,
-  },
-  {
-    label: '接单时间',
-    prop: 'orderTime',
-    sortable: true,
-  },
-  {
-    label: '结单时间',
-    prop: 'finishTime',
-    sortable: true,
-  },
-  {
-    label: '结单确认时间',
-    prop: 'finishConfirmTime',
-    sortable: true,
-  },
-  {
-    label: '前置项接单时间',
-    prop: 'preOrderTime',
-    sortable: true,
-    width: 160,
-  },
-  {
-    label: '前置项结项时间',
-    prop: 'preFinishTime',
-    sortable: true,
-    width: 160,
-  },
-  {
-    label: '附加项分配时间',
-    prop: 'attachTime',
-    sortable: true,
-    width: 160,
-  },
-  {
-    label: '附加项结项时间',
-    prop: 'attachFinishTime',
-    sortable: true,
-    width: 160,
-  },
+  // {
+  //   label: '客户确认时间',
+  //   prop: 'customerConfirmTime',
+  //   sortable: true,
+  // },
+  // {
+  //   label: '接单时间',
+  //   prop: 'orderTime',
+  //   sortable: true,
+  // },
+  // {
+  //   label: '结单时间',
+  //   prop: 'finishTime',
+  //   sortable: true,
+  // },
+  // {
+  //   label: '结单确认时间',
+  //   prop: 'finishConfirmTime',
+  //   sortable: true,
+  // },
+  // {
+  //   label: '前置项接单时间',
+  //   prop: 'preOrderTime',
+  //   sortable: true,
+  //   width: 160,
+  // },
+  // {
+  //   label: '前置项结项时间',
+  //   prop: 'preFinishTime',
+  //   sortable: true,
+  //   width: 160,
+  // },
+  // {
+  //   label: '附加项分配时间',
+  //   prop: 'attachTime',
+  //   sortable: true,
+  //   width: 160,
+  // },
+  // {
+  //   label: '附加项结项时间',
+  //   prop: 'attachFinishTime',
+  //   sortable: true,
+  //   width: 160,
+  // },
   {
     label: '操作',
     prop: 'operator',

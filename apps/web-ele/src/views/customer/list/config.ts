@@ -63,11 +63,11 @@ export const columns: ITableColumnProps[] = [
     width: 60,
     disabledFilter: true,
   },
-  {
-    label: '客户标识',
-    prop: 'customerFlag',
-    width: 40,
-  },
+  // {
+  //   label: '客户标识',
+  //   prop: 'customerFlag',
+  //   width: 40,
+  // },
   {
     label: '客户编号',
     prop: 'customerNo',
@@ -93,27 +93,27 @@ export const columns: ITableColumnProps[] = [
     prop: 'tags',
     sortable: true,
   },
-  {
-    label: '距载入公海',
-    prop: 'publicSea',
-    sortable: true,
-  },
-  {
-    label: '已成交次数',
-    prop: 'times',
-    sortable: true,
-  },
-  {
-    label: '最近成交时间',
-    prop: 'lastTime',
-    sortable: true,
-  },
-  {
-    label: '距最近成交天数',
-    prop: 'recent',
-    width: 150,
-    sortable: true,
-  },
+  // {
+  //   label: '是否公海客户',
+  //   prop: 'isPublicSea',
+  //   sortable: true,
+  // },
+  // {
+  //   label: '已成交次数',
+  //   prop: 'times',
+  //   sortable: true,
+  // },
+  // {
+  //   label: '最近成交时间',
+  //   prop: 'lastTime',
+  //   sortable: true,
+  // },
+  // {
+  //   label: '距最近成交天数',
+  //   prop: 'recent',
+  //   width: 150,
+  //   sortable: true,
+  // },
   {
     label: '客户级别',
     prop: 'customerLevel',

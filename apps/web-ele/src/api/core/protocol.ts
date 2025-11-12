@@ -24,19 +24,19 @@ export interface AgreementDto {
  * 根据ID查询协议详情
  */
 export const getAgreementById = (id: string) =>
-  requestClient.get(`/api/agreement/${id}`);
+  requestClient.get(`/agreement/${id}`);
 
 /**
  * 新增协议
  */
 export const addAgreement = (data: any): Promise<AgreementDto> =>
-  requestClient.post(`/api/agreement/add`, { data });
+  requestClient.post(`/agreement/add`, { data });
 
 /**
  * 分页条件查询协议
  */
 export const getAgreementList = (data: any) =>
-  requestClient.post(`/api/agreement/page`, { data });
+  requestClient.post(`/agreement/page`, { data });
 
 /**
  * 查询协议审批待办
@@ -44,4 +44,4 @@ export const getAgreementList = (data: any) =>
 export const getAgreementPending = (params: {
   pageNum: number;
   pageSize: number;
-}) => requestClient.put(`/api/agreement/pending`, { params });
+}) => requestClient.get(`/agreement/pending`, { params });

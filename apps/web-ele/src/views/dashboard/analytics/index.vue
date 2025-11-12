@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 
 import { preferences } from '@vben/preferences';
 import { useUserStore } from '@vben/stores';
 
+import { getPerformanceStat } from '#/api/core/dashboard';
 import {
   WorkbenchContent,
   WorkbenchFooter,
@@ -22,22 +23,41 @@ const greeting = computed(() => {
   }
   return `晚上好`;
 });
+
+const performance = ref({
+  currentMonthPerformance: 0,
+  halfYearPerformanceList: [],
+  todayPerformance: 0,
+});
+
+const getDashboard = async () => {
+  const data = await getPerformanceStat();
+  performance.value = data;
+};
+onMounted(() => {
+  getDashboard();
+});
 </script>
 
 <template>
   <div class="flex flex-col gap-4 pb-4">
     <WorkbenchHeader
       :avatar="userStore.userInfo?.avatar || preferences.app.defaultAvatar"
+      :current-month-performance="performance.currentMonthPerformance"
+      :today-performance="performance.todayPerformance"
     >
       <template #title>
-        {{ `${greeting}${userStore.userInfo?.realName}` }}
+        {{ `${greeting}` }}
       </template>
       <!-- <template #description>
         <el-tag type="primary"> 职级: S2 </el-tag>
       </template> -->
     </WorkbenchHeader>
 
-    <WorkbenchContent title="环比数据监控" />
+    <WorkbenchContent
+      :half-year-performance-list="performance.halfYearPerformanceList"
+      title="环比数据监控"
+    />
 
     <WorkbenchFooter />
   </div>

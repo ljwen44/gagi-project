@@ -2,8 +2,8 @@
 import { ref } from 'vue';
 
 import { Inbox } from '@vben/icons';
-import { mockApi } from '@vben/utils';
 
+import { getCustomerList } from '#/api/core/customer';
 import TableLayout from '#/components/table-layout/index.vue';
 import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetail.vue';
 
@@ -13,7 +13,11 @@ const showModal = ref(false);
 </script>
 
 <template>
-  <TableLayout :api="() => mockApi(columns)" :columns :form-items="formItems">
+  <TableLayout
+    :api="() => getCustomerList({ isPublicSea: 1 })"
+    :columns
+    :form-items="formItems"
+  >
     <template #action>
       <el-button type="primary"> 批量领取 </el-button>
     </template>

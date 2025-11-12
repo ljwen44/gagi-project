@@ -25,15 +25,15 @@ const routes: RouteRecordRaw[] = [
           permissionCode: 'profile:todo:view',
         },
       },
-      {
-        name: 'PersonCenterWarningRemind',
-        path: '/profile/remind',
-        component: () => import('#/views/person/remind/index.vue'),
-        meta: {
-          icon: 'lucide:bell-ring',
-          title: $t('page.person.warningRemind'),
-        },
-      },
+      // {
+      //   name: 'PersonCenterWarningRemind',
+      //   path: '/profile/remind',
+      //   component: () => import('#/views/person/remind/index.vue'),
+      //   meta: {
+      //     icon: 'lucide:bell-ring',
+      //     title: $t('page.person.warningRemind'),
+      //   },
+      // },
     ],
   },
 ];

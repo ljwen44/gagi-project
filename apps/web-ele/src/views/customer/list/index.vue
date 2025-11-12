@@ -2,9 +2,9 @@
 import { ref, useTemplateRef } from 'vue';
 
 import { AlertCircle, Database, Edit } from '@vben/icons';
-import { mockApi } from '@vben/utils';
 import { VbenHelpTooltip } from '@vben-core/shadcn-ui';
 
+import { getCustomerList } from '#/api/core/customer';
 import TableLayout from '#/components/table-layout/index.vue';
 import CustomerForm from '#/components/ui/customer/form.vue';
 import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetail.vue';
@@ -20,7 +20,7 @@ const handleSelectionChange = () => {
 
 <template>
   <TableLayout
-    :api="() => mockApi(columns)"
+    :api="() => getCustomerList({ isPublicSea: 0 })"
     :columns
     :form-items="formItems"
     :tabbar="tabbar"

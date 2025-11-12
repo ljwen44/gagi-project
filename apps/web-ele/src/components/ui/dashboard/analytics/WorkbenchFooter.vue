@@ -96,7 +96,7 @@ const data = computed<Record<string, any>>(() => ({}));
           <div class="flex flex-1 flex-col gap-1">
             <span class="text-foreground/60"> {{ item.label }} </span>
             <span class="inline-block w-full truncate text-3xl">
-              {{ data[item.key] ?? 0 }}
+              {{ data[item.key] ?? '-' }}
             </span>
           </div>
         </div>

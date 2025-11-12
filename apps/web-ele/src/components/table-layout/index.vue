@@ -19,6 +19,7 @@ type TableLayoutProps = {
 const props = withDefaults(defineProps<TableLayoutProps>(), {
   firstLoad: true,
   tabbar: () => [],
+  showPagination: true,
 });
 
 const emits = defineEmits(['tabChange']);

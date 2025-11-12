@@ -17,8 +17,8 @@ export default defineConfig(async () => {
             changeOrigin: true,
             rewrite: (path) => path.replace(/^\/api/, ''),
             // mock代理目标地址
-            target: 'http://5e6ac16.r38.cpolar.top/api',
-            // ws: true,
+            target: 'http://730cf52a.r38.cpolar.top/api',
+            ws: true,
           },
         },
       },

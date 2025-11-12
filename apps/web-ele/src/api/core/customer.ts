@@ -25,16 +25,16 @@ export interface CustomerDto {
  * 根据ID查询客户详情
  */
 export const getCustomerById = (id: string) =>
-  requestClient.get(`/api/customer/${id}`);
+  requestClient.get(`/customer/${id}`);
 
 /**
  * 新增客户
  */
 export const addCustomer = (data: any): Promise<CustomerDto> =>
-  requestClient.post(`/api/customer/add`, { data });
+  requestClient.post(`/customer/add`, { data });
 
 /**
  * 分页条件查询客户
  */
 export const getCustomerList = (data: any) =>
-  requestClient.post(`/api/customer/page`, { data });
+  requestClient.post(`/customer/page`, data);

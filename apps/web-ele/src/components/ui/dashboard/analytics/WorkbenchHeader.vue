@@ -1,12 +1,10 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
-
 import { VbenAvatar } from '@vben-core/shadcn-ui';
-
-import { getPerformanceStat } from '#/api/core/dashboard';
 
 interface Props {
   avatar?: string;
+  todayPerformance?: number | string;
+  currentMonthPerformance?: number | string;
 }
 
 defineOptions({
@@ -15,24 +13,13 @@ defineOptions({
 
 withDefaults(defineProps<Props>(), {
   avatar: '',
+  todayPerformance: '',
+  currentMonthPerformance: '',
 });
 
 // const todayTarget = useTransition(1052.63, {
 //   duration: 1500
 // });
-const performance = ref({
-  currentMonthPerformance: 0,
-  halfYearPerformanceList: [],
-  todayPerformance: 0,
-});
-
-const getDashboard = async () => {
-  const { data } = await getPerformanceStat();
-  performance.value = data;
-};
-onMounted(() => {
-  getDashboard();
-});
 </script>
 <template>
   <div class="card-box flex flex-col gap-4 p-4">
@@ -53,19 +40,19 @@ onMounted(() => {
       </div>
       <div class="mt-4 flex flex-1 justify-end gap-8 md:mt-0">
         <div class="flex flex-col items-center justify-center gap-2">
-          <span class="text-foreground/80"> 今日目标 </span>
-          <span class="text-3xl">{{ performance.todayPerformance }}</span>
+          <span class="text-foreground/80"> 今日业绩 </span>
+          <span class="text-3xl">{{ todayPerformance }}</span>
           <!-- <el-statistic :value="todayTarget" class="text-3xl" /> -->
         </div>
 
         <div class="mx-12 flex flex-col items-center justify-center gap-2">
-          <span class="text-foreground/80"> 今日已完成 </span>
-          <span class="text-3xl">0</span>
+          <span class="text-foreground/80"> 本月业绩 </span>
+          <span class="text-3xl">{{ currentMonthPerformance }}</span>
         </div>
-        <div class="mr-4 flex flex-col items-center justify-center gap-2">
+        <!-- <div class="mr-4 flex flex-col items-center justify-center gap-2">
           <span class="text-foreground/80"> 今日未完成 </span>
           <span class="text-3xl">1052.63</span>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -73,25 +60,25 @@ onMounted(() => {
       <div class="box flex w-1/4 flex-1 flex-col gap-3 rounded-xl px-4 py-3">
         <span class="text-sm font-light">业绩目标(元)</span>
         <span class="inline-block w-full truncate text-3xl font-bold" title="0">
-          20
+          -
         </span>
       </div>
       <div class="box flex w-1/4 flex-1 flex-col gap-3 rounded-xl px-4 py-3">
         <span class="text-sm font-light">已完成(元)</span>
         <span class="inline-block w-full truncate text-3xl font-bold" title="0">
-          0
+          -
         </span>
       </div>
       <div class="box flex w-1/4 flex-1 flex-col gap-3 rounded-xl px-4 py-3">
         <span class="text-sm font-light">未完成(元)</span>
         <span class="inline-block w-full truncate text-3xl font-bold" title="0">
-          0
+          -
         </span>
       </div>
       <div class="box flex w-1/4 flex-1 flex-col gap-3 rounded-xl px-4 py-3">
         <span class="text-sm font-light">完成率</span>
         <span class="inline-block w-full truncate text-3xl font-bold" title="0">
-          0%
+          -
         </span>
       </div>
     </div>

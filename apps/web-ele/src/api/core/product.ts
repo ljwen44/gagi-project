@@ -27,28 +27,28 @@ export interface ProductDto {
  * 根据ID查询产品详情
  */
 export const getProductById = (id: string) =>
-  requestClient.get(`/api/product/${id}`);
+  requestClient.get(`/product/${id}`);
 
 /**
  * 根据ID删除产品
  */
 export const deleteProductById = (id: string) =>
-  requestClient.delete(`/api/product/${id}`);
+  requestClient.delete(`/product/${id}`);
 
 /**
  * 新增产品
  */
 export const addProduct = (data: any): Promise<ProductDto> =>
-  requestClient.post(`/api/product/add`, { data });
+  requestClient.post(`/product/add`, { data });
 
 /**
  * 分页条件查询产品
  */
 export const getProdcutList = (params: GetProductListParams) =>
-  requestClient.get(`/api/product/page`, { params });
+  requestClient.get(`/product/page`, { params });
 
 /**
  * 更新产品
  */
 export const updateProduct = (data: any) =>
-  requestClient.put(`/api/product/update`, { data });
+  requestClient.put(`/product/update`, { data });
