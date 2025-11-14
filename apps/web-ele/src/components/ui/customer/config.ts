@@ -5,7 +5,7 @@ import ASelect from '#/components/common/select/index.vue';
 export const modalFormItems: IFormItem[] = [
   {
     label: '客户编号',
-    prop: 'customerCode',
+    prop: 'customerNo',
     componentProps: {
       placeholder: '请输入客户编号',
     },
@@ -21,7 +21,7 @@ export const modalFormItems: IFormItem[] = [
   },
   {
     label: '公司名称',
-    prop: 'company',
+    prop: 'companyName',
     componentProps: {
       placeholder: '请输入公司名称',
       maxlength: 100,
@@ -39,7 +39,7 @@ export const modalFormItems: IFormItem[] = [
   },
   {
     label: '客户来源',
-    prop: 'customerOrigin',
+    prop: 'customerSource',
     component: ASelect,
     componentProps: {
       placeholder: '请选择客户来源',
@@ -76,21 +76,21 @@ export const modalFormItems: IFormItem[] = [
   },
   {
     label: '客户手机',
-    prop: 'customerPhone',
+    prop: 'phone',
     componentProps: {
       placeholder: '请输入客户手机',
     },
   },
   {
     label: '微信/QQ',
-    prop: 'contact',
+    prop: 'wechatQq',
     componentProps: {
       placeholder: '请输入微信/QQ',
     },
   },
   {
     label: '详细地址',
-    prop: 'address',
+    prop: 'detailAddress',
     class: 'col-span-2',
   },
   {

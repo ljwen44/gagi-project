@@ -10,11 +10,16 @@ import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetai
 import { columns, formItems } from './config';
 
 const showModal = ref(false);
+
+const beforeQuery = (queryParams: Record<string, any>) => {
+  queryParams.isPublicSea = 1;
+};
 </script>
 
 <template>
   <TableLayout
-    :api="() => getCustomerList({ isPublicSea: 1 })"
+    :api="getCustomerList"
+    :before-query
     :columns
     :form-items="formItems"
   >

@@ -11,16 +11,18 @@ import ASelect from '#/components/common/select/index.vue';
 import { modalFormItems, rules } from './config';
 
 export interface FormRefProps {
-  addr?: string;
-  area?: string;
-  company?: string;
-  contact?: string;
-  customerCode?: string;
+  area?: string[];
+  detailAddress?: string;
+  city?: string;
+  district?: string;
+  province?: string;
+  companyName?: string;
+  customerNo?: string;
   customerIndustry?: string;
   customerLevel?: string;
   customerName: string;
-  customerOrigin?: string;
-  customerPhone: string;
+  customerSource?: string;
+  phone: string;
   email?: string;
   position?: string;
   remark?: string;
@@ -34,16 +36,17 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const form = ref<FormRefProps>(
-  props.defaultForm || {
-    customerName: '',
-    customerOrigin: '',
-    customerLevel: '',
-    customerPhone: '',
-  },
-);
+const initForm = {
+  customerName: '',
+  customerSource: '',
+  customerLevel: '',
+  phone: '',
+};
+
+const form = ref<FormRefProps>(props.defaultForm || { ...initForm });
 const showModal = ref(false);
 const formRef = useTemplateRef('formRef');
+const tags = ref([]);
 
 const onConfirm = () => {
   formRef.value?.instance.validate((valid: boolean) => {
@@ -53,12 +56,16 @@ const onConfirm = () => {
   });
 };
 
-const openModal = () => {
+const openModal = (target?: FormRefProps) => {
+  if (target) {
+    form.value = { ...form.value, ...target };
+  }
   showModal.value = true;
 };
 
 const closeModal = () => {
   showModal.value = false;
+  form.value = { ...initForm };
 };
 
 defineExpose({
@@ -72,6 +79,7 @@ defineExpose({
     v-model="showModal"
     :title="title || '新增客户'"
     width="750px"
+    @cancel="closeModal"
     @confirm="onConfirm"
   >
     <AForm
@@ -92,7 +100,7 @@ defineExpose({
             placeholder="请选择城市, 可搜索"
           />
           <Input
-            v-model="form.addr"
+            v-model="form.detailAddress"
             class="flex-1"
             placeholder="请输入详细地址"
           />
@@ -107,9 +115,11 @@ defineExpose({
         </div>
       </template>
       <template #optionalTags>
-        <div class="flex max-h-[100px] flex-wrap gap-2 overflow-y-auto">
+        <div
+          class="flex h-[100px] w-full flex-wrap gap-2 overflow-y-auto rounded-md border border-[var(--el-border-color)] p-2"
+        >
           <el-tag
-            v-for="item in 5"
+            v-for="item in tags"
             :key="item"
             class="cursor-pointer"
             type="primary"

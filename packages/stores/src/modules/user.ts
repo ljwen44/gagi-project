@@ -40,6 +40,12 @@ interface AccessState {
  */
 export const useUserStore = defineStore('core-user', {
   actions: {
+    hasRole(role: string | string[]) {
+      if (Array.isArray(role)) {
+        role.every((r) => this.userRoles.includes(r));
+      }
+      return this.userRoles.includes(role as string);
+    },
     setUserInfo(userInfo: BasicUserInfo | null) {
       // 设置用户信息
       this.userInfo = userInfo;

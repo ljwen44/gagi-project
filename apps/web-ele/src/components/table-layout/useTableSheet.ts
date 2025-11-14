@@ -18,7 +18,7 @@ export interface IProps {
 
 interface FilterProps {
   key: string;
-  symbol: string;
+  symbol?: string;
   value: string;
 }
 
@@ -31,9 +31,9 @@ export const symbolOptions = [
   { label: '大于 等于', value: 'gteq' },
 ];
 
-const symbolOptionsMap = Object.fromEntries(
-  symbolOptions.map((item) => [item.value, item.label]),
-);
+// const symbolOptionsMap = Object.fromEntries(
+//   symbolOptions.map((item) => [item.value, item.label]),
+// );
 
 export const useTableSheet = (props: IProps) => {
   const {
@@ -70,7 +70,7 @@ export const useTableSheet = (props: IProps) => {
   );
 
   const [Modal, ModalApi] = useVbenModal({
-    title: '高级筛选',
+    title: '更多筛选',
     draggable: true,
     class: 'w-[750px]',
     onConfirm: () => {
@@ -83,7 +83,7 @@ export const useTableSheet = (props: IProps) => {
         return ElMessage.error('请填写完整');
       }
       filters.value = form.value.filters.map((item: FilterProps) => ({
-        label: `${columnsLabelMap.value.get(item.key)}-${symbolOptionsMap[item.symbol]}-${item.value}`,
+        label: `${columnsLabelMap.value.get(item.key)}:${item.value}`,
         key: item.key,
       }));
       ModalApi.close();

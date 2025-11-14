@@ -6,12 +6,13 @@ import { Navigation, Share2, Triangle } from '@vben/icons';
 
 export const formItems: FormItemType[] = [
   {
-    label: '关键字',
-    tooltip:
-      '支持客户编码/手机/客户名称/公司名称/职务/标签,或客户编号的精准多号查询,编号之间用英文逗号分割(,)',
-    key: 'keyword',
+    label: '客户名称',
+    // tooltip:
+    //   '支持客户编码/手机/客户名称/公司名称/职务/标签,或客户编号的精准多号查询,编号之间用英文逗号分割(,)',
+    key: 'customerName',
     props: {
-      placeholder: '请输入客户编码/手机/客户名称/公司名称/职务/标签',
+      // placeholder: '请输入客户编码/手机/客户名称/公司名称/职务/标签',
+      placeholder: '请输入客户名称',
     },
   },
 ];
@@ -53,10 +54,10 @@ export const tabbar: TabbarProps[] = [
 ];
 
 export const columns: ITableColumnProps[] = [
-  {
-    type: 'selection',
-    disabledFilter: true,
-  },
+  // {
+  //   type: 'selection',
+  //   disabledFilter: true,
+  // },
   {
     label: '编号',
     type: 'index',
@@ -72,11 +73,13 @@ export const columns: ITableColumnProps[] = [
     label: '客户编号',
     prop: 'customerNo',
     sortable: true,
+    disabledFilter: true,
   },
   {
     label: '客户名称',
     prop: 'customerName',
     sortable: true,
+    disabledFilter: true,
   },
   {
     label: '公司名称',
@@ -87,11 +90,14 @@ export const columns: ITableColumnProps[] = [
     label: '职务',
     prop: 'position',
     sortable: true,
+    disabledFilter: true,
   },
   {
     label: '标签',
     prop: 'tags',
     sortable: true,
+    disabledFilter: true,
+    width: 200,
   },
   // {
   //   label: '是否公海客户',
@@ -123,6 +129,54 @@ export const columns: ITableColumnProps[] = [
     label: '客户来源',
     prop: 'customerSource',
     sortable: true,
+  },
+  {
+    label: '客户行业',
+    prop: 'customerIndustry',
+    sortable: true,
+    disabledFilter: true,
+  },
+  {
+    label: '邮箱',
+    prop: 'email',
+    width: 120,
+    disabledFilter: true,
+  },
+  {
+    label: '联系电话',
+    prop: 'phone',
+    width: 120,
+  },
+  {
+    label: '微信/QQ',
+    prop: 'wechatQq',
+    width: 120,
+    disabledFilter: true,
+  },
+  {
+    label: '城市',
+    prop: 'city',
+    disabledFilter: true,
+  },
+  {
+    label: '省份',
+    prop: 'province',
+  },
+  {
+    label: '区/县',
+    prop: 'district',
+    disabledFilter: true,
+  },
+  {
+    label: '详细地址',
+    prop: 'detailAddress',
+    disabledFilter: true,
+  },
+  {
+    label: '备注',
+    prop: 'remark',
+    disabledFilter: true,
+    width: 180,
   },
   {
     label: '操作',

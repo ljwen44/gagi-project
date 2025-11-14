@@ -25,15 +25,15 @@ const routes: RouteRecordRaw[] = [
           permissionCode: 'customer:list:view',
         },
       },
-      {
-        name: 'CustomerChannel',
-        path: '/customer/channel',
-        component: () => import('#/views/customer/channel/index.vue'),
-        meta: {
-          icon: 'lucide:waves',
-          title: $t('page.customer.channel'),
-        },
-      },
+      // {
+      //   name: 'CustomerChannel',
+      //   path: '/customer/channel',
+      //   component: () => import('#/views/customer/channel/index.vue'),
+      //   meta: {
+      //     icon: 'lucide:waves',
+      //     title: $t('page.customer.channel'),
+      //   },
+      // },
       {
         name: 'CustomerSeas',
         path: '/customer/pool',

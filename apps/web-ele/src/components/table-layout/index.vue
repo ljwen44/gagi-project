@@ -7,7 +7,7 @@ import { Plus, Search } from '@vben/icons';
 import { Input, VbenHelpTooltip, VbenSelect } from '@vben-core/shadcn-ui';
 
 import ATable, { type ITableColumnProps } from '../common/table/index.vue';
-import { type IProps, symbolOptions, useTableSheet } from './useTableSheet';
+import { type IProps, useTableSheet } from './useTableSheet';
 
 type TableLayoutProps = {
   columns: ITableColumnProps[];
@@ -153,7 +153,7 @@ defineExpose({
                 type="primary"
                 @click="ModalApi.open()"
               >
-                高级筛选
+                更多筛选
               </el-button>
             </el-form-item>
           </template>
@@ -195,18 +195,23 @@ defineExpose({
     <Modal>
       <el-form :model="form">
         <el-form-item v-for="item in form.filters" :key="item.key">
-          <div class="mb-4 grid w-full grid-cols-3 gap-2">
+          <div class="mb-4 flex w-full items-center gap-2">
             <VbenSelect
               v-model="item.key"
               :options="filterKeys"
+              class="w-[200px]"
               placeholder="请选择"
             />
-            <VbenSelect
+            <!-- <VbenSelect
               v-model="item.symbol"
               :options="symbolOptions"
               placeholder="请选择"
+            /> -->
+            <el-input
+              v-model="item.value"
+              class="flex-1"
+              placeholder="请输入"
             />
-            <el-input v-model="item.value" placeholder="请输入" />
           </div>
         </el-form-item>
         <el-button class="w-full" @click="appendFilter">

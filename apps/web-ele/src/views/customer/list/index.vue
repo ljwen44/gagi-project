@@ -1,37 +1,48 @@
 <script lang="ts" setup>
 import { ref, useTemplateRef } from 'vue';
 
-import { AlertCircle, Database, Edit } from '@vben/icons';
-import { VbenHelpTooltip } from '@vben-core/shadcn-ui';
+import { Database, Edit } from '@vben/icons';
+import { useUserStore } from '@vben/stores';
+// import { VbenHelpTooltip } from '@vben-core/shadcn-ui';
 
 import { getCustomerList } from '#/api/core/customer';
 import TableLayout from '#/components/table-layout/index.vue';
 import CustomerForm from '#/components/ui/customer/form.vue';
 import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetail.vue';
 
-import { columns, customerFlagMap, formItems, tabbar } from './config';
+import { columns, formItems, tabbar } from './config';
 
 const customerFormRef = useTemplateRef('customerFormRef');
 const showModal = ref(false);
-const handleSelectionChange = () => {
-  // todo
+
+const userStore = useUserStore();
+// const handleSelectionChange = () => {
+//   // todo
+// };
+const beforeQuery = (queryParams: Record<string, any>) => {
+  queryParams.isPublicSea = 0;
 };
 </script>
 
 <template>
   <TableLayout
-    :api="() => getCustomerList({ isPublicSea: 0 })"
+    :api="getCustomerList"
+    :before-query
     :columns
     :form-items="formItems"
     :tabbar="tabbar"
-    @select="handleSelectionChange"
   >
+    <!-- @select="handleSelectionChange" -->
     <template #action>
-      <el-button type="primary" @click="customerFormRef?.openModal()">
+      <el-button
+        v-if="userStore.hasRole('customer:add')"
+        type="primary"
+        @click="customerFormRef?.openModal()"
+      >
         新增
       </el-button>
     </template>
-    <template #customerFlagHeader>
+    <!-- <template #customerFlagHeader>
       <VbenHelpTooltip>
         <template #trigger>
           <AlertCircle class="size-4 text-[#f00]" />
@@ -84,25 +95,30 @@ const handleSelectionChange = () => {
           </div>
         </div>
       </VbenHelpTooltip>
-    </template>
-    <template #customerFlag>
+    </template> -->
+    <!-- <template #customerFlag>
       <span></span>
-    </template>
-    <template #customerCode="{ row }">
+    </template> -->
+    <template #customerNo="{ row }">
       <el-link type="primary" @click="showModal = true">
-        {{ row.customerCode }}
+        {{ row.customerNo }}
       </el-link>
     </template>
-    <template #tag="{ row }">
-      <el-tag v-for="tag in row.tag" :key="tag" class="mr-0.5" type="primary">
+    <template #tags="{ row }">
+      <el-tag
+        v-for="tag in row.tags.split(',')"
+        :key="tag"
+        class="mr-0.5"
+        type="primary"
+      >
         {{ tag }}
       </el-tag>
     </template>
-    <template #operator>
+    <template #operator="{ row }">
       <div class="flex items-center justify-center gap-2">
         <Edit
           class="size-4 cursor-pointer text-[var(--el-color-primary)]"
-          @click="customerFormRef?.openModal()"
+          @click="customerFormRef?.openModal({ ...row })"
         />
         <Database class="size-4 cursor-pointer text-orange-600" />
       </div>

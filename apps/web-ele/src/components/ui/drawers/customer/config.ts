@@ -36,7 +36,7 @@ export enum CustomerTabEnum {
 export const drawerFormItems: IFormItem[] = [
   {
     label: '客户编号',
-    prop: 'customerCode',
+    prop: 'customerNo',
   },
   {
     label: '客户名称',
@@ -48,7 +48,7 @@ export const drawerFormItems: IFormItem[] = [
   },
   {
     label: '公司名称',
-    prop: 'company',
+    prop: 'companyName',
   },
   {
     label: '职务',
@@ -57,7 +57,7 @@ export const drawerFormItems: IFormItem[] = [
   },
   {
     label: '客户来源',
-    prop: 'customerOrigin',
+    prop: 'customerSource',
   },
   {
     label: '客户级别',
@@ -69,11 +69,11 @@ export const drawerFormItems: IFormItem[] = [
   },
   {
     label: '客户手机',
-    prop: 'customerPhone',
+    prop: 'phone',
   },
   {
     label: '微信/QQ',
-    prop: 'contact',
+    prop: 'wechatQq',
   },
   {
     label: '客户邮箱',
@@ -89,11 +89,11 @@ export const drawerFormItems: IFormItem[] = [
     prop: 'tags',
     class: 'col-span-3',
   },
-  {
-    label: '可选标签',
-    prop: 'optionalTags',
-    class: 'col-span-3',
-  },
+  // {
+  //   label: '可选标签',
+  //   prop: 'optionalTags',
+  //   class: 'col-span-3',
+  // },
   {
     label: '备注',
     prop: 'remark',

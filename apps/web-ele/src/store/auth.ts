@@ -30,20 +30,18 @@ export const useAuthStore = defineStore('auth', () => {
     // 异步处理用户登录操作并获取 accessToken
     const userInfo: any | UserInfo = {
       username: params.username as string,
-      permissions: [],
+      roles: [],
     };
     try {
       loginLoading.value = true;
       await loginApi(params);
       const data = await getAccessCodesApi();
-      const permissions = extractPermissionCodes(data);
-      userInfo.permissions = permissions;
+      const roles = extractPermissionCodes(data);
+      userInfo.roles = roles;
       accessStore.setAccessToken(params.password);
       userStore.setUserInfo(userInfo);
       accessStore.setAccessCodes(data);
-      onSuccess
-        ? await onSuccess?.()
-        : await router.push(userInfo?.homePath || DEFAULT_HOME_PATH);
+      onSuccess ? await onSuccess?.() : await toHomePage();
       // const { accessToken } = await loginApi(params);
 
       // 如果成功获取到 accessToken
@@ -85,6 +83,15 @@ export const useAuthStore = defineStore('auth', () => {
     return {
       userInfo,
     };
+  }
+
+  async function toHomePage() {
+    await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 500);
+    });
+    router.push(DEFAULT_HOME_PATH);
   }
 
   async function logout(redirect: boolean = true) {
