@@ -89,9 +89,12 @@ export const useAuthStore = defineStore('auth', () => {
     await new Promise<void>((resolve) => {
       setTimeout(() => {
         resolve();
-      }, 500);
+      }, 1000);
     });
-    router.push(DEFAULT_HOME_PATH);
+    router.push({
+      path: DEFAULT_HOME_PATH,
+      replace: true,
+    });
   }
 
   async function logout(redirect: boolean = true) {

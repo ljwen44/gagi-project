@@ -31,7 +31,7 @@ export const getCustomerById = (id: string) =>
  * 新增客户
  */
 export const addCustomer = (data: any): Promise<CustomerDto> =>
-  requestClient.post(`/customer/add`, { data });
+  requestClient.post(`/customer/add`, data);
 
 /**
  * 分页条件查询客户

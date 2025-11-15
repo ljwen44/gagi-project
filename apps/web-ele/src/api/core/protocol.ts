@@ -36,7 +36,7 @@ export const addAgreement = (data: any): Promise<AgreementDto> =>
  * 分页条件查询协议
  */
 export const getAgreementList = (data: any) =>
-  requestClient.post(`/agreement/page`, { data });
+  requestClient.post(`/agreement/page`, data);
 
 /**
  * 查询协议审批待办

@@ -13,7 +13,9 @@ import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetai
 import { columns, formItems, tabbar } from './config';
 
 const customerFormRef = useTemplateRef('customerFormRef');
+const tableLayoutRef = useTemplateRef('tableLayoutRef');
 const showModal = ref(false);
+const currentForm = ref({});
 
 const userStore = useUserStore();
 // const handleSelectionChange = () => {
@@ -22,10 +24,19 @@ const userStore = useUserStore();
 const beforeQuery = (queryParams: Record<string, any>) => {
   queryParams.isPublicSea = 0;
 };
+
+const refreshData = () => {
+  tableLayoutRef.value?.query();
+};
+const openCustomerDetail = (row: any) => {
+  currentForm.value = row;
+  showModal.value = true;
+};
 </script>
 
 <template>
   <TableLayout
+    ref="tableLayoutRef"
     :api="getCustomerList"
     :before-query
     :columns
@@ -100,13 +111,17 @@ const beforeQuery = (queryParams: Record<string, any>) => {
       <span></span>
     </template> -->
     <template #customerNo="{ row }">
-      <el-link type="primary" @click="showModal = true">
+      <el-text
+        class="cursor-pointer"
+        type="primary"
+        @click="openCustomerDetail(row)"
+      >
         {{ row.customerNo }}
-      </el-link>
+      </el-text>
     </template>
     <template #tags="{ row }">
       <el-tag
-        v-for="tag in row.tags.split(',')"
+        v-for="tag in row.tags?.split(',')"
         :key="tag"
         class="mr-0.5"
         type="primary"
@@ -118,15 +133,28 @@ const beforeQuery = (queryParams: Record<string, any>) => {
       <div class="flex items-center justify-center gap-2">
         <Edit
           class="size-4 cursor-pointer text-[var(--el-color-primary)]"
-          @click="customerFormRef?.openModal({ ...row })"
+          @click="
+            customerFormRef?.openModal({
+              target: {
+                ...row,
+                area: [row.province, row.city, row.district],
+                tags: row.tags?.split(','),
+              },
+              title: '编辑客户',
+            })
+          "
         />
         <Database class="size-4 cursor-pointer text-orange-600" />
       </div>
     </template>
 
-    <CustomerForm ref="customerFormRef" />
+    <CustomerForm ref="customerFormRef" @confirm="refreshData" />
 
-    <CustomerDetailDrawer id="" :show="showModal" @closed="showModal = false" />
+    <CustomerDetailDrawer
+      :form="currentForm"
+      :show="showModal"
+      @closed="showModal = false"
+    />
   </TableLayout>
 </template>
 

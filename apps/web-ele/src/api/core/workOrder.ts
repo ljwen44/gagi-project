@@ -24,13 +24,13 @@ export const getWorkOrderById = (id: string) =>
  * 新增工单
  */
 export const addWorkOrder = (data: any): Promise<WorkOrderDto> =>
-  requestClient.post(`/work-order/add`, { data });
+  requestClient.post(`/work-order/add`, data);
 
 /**
  * 分页条件查询工单
  */
 export const getWorkOrderList = (data: any) =>
-  requestClient.post(`/work-order/page`, { data });
+  requestClient.post(`/work-order/page`, data);
 
 /**
  * 查询协议审批待办

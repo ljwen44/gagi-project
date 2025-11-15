@@ -15,8 +15,9 @@ import {
 } from './config';
 
 interface IProps {
-  id: string;
+  id?: string;
   show: boolean;
+  form: Record<string, any>;
 }
 
 defineProps<IProps>();
@@ -33,14 +34,6 @@ const handleClosed = () => {
 const handleTabChange = (activeName: CustomerTabEnum) => {
   activeTab.value = activeName;
 };
-
-const form = drawerFormItems.reduce(
-  (prev, next) => {
-    prev[next.prop] = 'mock data';
-    return prev;
-  },
-  {} as Record<string, any>,
-);
 </script>
 
 <template>
@@ -58,7 +51,16 @@ const form = drawerFormItems.reduce(
           <el-tooltip content="修改" placement="top">
             <div
               class="cursor-pointer rounded-md bg-blue-200 p-2"
-              @click="customerFormRef?.openModal()"
+              @click="
+                customerFormRef?.openModal({
+                  target: {
+                    ...form,
+                    area: [form.province, form.city, form.district],
+                    tags: form.tags?.split(','),
+                  },
+                  title: '编辑客户',
+                })
+              "
             >
               <SquarePen class="size-3 text-blue-600" />
             </div>
@@ -70,6 +72,16 @@ const form = drawerFormItems.reduce(
           </el-tooltip>
         </div>
       </slot>
+    </template>
+    <template #tags="{ data }">
+      <el-tag
+        v-for="(tag, index) in data?.split(',')"
+        :key="index"
+        class="mr-2"
+        type="primary"
+      >
+        {{ tag }}
+      </el-tag>
     </template>
     <div class="flex flex-col gap-2 py-4">
       <el-tabs v-model="activeTab" @tab-change="handleTabChange">

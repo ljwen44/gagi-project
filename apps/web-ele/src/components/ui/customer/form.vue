@@ -4,13 +4,17 @@ import { ref, useTemplateRef } from 'vue';
 import { CircleHelp } from '@vben/icons';
 import { Input } from '@vben-core/shadcn-ui';
 
+import { ElMessage } from 'element-plus';
+
+import { addCustomer } from '#/api/core/customer';
+import Aaddress from '#/components/common/address/index.vue';
 import AForm from '#/components/common/form/index.vue';
 import AModal from '#/components/common/modal/index.vue';
-import ASelect from '#/components/common/select/index.vue';
 
 import { modalFormItems, rules } from './config';
 
 export interface FormRefProps {
+  id?: number;
   area?: string[];
   detailAddress?: string;
   city?: string;
@@ -20,9 +24,9 @@ export interface FormRefProps {
   customerNo?: string;
   customerIndustry?: string;
   customerLevel?: string;
-  customerName: string;
+  customerName?: string;
   customerSource?: string;
-  phone: string;
+  phone?: string;
   email?: string;
   position?: string;
   remark?: string;
@@ -30,35 +34,34 @@ export interface FormRefProps {
 }
 
 interface IProps {
-  title?: string;
   defaultForm?: FormRefProps;
 }
 
 const props = defineProps<IProps>();
 
+const emits = defineEmits(['confirm']);
+
 const initForm = {
+  customerNo: '',
   customerName: '',
   customerSource: '',
   customerLevel: '',
   phone: '',
 };
 
+const modalTitle = ref('新增客户');
 const form = ref<FormRefProps>(props.defaultForm || { ...initForm });
 const showModal = ref(false);
 const formRef = useTemplateRef('formRef');
 const tags = ref([]);
 
-const onConfirm = () => {
-  formRef.value?.instance.validate((valid: boolean) => {
-    if (valid) {
-      // TODO 提交表单
-    }
-  });
-};
-
-const openModal = (target?: FormRefProps) => {
+const openModal = (params?: { target?: FormRefProps; title?: string }) => {
+  const { target, title } = params || {};
   if (target) {
     form.value = { ...form.value, ...target };
+  }
+  if (title) {
+    modalTitle.value = title;
   }
   showModal.value = true;
 };
@@ -66,6 +69,18 @@ const openModal = (target?: FormRefProps) => {
 const closeModal = () => {
   showModal.value = false;
   form.value = { ...initForm };
+  formRef.value?.instance.resetFields();
+};
+
+const onConfirm = async () => {
+  try {
+    await formRef.value?.instance.validate();
+    const api = form.value.id ? addCustomer : addCustomer;
+    await api(form.value);
+    ElMessage.success('操作成功');
+    closeModal();
+    emits('confirm');
+  } catch {}
 };
 
 defineExpose({
@@ -77,9 +92,9 @@ defineExpose({
 <template>
   <AModal
     v-model="showModal"
-    :title="title || '新增客户'"
+    :title="modalTitle"
     width="750px"
-    @cancel="closeModal"
+    @close="closeModal"
     @confirm="onConfirm"
   >
     <AForm
@@ -91,12 +106,11 @@ defineExpose({
       label-position="right"
       label-width="100"
     >
-      <template #address>
+      <template #detailAddress>
         <div class="flex w-full items-center gap-2">
-          <ASelect
+          <Aaddress
             v-model="form.area"
-            :options="[]"
-            class="w-[200px]"
+            class="w-[250px]"
             placeholder="请选择城市, 可搜索"
           />
           <Input

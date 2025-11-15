@@ -39,7 +39,7 @@ export const deleteProductById = (id: string) =>
  * 新增产品
  */
 export const addProduct = (data: any): Promise<ProductDto> =>
-  requestClient.post(`/product/add`, { data });
+  requestClient.post(`/product/add`, data);
 
 /**
  * 分页条件查询产品
@@ -51,4 +51,4 @@ export const getProdcutList = (params: GetProductListParams) =>
  * 更新产品
  */
 export const updateProduct = (data: any) =>
-  requestClient.put(`/product/update`, { data });
+  requestClient.put(`/product/update`, data);

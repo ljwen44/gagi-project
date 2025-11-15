@@ -1,26 +1,31 @@
 <script setup lang="ts">
 import type { SelectProps } from 'element-plus';
 
-import { defineModel, useAttrs } from 'vue';
+import { defineModel } from 'vue';
 
-type IProps = {
+// type IProps = {
+//   options: Array<{ disabled?: boolean; label: string; value: any }>;
+//   placeholder?: string;
+// } & SelectProps;
+
+interface IProps extends SelectProps {
   options: Array<{ disabled?: boolean; label: string; value: any }>;
   placeholder?: string;
-} & Partial<SelectProps>;
+  width?: number | string;
+}
 
 defineProps<IProps>();
 
 const modelValue = defineModel();
-
-const attrs = useAttrs();
 </script>
 
 <template>
   <el-select
     v-model="modelValue"
-    :style="{ width: attrs.width || '200px' }"
-    v-bind="attrs"
+    :style="{ width: width || '200px' }"
+    v-bind="$props"
     :placeholder
+    clearable
   >
     <el-option
       v-for="item in options"

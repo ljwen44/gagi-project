@@ -43,7 +43,11 @@ export const modalFormItems: IFormItem[] = [
     component: ASelect,
     componentProps: {
       placeholder: '请选择客户来源',
-      options: [],
+      options: [
+        { label: '线上推广', value: '线上推广' },
+        { label: '线下推广', value: '线下推广' },
+        { label: '朋友介绍', value: '朋友介绍' },
+      ],
       width: '100%',
     },
   },
@@ -53,7 +57,10 @@ export const modalFormItems: IFormItem[] = [
     component: ASelect,
     componentProps: {
       placeholder: '请选择客户级别',
-      options: [],
+      options: [
+        { label: '普通客户', value: '普通客户' },
+        { label: 'VIP', value: 'VIP' },
+      ],
       width: '100%',
     },
   },
@@ -63,7 +70,11 @@ export const modalFormItems: IFormItem[] = [
     component: ASelect,
     componentProps: {
       placeholder: '请选择客户行业',
-      options: [],
+      options: [
+        { label: '互联网', value: '互联网' },
+        { label: '房地产', value: '房地产' },
+        { label: '农业', value: '农业' },
+      ],
       width: '100%',
     },
   },
@@ -101,6 +112,11 @@ export const modalFormItems: IFormItem[] = [
     componentProps: {
       placeholder: '请选择/输入标签',
       options: [],
+      multiple: true,
+      filterable: true,
+      'allow-create': true,
+      'collapse-tags': true,
+      'collapse-tags-tooltip': true,
     },
   },
   {
@@ -123,16 +139,44 @@ export const modalFormItems: IFormItem[] = [
 ];
 
 export const rules = {
+  customerNo: [
+    { required: true, message: '客户编号不能为空', trigger: 'blur' },
+  ],
   customerName: [
     { required: true, message: '请输入客户名称', trigger: 'blur' },
   ],
-  customerOrigin: [
+  customerSource: [
     { required: true, message: '请选择客户来源', trigger: 'change' },
   ],
   customerLevel: [
     { required: true, message: '请选择客户级别', trigger: 'change' },
   ],
-  customerPhone: [
-    { required: true, message: '请输入客户手机', trigger: 'blur' },
+  phone: [
+    {
+      required: true,
+      trigger: 'blur',
+      validator: (_: any, value: any, cb: any) => {
+        if (!value) {
+          return cb(new Error('请输入客户手机'));
+        }
+        const phoneReg = /^1[3-9]\d{9}$/;
+        if (!phoneReg.test(value)) {
+          return cb(new Error('请输入正确的手机号码'));
+        }
+        return cb();
+      },
+    },
+  ],
+  email: [
+    {
+      trigger: 'blur',
+      validator: (_: any, value: any, cb: any) => {
+        const emailReg = /^[\w.%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
+        if (value && !emailReg.test(value)) {
+          return cb(new Error('请输入正确的邮箱格式'));
+        }
+        return cb();
+      },
+    },
   ],
 };
