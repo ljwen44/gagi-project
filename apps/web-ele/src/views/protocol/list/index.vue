@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, useTemplateRef } from 'vue';
 
 import { AlertCircle, Bug } from '@vben/icons';
-import { mockApi } from '@vben/utils';
-import { VbenHelpTooltip } from '@vben-core/shadcn-ui';
 
+import { getAgreementList } from '#/api/core/protocol';
 import ATable from '#/components/common/table/index.vue';
 import TableLayout from '#/components/table-layout/index.vue';
 import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetail.vue';
@@ -21,44 +20,69 @@ import {
 
 const modalType = ref(MODAL_TYPE.INIT);
 const showModal = ref(false);
+const currentTab = ref('');
+const tableLayoutRef = useTemplateRef('tableLayoutRef');
+
+const beforeQuery = (queryParams: any) => {
+  if (currentTab.value === 'all') {
+    queryParams.agreementType = '';
+    return;
+  }
+  queryParams.agreementType = currentTab.value;
+};
+const handleTabChange = (tab: string) => {
+  currentTab.value = tab;
+
+  tableLayoutRef.value?.query();
+};
 </script>
 
 <template>
   <TableLayout
-    :api="() => mockApi(columns)"
+    ref="tableLayoutRef"
+    :api="getAgreementList"
+    :before-query
     :columns
     :expand="true"
     :form-items="formItems"
-    :tabbar="tabbar"
+    :tabbar
+    hidden-filter
+    @tab-change="handleTabChange"
   >
     <template #action>
       <el-button type="primary" @click="showModal = true"> 新增 </el-button>
     </template>
-    <template #protocolHeader>
-      <VbenHelpTooltip>
-        <template #trigger>
+    <template #agreementNoHeader>
+      <el-tooltip placement="top">
+        <template #content>
+          <div class="flex flex-col gap-2">111</div>
+        </template>
+        <div class="inline-flex items-center gap-1">
           <span>协议编号</span>
           <AlertCircle class="ml-1 inline-block size-4 text-[#f00]" />
-        </template>
-        <div class="flex flex-col gap-2">111</div>
-      </VbenHelpTooltip>
+        </div>
+      </el-tooltip>
     </template>
-    <template #protocol="{ row }">
-      <el-link type="primary" @click="modalType = MODAL_TYPE.PROTOCOL">
-        {{ row.protocol }}
-      </el-link>
+    <template #agreementNo="{ row }">
+      <el-text
+        class="cursor-pointer"
+        type="primary"
+        @click="modalType = MODAL_TYPE.PROTOCOL"
+      >
+        {{ row.agreementNo }}
+      </el-text>
     </template>
 
-    <template #customerCode="{ row }">
+    <template #customerNo="{ row }">
       <el-link type="primary" @click="modalType = MODAL_TYPE.CUSTOMER">
-        {{ row.customerCode }}
+        {{ row.customerNo }}
       </el-link>
     </template>
 
     <template #status="{ row }">
       <el-tag effect="dark" type="success">{{ row.status }}</el-tag>
     </template>
-    <template #workOrderStatus="{ row }">
+    <!-- <template #workOrderStatus="{ row }">
       <el-tag type="success">{{ row.workOrderStatus }}</el-tag>
     </template>
     <template #amountStatus="{ row }">
@@ -70,7 +94,7 @@ const showModal = ref(false);
     </template>
     <template #allocation="{ row }">
       <el-tag type="primary">{{ row.allocation }}</el-tag>
-    </template>
+    </tem<plate>
     <template #hasTicket="{ row }">
       <el-tag type="primary">{{ row.hasTicket }}</el-tag>
     </template>
@@ -79,7 +103,7 @@ const showModal = ref(false);
     </template>
     <template #protocolType="{ row }">
       <el-tag type="primary">{{ row.protocolType }}</el-tag>
-    </template>
+    </template> -->
 
     <template #expand>
       <Bug
@@ -103,7 +127,7 @@ const showModal = ref(false);
     />
 
     <CustomerDetailDrawer
-      id=""
+      :form="{}"
       :show="modalType === MODAL_TYPE.CUSTOMER"
       @closed="modalType = MODAL_TYPE.INIT"
     />

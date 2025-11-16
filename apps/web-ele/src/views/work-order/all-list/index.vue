@@ -1,71 +1,89 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, useTemplateRef } from 'vue';
 
 import { Bell, Flag, NotebookText, RefreshCcw } from '@vben/icons';
-import { mockApi } from '@vben/utils';
 
+import { getWorkOrderList } from '#/api/core/workOrder';
 import TableLayout from '#/components/table-layout/index.vue';
 import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetail.vue';
 import ProtocolDrawer from '#/components/ui/drawers/protocol/protocolDrawer.vue';
 import WorkOrderDrawer from '#/components/ui/drawers/workOrder/allList/workOrderDrawer.vue';
 
+import {
+  AuditStatusMap,
+  ConfirmMap,
+  ReceiveStatusMap,
+  WorkStatusMap,
+} from '../commonConfig';
 import { columns, formItems, MODAL_TYPE, tabbar } from './config';
 
 const modalType = ref(MODAL_TYPE.INIT);
+const currentTab = ref('');
+const tableLayoutRef = useTemplateRef('tableLayoutRef');
+
+const beforeQuery = (queryParams: any) => {
+  if (currentTab.value === 'all') {
+    queryParams.orderType = '';
+    return;
+  }
+  queryParams.orderType = currentTab.value;
+};
+const handleTabChange = (tab: string) => {
+  currentTab.value = tab;
+
+  tableLayoutRef.value?.query();
+};
 </script>
 
 <template>
   <TableLayout
-    :api="() => mockApi(columns)"
+    ref="tableLayoutRef"
+    :api="getWorkOrderList"
+    :before-query
     :columns
     :form-items="formItems"
     :tabbar
+    @tab-change="handleTabChange"
   >
-    <template #number="{ row }">
+    <template #orderNo="{ row }">
       <el-link type="primary" @click="modalType = MODAL_TYPE.WORKORDER">
-        {{ row.number }}
+        {{ row.orderNo }}
       </el-link>
     </template>
 
-    <template #customerCode="{ row }">
+    <template #customerNo="{ row }">
       <el-link type="primary" @click="modalType = MODAL_TYPE.CUSTOMER">
-        {{ row.customerCode }}
+        {{ row.customerNo }}
       </el-link>
     </template>
 
-    <template #protocol="{ row }">
+    <template #agreementNo="{ row }">
       <el-link type="primary" @click="modalType = MODAL_TYPE.PROTOCOL">
-        {{ row.protocol }}
+        {{ row.agreementNo }}
       </el-link>
     </template>
 
-    <template #status="{ row }">
+    <template #auditStatus="{ row }">
       <el-tag effect="dark" type="success">
-        {{ row.status }}
+        {{ AuditStatusMap[row.auditStatus] }}
       </el-tag>
     </template>
 
-    <template #confirm="{ row }">
+    <template #customerConfirm="{ row }">
       <el-tag effect="dark" type="info">
-        {{ row.confirm }}
+        {{ ConfirmMap[row.customerConfirm] }}
       </el-tag>
     </template>
 
-    <template #acceptStatus="{ row }">
+    <template #receiveStatus="{ row }">
       <el-tag effect="dark" type="success">
-        {{ row.acceptStatus }}
+        {{ ReceiveStatusMap[row.receiveStatus] }}
       </el-tag>
     </template>
 
-    <template #orderStatus="{ row }">
+    <template #workStatus="{ row }">
       <el-tag effect="dark" type="success">
-        {{ row.orderStatus }}
-      </el-tag>
-    </template>
-
-    <template #finishConfirm="{ row }">
-      <el-tag effect="dark" type="success">
-        {{ row.finishConfirm }}
+        {{ WorkStatusMap[row.workStatus] }}
       </el-tag>
     </template>
 
@@ -85,7 +103,7 @@ const modalType = ref(MODAL_TYPE.INIT);
     />
 
     <CustomerDetailDrawer
-      id=""
+      :form="{}"
       :show="modalType === MODAL_TYPE.CUSTOMER"
       @closed="modalType = MODAL_TYPE.INIT"
     />

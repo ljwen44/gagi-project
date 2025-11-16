@@ -131,7 +131,11 @@ const handleNext = () => {
               </slot>
             </template>
             <slot :data="form[item.prop!]" :name="item.prop">
-              <el-text type="primary">{{ form[item.prop!] }}</el-text>
+              <el-text type="primary">
+                {{
+                  item.format ? item.format(form[item.prop!]) : form[item.prop!]
+                }}
+              </el-text>
             </slot>
           </el-form-item>
         </el-form>

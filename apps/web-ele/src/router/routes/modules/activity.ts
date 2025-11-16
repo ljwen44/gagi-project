@@ -10,6 +10,7 @@ const routes: RouteRecordRaw[] = [
       icon: 'lucide:megaphone',
       order: 6,
       title: $t('page.activity.title'),
+      hideInMenu: true,
     },
     name: 'Activity',
     path: '/activity',

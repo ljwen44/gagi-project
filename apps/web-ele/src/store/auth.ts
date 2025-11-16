@@ -91,10 +91,7 @@ export const useAuthStore = defineStore('auth', () => {
         resolve();
       }, 1000);
     });
-    router.push({
-      path: DEFAULT_HOME_PATH,
-      replace: true,
-    });
+    window.location.href = DEFAULT_HOME_PATH;
   }
 
   async function logout(redirect: boolean = true) {

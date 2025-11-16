@@ -17,4 +17,5 @@ export interface TabbarProps {
   key: string;
   tooltip?: string;
   badge?: number;
+  permissionCode?: string;
 }

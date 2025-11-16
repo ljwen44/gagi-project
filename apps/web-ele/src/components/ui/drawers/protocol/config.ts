@@ -20,7 +20,7 @@ export enum ProtocolTabEnum {
 export const protocolFormItems: IFormItem[] = [
   {
     label: '协议编号',
-    prop: 'number',
+    prop: 'agreementNo',
   },
   {
     label: '协议抬头',
@@ -32,7 +32,7 @@ export const protocolFormItems: IFormItem[] = [
   },
   {
     label: '客户编号',
-    prop: 'customerCode',
+    prop: 'customerNo',
   },
   {
     label: '客户名称',
@@ -56,11 +56,11 @@ export const protocolFormItems: IFormItem[] = [
   },
   {
     label: '协议金额',
-    prop: 'pAmount',
+    prop: 'agreementAmount',
   },
   {
     label: '实收金额',
-    prop: 'amount',
+    prop: 'receivedAmount',
   },
   {
     label: '协议成本',
@@ -76,15 +76,15 @@ export const protocolFormItems: IFormItem[] = [
   },
   {
     label: '协议税费',
-    prop: 'pFee',
+    prop: 'agreementTax',
   },
   {
     label: '预算业绩',
-    prop: 'performanceAmount',
+    prop: 'budgetPerformance',
   },
   {
     label: '实际业绩',
-    prop: 'actualAmount',
+    prop: 'actualPerformance',
   },
   {
     label: '业绩分配',
@@ -92,7 +92,7 @@ export const protocolFormItems: IFormItem[] = [
   },
   {
     label: '销售成本',
-    prop: 'saleCost',
+    prop: 'salesCost',
     class: 'col-span-3',
   },
   {
@@ -118,7 +118,7 @@ export const protocolFormItems: IFormItem[] = [
   },
   {
     label: '真实名',
-    prop: 'name',
+    prop: 'realName',
   },
   {
     label: '所属部门',

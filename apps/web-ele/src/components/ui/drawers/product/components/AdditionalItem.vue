@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { FormItemType } from '@vben/types';
 
+import { mockApi } from '@vben/utils';
+
 import TableLayout from '#/components/table-layout/index.vue';
 
 import { additionalItemColumns } from '../config';
@@ -18,7 +20,7 @@ const formItems: FormItemType[] = [
 
 <template>
   <TableLayout
-    :api="() => {}"
+    :api="() => mockApi(additionalItemColumns)"
     :columns="additionalItemColumns"
     :form-items="formItems"
     :hidden-filter="true"

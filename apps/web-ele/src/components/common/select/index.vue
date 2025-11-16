@@ -8,7 +8,7 @@ import { defineModel } from 'vue';
 //   placeholder?: string;
 // } & SelectProps;
 
-interface IProps extends SelectProps {
+interface IProps extends Partial<SelectProps> {
   options: Array<{ disabled?: boolean; label: string; value: any }>;
   placeholder?: string;
   width?: number | string;

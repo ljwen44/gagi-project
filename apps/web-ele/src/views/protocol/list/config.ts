@@ -14,12 +14,20 @@ export enum MODAL_TYPE {
 
 export const formItems: FormItemType[] = [
   {
-    label: '关键字',
-    tooltip:
-      '支持协议编号/客户编码/客户抬头/联系人/联系手机,或协议编号/客户编号的精准多号查询,编号之间用英文逗号分割(,)',
-    key: 'keyword',
+    label: '协议编号',
+    // tooltip:
+    //   '支持协议编号/客户编码/客户抬头/联系人/联系手机,或协议编号/客户编号的精准多号查询,编号之间用英文逗号分割(,)',
+    key: 'agreementNo',
     props: {
-      placeholder: '请输入协议编号/客户编码/客户抬头/联系人/联系手机',
+      // placeholder: '请输入协议编号/客户编码/客户抬头/联系人/联系手机',
+      placeholder: '请输入协议编号',
+    },
+  },
+  {
+    label: '协议标题',
+    key: 'agreementTitle',
+    props: {
+      placeholder: '请输入协议标题',
     },
   },
 ];
@@ -28,14 +36,17 @@ export const tabbar: TabbarProps[] = [
   {
     label: '全部协议',
     key: 'all',
+    permissionCode: 'agreement:list:all',
   },
   {
     label: '普通协议',
     key: 'normal',
+    permissionCode: 'agreement:list:normal',
   },
   {
     label: '异常协议',
     key: 'abnormal',
+    permissionCode: 'agreement:list:abnormal',
   },
 ];
 
@@ -71,6 +82,7 @@ export const columns: ITableColumnProps[] = [
     label: '审核状态',
     prop: 'status',
     sortable: true,
+    width: 150,
   },
   // {
   //   label: '工单状况',
@@ -90,16 +102,22 @@ export const columns: ITableColumnProps[] = [
   {
     label: '协议金额',
     prop: 'agreementAmount',
+    format: (value) => value?.toFixed(2),
+    width: 150,
   },
   {
     label: '实收金额',
     prop: 'receivedAmount',
     sortable: true,
+    format: (value) => value?.toFixed(2),
+    width: 150,
   },
   {
     label: '协议税额',
     prop: 'agreementTax',
     sortable: true,
+    format: (value) => value?.toFixed(2),
+    width: 150,
   },
   // {
   //   label: '是否开票',
@@ -114,11 +132,15 @@ export const columns: ITableColumnProps[] = [
   {
     label: '预算业绩',
     prop: 'budgetPerformance',
+    format: (value) => value?.toFixed(2),
+    width: 150,
   },
   {
     label: '实际业绩',
     prop: 'actualPerformance',
     sortable: true,
+    format: (value) => value?.toFixed(2),
+    width: 150,
   },
   // {
   //   label: '到款金额',
@@ -139,6 +161,8 @@ export const columns: ITableColumnProps[] = [
     label: '销售成本',
     prop: 'salesCost',
     sortable: true,
+    format: (value) => value?.toFixed(2),
+    width: 150,
   },
   // {
   //   label: '协议类型',
@@ -184,10 +208,12 @@ export const columns: ITableColumnProps[] = [
   {
     label: '创建时间',
     prop: 'createTime',
+    width: 180,
   },
   {
     label: '更新时间',
     prop: 'updateTime',
+    width: 180,
   },
   {
     label: '操作',

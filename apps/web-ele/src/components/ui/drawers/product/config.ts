@@ -15,15 +15,32 @@ export enum ProductTabEnum {
 }
 
 export const drawerFormItems: IFormItem[] = [
-  { label: '产品编号', prop: 'number' },
-  { label: '产品名称', prop: 'name' },
-  { label: '服务分类', prop: 'type' },
+  { label: '产品编号', prop: 'productNo' },
+  { label: '产品名称', prop: 'productName' },
+  { label: '服务分类', prop: 'categoryId' },
   { label: '国家', prop: 'country' },
-  { label: '是否公证', prop: 'public' },
-  { label: '是否认证', prop: 'auth' },
-  { label: '标准售价(元)', prop: 'sale' },
-  { label: '官费(元)', prop: 'fee', class: 'col-span-2' },
-  { label: '备注', prop: 'remark', class: 'col-span-3' },
+  {
+    label: '是否公证',
+    prop: 'isNotarized',
+    format: (value: number) => (value ? '是' : '否'),
+  },
+  {
+    label: '是否认证',
+    prop: 'isCertified',
+    format: (value: number) => (value ? '是' : '否'),
+  },
+  {
+    label: '标准售价(元)',
+    prop: 'standardPrice',
+    format: (value: number) => value?.toFixed(2),
+  },
+  {
+    label: '官费(元)',
+    prop: 'officialFee',
+    class: 'col-span-2',
+    format: (value: number) => value?.toFixed(2),
+  },
+  // { label: '备注', prop: 'remark', class: 'col-span-3' },
 ];
 
 export const productTabs = [

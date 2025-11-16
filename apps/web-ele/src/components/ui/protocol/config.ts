@@ -8,10 +8,10 @@ export const rules = {
     { required: true, message: '请选择协议类型', trigger: 'change' },
   ],
   head: [{ required: true, message: '请输入签约抬头', trigger: 'blur' }],
-  protocolAmount: [
+  agreementAmount: [
     { required: true, message: '请输入协议金额', trigger: 'blur' },
   ],
-  actualAmount: [
+  receivedAmount: [
     { required: true, message: '请输入实收金额', trigger: 'blur' },
   ],
   budgetPerformance: [
@@ -20,10 +20,12 @@ export const rules = {
   actualPerformance: [
     { required: true, message: '请输入实际业绩', trigger: 'blur' },
   ],
-  protocolCost: [
+  agreementCost: [
     { required: true, message: '请输入协议成本', trigger: 'blur' },
   ],
-  protocolTax: [{ required: true, message: '请输入协议税费', trigger: 'blur' }],
+  agreementTax: [
+    { required: true, message: '请输入协议税费', trigger: 'blur' },
+  ],
   product: [{ required: true, message: '请选择', trigger: 'change' }],
 };
 
@@ -36,4 +38,9 @@ export const protocolProductColumns: ITableColumnProps[] = [
   { label: '数量(标)', prop: 'number' },
   { label: '附加项', prop: 'extra' },
   { label: '操作', prop: 'operator', fixed: 'right' },
+];
+
+export const agreementTypeOptions = [
+  { label: '普通协议', value: 'normal' },
+  { label: '异常协议', value: 'abnormal' },
 ];

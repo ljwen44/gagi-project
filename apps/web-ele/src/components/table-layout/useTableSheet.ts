@@ -4,7 +4,7 @@ import { computed, onMounted, ref, useTemplateRef, watch } from 'vue';
 
 import { useVbenModal } from '@vben-core/popup-ui';
 
-import { ElMessage, type FormInstance } from 'element-plus';
+import { type FormInstance } from 'element-plus';
 
 export interface IProps {
   api: (args?: any) => any;
@@ -16,11 +16,11 @@ export interface IProps {
   columns: ITableColumnProps[];
 }
 
-interface FilterProps {
-  key: string;
-  symbol?: string;
-  value: string;
-}
+// interface FilterProps {
+//   key: string;
+//   symbol?: string;
+//   value: string;
+// }
 
 export const symbolOptions = [
   { label: '等于', value: 'eq' },
@@ -62,33 +62,18 @@ export const useTableSheet = (props: IProps) => {
   const filterKeys = computed(() =>
     columns
       .filter((col) => !col.disabledFilter)
-      .map((col) => ({ label: col.label || '', value: col.prop || '' })),
+      .map((col) => ({
+        label: col.label || '',
+        value: col.filterProp || col.prop || '',
+        component: col.component,
+        componentProps: col.componentProps,
+        filterFormat: col.filterFormat,
+      })),
   );
 
-  const columnsLabelMap = computed(
-    () => new Map(columns.map((col) => [col.prop, col.label])),
-  );
-
-  const [Modal, ModalApi] = useVbenModal({
-    title: '更多筛选',
-    draggable: true,
-    class: 'w-[750px]',
-    onConfirm: () => {
-      if (
-        form.value.filters.some(
-          (item: FilterProps) =>
-            !item.key || !item.symbol || item.value === void 0,
-        )
-      ) {
-        return ElMessage.error('请填写完整');
-      }
-      filters.value = form.value.filters.map((item: FilterProps) => ({
-        label: `${columnsLabelMap.value.get(item.key)}:${item.value}`,
-        key: item.key,
-      }));
-      ModalApi.close();
-    },
-  });
+  // const columnsLabelMap = computed(
+  //   () => new Map(columns.map((col) => [col.prop, col.label])),
+  // );
 
   const query = async () => {
     const queryParams: any = {
@@ -117,6 +102,7 @@ export const useTableSheet = (props: IProps) => {
       filters: [{ key: '', value: '', symbol: '' }],
     });
     filters.value = [];
+    query();
   };
 
   const setForm = (data: any) => {
@@ -129,6 +115,37 @@ export const useTableSheet = (props: IProps) => {
     pageSize: paginationModel.value.pageSize,
   });
 
+  const [Modal, ModalApi] = useVbenModal({
+    title: '更多筛选',
+    draggable: true,
+    class: 'w-[600px]',
+    onConfirm: () => {
+      // if (
+      //   form.value.filters.some(
+      //     (item: FilterProps) =>
+      //       !item.key || !item.symbol || item.value === void 0,
+      //   )
+      // ) {
+      //   return ElMessage.error('请填写完整');
+      // }
+      // filters.value = form.value.filters.map((item: FilterProps) => ({
+      //   label: `${columnsLabelMap.value.get(item.key)}:${item.value}`,
+      //   key: item.key,
+      // }));
+      filters.value = filterKeys.value
+        .filter(
+          (item) =>
+            form.value[item.value] !== void 0 && form.value[item.value] !== '',
+        )
+        .map((item) => ({
+          label: `${item.label}: ${item.filterFormat ? item.filterFormat(form.value[item.value]) : form.value[item.value]}`,
+          key: item.value,
+        }));
+      ModalApi.close();
+      query();
+    },
+  });
+
   const appendFilter = () => {
     form.value.filters.push({
       key: '',
@@ -138,8 +155,11 @@ export const useTableSheet = (props: IProps) => {
   };
 
   const removeFilter = (index: number) => {
-    form.value.filters.splice(index, 1);
+    // form.value.filters.splice(index, 1);
+    const key = filters.value[index]?.key;
+    form.value[key as string] = '';
     filters.value.splice(index, 1);
+    query();
   };
 
   watch(

@@ -22,4 +22,4 @@ export const getAttachmentDownload = (id: string) =>
  * 上传文件
  */
 export const getAttachmentUpload = (data: any) =>
-  requestClient.get(`/attachment/upload`, { data });
+  requestClient.get(`/attachment/upload`, data);

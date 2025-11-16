@@ -1,11 +1,13 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
+import { CircleHelp, Fullscreen, X } from '@vben/icons';
+
 import AModal from '#/components/common/modal/index.vue';
 import ASelect from '#/components/common/select/index.vue';
 import ATable from '#/components/common/table/index.vue';
 
-import { protocolProductColumns, rules } from './config';
+import { agreementTypeOptions, protocolProductColumns, rules } from './config';
 
 const showModal = defineModel();
 const fullscreen = ref(false);
@@ -55,7 +57,8 @@ const form = ref<Record<string, any>>({});
           <el-form-item label="协议类型" prop="protocolType">
             <ASelect
               v-model="form.protocolType"
-              :options="[]"
+              :options="agreementTypeOptions"
+              placement="bottom"
               style="width: 100%"
             />
           </el-form-item>
@@ -108,18 +111,18 @@ const form = ref<Record<string, any>>({});
 
       <el-row :gutter="10">
         <el-col :span="12">
-          <el-form-item label="协议金额" prop="protocolAmount">
+          <el-form-item label="协议金额" prop="agreementAmount">
             <el-input-number
-              v-model="form.protocolAmount"
+              v-model="form.agreementAmount"
               controls-position="right"
               style="width: 100%"
             />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="实收金额" prop="actualAmount">
+          <el-form-item label="实收金额" prop="receivedAmount">
             <el-input-number
-              v-model="form.actualAmount"
+              v-model="form.receivedAmount"
               controls-position="right"
               style="width: 100%"
             />
@@ -144,25 +147,25 @@ const form = ref<Record<string, any>>({});
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="协议成本" prop="protocolCost">
+          <el-form-item label="协议成本" prop="agreementCost">
             <el-input-number
-              v-model="form.protocolCost"
+              v-model="form.agreementCost"
               controls-position="right"
               style="width: 100%"
             />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="协议税费" prop="protocolTax">
+          <el-form-item label="协议税费" prop="agreementTax">
             <el-input-number
-              v-model="form.protocolTax"
+              v-model="form.agreementTax"
               controls-position="right"
               style="width: 100%"
             />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="优惠金额" prop="discountAmount">
+          <el-form-item label="折扣金额" prop="discountAmount">
             <el-input-number
               v-model="form.discountAmount"
               controls-position="right"
@@ -180,18 +183,18 @@ const form = ref<Record<string, any>>({});
           </el-form-item>
         </el-col>
       </el-row>
-      <el-form-item label="订单备注" prop="remark">
+      <el-form-item label="订单备注" prop="orderRemark">
         <el-input
-          v-model="form.remark"
+          v-model="form.orderRemark"
           maxlength="500"
           placeholder="请输入订单备注,仅在系统订单详情显示"
           show-word-limit
           type="textarea"
         />
       </el-form-item>
-      <el-form-item label="协议备注" prop="protocolRemark">
+      <el-form-item label="协议备注" prop="agreementRemark">
         <el-input
-          v-model="form.protocolRemark"
+          v-model="form.agreementRemark"
           maxlength="500"
           placeholder="请输入协议备注,作为协议中的附加协议项"
           show-word-limit

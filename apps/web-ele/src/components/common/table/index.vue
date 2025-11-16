@@ -12,7 +12,11 @@ import { computed } from 'vue';
 import AEmpty from '#/components/common/empty/index.vue';
 
 export type ITableColumnProps = {
+  component?: any;
+  componentProps?: any;
   disabledFilter?: boolean;
+  filterFormat?: (val: any) => any;
+  filterProp?: string;
   format?: (val: any) => any;
 } & Partial<TableColumnInstance>;
 

@@ -26,13 +26,13 @@ export interface ProductDto {
 /**
  * 根据ID查询产品详情
  */
-export const getProductById = (id: string) =>
+export const getProductById = (id: number) =>
   requestClient.get(`/product/${id}`);
 
 /**
  * 根据ID删除产品
  */
-export const deleteProductById = (id: string) =>
+export const deleteProductById = (id: number) =>
   requestClient.delete(`/product/${id}`);
 
 /**

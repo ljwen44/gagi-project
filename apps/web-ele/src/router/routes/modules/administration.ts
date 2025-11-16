@@ -11,6 +11,7 @@ const routes: RouteRecordRaw[] = [
       order: 7,
       title: $t('page.administration.title'),
       permissionCode: 'admin:view',
+      hideInMenu: true,
     },
     name: 'Administration',
     path: '/administration',

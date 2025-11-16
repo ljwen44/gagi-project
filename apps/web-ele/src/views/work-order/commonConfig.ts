@@ -1,7 +1,5 @@
 import type { FormItemType, TabbarProps } from '@vben/types';
 
-import { VbenSelect } from '@vben-core/shadcn-ui';
-
 export enum MODAL_TYPE {
   BRANDOBJECTION = 'brand-objection',
   BRANDPDATE = 'brand-update',
@@ -22,12 +20,12 @@ export enum MODAL_TYPE {
 export const formItems: FormItemType[] = [
   {
     label: '国家',
-    key: 'keyword',
+    key: 'country',
     width: 36,
-    component: VbenSelect,
+    // component: VbenSelect,
     props: {
-      placeholder: '请选择国家',
-      options: [],
+      placeholder: '请输入',
+      // options: [],
     },
   },
   {
@@ -80,3 +78,24 @@ export const tabbar: TabbarProps[] = [
     key: 'fail',
   },
 ];
+
+export const AuditStatusMap: Record<number, string> = {
+  0: '待审核',
+  1: '审核通过',
+  2: '审核驳回',
+};
+
+export const ConfirmMap: Record<number, string> = {
+  0: '未确认',
+  1: '已确认',
+};
+
+export const ReceiveStatusMap: Record<number, string> = {
+  0: '未接单',
+  1: '已接单',
+};
+
+export const WorkStatusMap: Record<number, string> = {
+  0: '未结单',
+  1: '已结单',
+};
