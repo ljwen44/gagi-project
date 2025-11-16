@@ -38,21 +38,25 @@ export const formItems: FormItemType[] = [
 export const tabbar: TabbarProps[] = [
   {
     label: '待办异常',
-    key: 'todo',
+    key: 'pending',
     tooltip: '未结单确认的异常单,包含未完结及后端驳回',
+    permissionCode: 'workorder:abnormal:pending',
   },
   {
     label: '已完结',
-    key: 'finish',
+    key: 'completed',
     tooltip: '已结单确认的异常单',
+    permissionCode: 'workorder:abnormal:completed',
   },
   {
     label: '全部异常',
     key: 'all',
+    permissionCode: 'workorder:abnormal:all',
   },
   {
     label: '回收站',
     key: 'recycle',
+    permissionCode: 'workorder:abnormal:recycle',
   },
 ];
 

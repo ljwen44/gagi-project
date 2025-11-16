@@ -29,7 +29,7 @@ const refreshData = () => {
   tableLayoutRef.value?.query();
 };
 const openCustomerDetail = (row: any) => {
-  currentForm.value = row;
+  currentForm.value = { ...row };
   showModal.value = true;
 };
 </script>

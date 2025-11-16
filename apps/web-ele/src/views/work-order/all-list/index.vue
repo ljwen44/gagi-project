@@ -19,6 +19,7 @@ import { columns, formItems, MODAL_TYPE, tabbar } from './config';
 
 const modalType = ref(MODAL_TYPE.INIT);
 const currentTab = ref('');
+const drawerForm = ref({});
 const tableLayoutRef = useTemplateRef('tableLayoutRef');
 
 const beforeQuery = (queryParams: any) => {
@@ -33,6 +34,10 @@ const handleTabChange = (tab: string) => {
 
   tableLayoutRef.value?.query();
 };
+const openOrderDrawer = (row: any) => {
+  modalType.value = MODAL_TYPE.WORKORDER;
+  drawerForm.value = { ...row };
+};
 </script>
 
 <template>
@@ -46,7 +51,7 @@ const handleTabChange = (tab: string) => {
     @tab-change="handleTabChange"
   >
     <template #orderNo="{ row }">
-      <el-link type="primary" @click="modalType = MODAL_TYPE.WORKORDER">
+      <el-link type="primary" @click="openOrderDrawer(row)">
         {{ row.orderNo }}
       </el-link>
     </template>
@@ -98,6 +103,7 @@ const handleTabChange = (tab: string) => {
     </template>
 
     <WorkOrderDrawer
+      :form="drawerForm"
       :show="modalType === MODAL_TYPE.WORKORDER"
       @closed="modalType = MODAL_TYPE.INIT"
     />

@@ -10,9 +10,20 @@ import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetai
 import { columns, formItems } from './config';
 
 const showModal = ref(false);
+const selection = ref([]);
+const currentForm = ref({});
 
 const beforeQuery = (queryParams: Record<string, any>) => {
   queryParams.isPublicSea = 1;
+};
+
+const handleSelectionChange = (value: any) => {
+  selection.value = value;
+};
+
+const openCustomerDetail = (row: any) => {
+  currentForm.value = structuredClone(row);
+  showModal.value = true;
 };
 </script>
 
@@ -22,18 +33,26 @@ const beforeQuery = (queryParams: Record<string, any>) => {
     :before-query
     :columns
     :form-items="formItems"
+    @selection-change="handleSelectionChange"
   >
     <template #action>
-      <el-button type="primary"> 批量领取 </el-button>
+      <el-button :disabled="selection.length <= 0" type="primary">
+        批量领取
+      </el-button>
     </template>
 
-    <template #customerCode="{ row }">
-      <el-link type="primary" @click="showModal = true">
-        {{ row.customerCode }}
-      </el-link>
+    <template #customerNo="{ row }">
+      <el-text type="primary" @click="openCustomerDetail">
+        {{ row.customerNo }}
+      </el-text>
     </template>
-    <template #tag="{ row }">
-      <el-tag v-for="tag in row.tag" :key="tag" class="mr-0.5" type="primary">
+    <template #tags="{ row }">
+      <el-tag
+        v-for="tag in row.tags?.split(',')"
+        :key="tag"
+        class="mr-0.5"
+        type="primary"
+      >
         {{ tag }}
       </el-tag>
     </template>
@@ -46,8 +65,10 @@ const beforeQuery = (queryParams: Record<string, any>) => {
       </div>
     </template>
 
-    <CustomerDetailDrawer id="" :show="showModal" @closed="showModal = false" />
+    <CustomerDetailDrawer
+      :form="currentForm"
+      :show="showModal"
+      @closed="showModal = false"
+    />
   </TableLayout>
 </template>
-
-<style lang="scss" scoped></style>

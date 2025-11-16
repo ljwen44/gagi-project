@@ -21,6 +21,7 @@ import {
 const modalType = ref(MODAL_TYPE.INIT);
 const showModal = ref(false);
 const currentTab = ref('');
+const drawerForm = ref({});
 const tableLayoutRef = useTemplateRef('tableLayoutRef');
 
 const beforeQuery = (queryParams: any) => {
@@ -34,6 +35,11 @@ const handleTabChange = (tab: string) => {
   currentTab.value = tab;
 
   tableLayoutRef.value?.query();
+};
+
+const openDrawer = (type: MODAL_TYPE, row: any) => {
+  modalType.value = type;
+  drawerForm.value = row;
 };
 </script>
 
@@ -67,14 +73,14 @@ const handleTabChange = (tab: string) => {
       <el-text
         class="cursor-pointer"
         type="primary"
-        @click="modalType = MODAL_TYPE.PROTOCOL"
+        @click="openDrawer(MODAL_TYPE.PROTOCOL, row)"
       >
         {{ row.agreementNo }}
       </el-text>
     </template>
 
     <template #customerNo="{ row }">
-      <el-link type="primary" @click="modalType = MODAL_TYPE.CUSTOMER">
+      <el-link type="primary" @click="openDrawer(MODAL_TYPE.CUSTOMER, row)">
         {{ row.customerNo }}
       </el-link>
     </template>
@@ -122,6 +128,7 @@ const handleTabChange = (tab: string) => {
     <ProtocolForm v-model="showModal" />
 
     <ProtocolDrawer
+      :form="drawerForm"
       :show="modalType === MODAL_TYPE.PROTOCOL"
       @closed="modalType = MODAL_TYPE.INIT"
     />

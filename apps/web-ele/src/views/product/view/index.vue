@@ -43,7 +43,11 @@ const refreshData = () => {
     :form-items="formItems"
   >
     <template #action>
-      <el-button type="primary" @click="productFormRef?.openModal()">
+      <el-button
+        type="primary"
+        v-auth="'customer:add'"
+        @click="productFormRef?.openModal()"
+      >
         新增
       </el-button>
     </template>

@@ -74,7 +74,7 @@ export const columns: ITableColumnProps[] = [
     prop: 'customerNo',
     sortable: true,
     disabledFilter: true,
-    width: 120,
+    width: 150,
   },
   {
     label: '客户名称',

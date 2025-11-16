@@ -1,5 +1,27 @@
 <script lang="ts" setup>
+import { computed } from 'vue';
+
 import { Check, CircleDashed, CircleX, LoaderCircle, Users } from '@vben/icons';
+
+import AEmpty from '#/components/common/empty/index.vue';
+
+import { useWorkflow } from './useWorkflow';
+
+interface IProps {
+  show: boolean;
+  form?: Record<string, any>;
+}
+
+const props = defineProps<IProps>();
+
+const { workflow } = useWorkflow(props);
+
+const showAudit = computed(() => {
+  if (!workflow.value) {
+    return false;
+  }
+  return true;
+});
 </script>
 
 <template>
@@ -11,12 +33,13 @@ import { Check, CircleDashed, CircleX, LoaderCircle, Users } from '@vben/icons';
         </div>
         <span>审批流信息</span>
       </div>
-      <div>
+      <div v-if="showAudit">
         <el-button :icon="Check" type="success">通过</el-button>
         <el-button :icon="CircleX" type="danger">拒绝</el-button>
       </div>
     </div>
     <el-steps
+      v-if="workflow"
       :active="1"
       align-center
       finish-status="success"
@@ -35,6 +58,7 @@ import { Check, CircleDashed, CircleX, LoaderCircle, Users } from '@vben/icons';
         title="Step 3"
       />
     </el-steps>
+    <AEmpty v-else />
   </div>
 </template>
 

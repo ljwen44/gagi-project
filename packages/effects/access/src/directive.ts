@@ -6,6 +6,8 @@
  */
 import type { App, Directive, DirectiveBinding } from 'vue';
 
+import { useUserStore } from '@vben/stores';
+
 import { useAccess } from './use-access';
 
 function isAccessible(
@@ -37,6 +39,33 @@ const authDirective: Directive = {
   mounted,
 };
 
+const checkPermission = (
+  el: HTMLElement,
+  binding: DirectiveBinding<string | string[]>,
+) => {
+  const { value } = binding;
+  if (!value) return;
+
+  const userStore = useUserStore();
+
+  const hasPermission = userStore.hasRole(value);
+
+  if (!hasPermission) {
+    // eslint-disable-next-line unicorn/prefer-dom-node-remove
+    el.parentNode?.removeChild(el);
+  }
+};
+
+const role: Directive<HTMLElement, string | string[]> = {
+  mounted(el, binding) {
+    checkPermission(el, binding);
+  },
+  updated(el, binding) {
+    checkPermission(el, binding);
+  },
+};
+
 export function registerAccessDirective(app: App) {
   app.directive('access', authDirective);
+  app.directive('auth', role);
 }

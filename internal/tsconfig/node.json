@@ -7,7 +7,6 @@
     "lib": ["ESNext"],
     "baseUrl": "./",
     "types": ["node"],
-    "noImplicitAny": true,
-    "ignoreDeprecations": "6.0"
+    "noImplicitAny": true
   }
 }

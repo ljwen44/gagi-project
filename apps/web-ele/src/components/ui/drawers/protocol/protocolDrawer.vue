@@ -13,6 +13,7 @@ import {
 
 interface IProps {
   show: boolean;
+  form?: Record<string, any>;
 }
 
 defineProps<IProps>();
@@ -28,16 +29,11 @@ const handleClosed = () => {
 const handleTabChange = (activeName: ProtocolTabEnum) => {
   activeTab.value = activeName;
 };
-
-const form: Record<string, any> = {};
-for (const item of protocolFormItems) {
-  form[item.prop] = 'mock data';
-}
 </script>
 
 <template>
   <DrawerLayout
-    :form
+    :form="form || {}"
     :form-items="protocolFormItems"
     :show
     grid-cols="3"
@@ -49,7 +45,7 @@ for (const item of protocolFormItems) {
       <el-alert :closable="false" title="此协议由 xxx 转化而来" type="info" />
     </template>
 
-    <AuditProgress />
+    <AuditProgress v-bind="$props" />
 
     <template #content-footer>
       <div class="flex flex-col gap-2 pb-4 pt-2">

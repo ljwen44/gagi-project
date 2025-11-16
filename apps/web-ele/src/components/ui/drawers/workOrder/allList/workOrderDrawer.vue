@@ -70,7 +70,7 @@ const handleTabChange = (activeName: WorkOrderEnum) => {
       <span class="font-bold text-[var(--el-color-primary)]">最终状态</span>
     </template>
 
-    <AuditProgress />
+    <AuditProgress v-bind="$props" />
     <OrderArea />
     <div class="flex flex-col gap-2 py-4">
       <el-tabs v-model="activeTab" @tab-change="handleTabChange">
