@@ -3,52 +3,65 @@ import type { FormItemType } from '@vben/types';
 
 import { Bell, FileText, Star } from '@vben/icons';
 
+import { getWorkOrderList } from '#/api/core/workOrder';
 import TableLayout from '#/components/table-layout/index.vue';
 
 import { workOrderRecordColumns } from '../config';
 
+interface IProps {
+  form: Record<string, any>;
+}
+
+const props = defineProps<IProps>();
+
 const formItems: FormItemType[] = [
   {
-    label: 's工单编号',
-    key: 'number',
+    label: '工单编号',
+    key: 'agreementId',
     props: {
       placeholder: '请输入工单编号',
     },
   },
 ];
+
+const beforeQuery = (queryParams: any) => {
+  queryParams.pageSize = 999;
+  queryParams.customerId = props.form.id;
+};
 </script>
 
 <template>
   <TableLayout
-    :api="() => {}"
+    :api="getWorkOrderList"
+    :before-query
     :columns="workOrderRecordColumns"
     :form-items="formItems"
     :hidden-filter="true"
   >
-    <template #number="{ row }">
-      <el-link type="primary">
-        {{ row.number }}
-      </el-link>
+    <template #orderNo="{ row }">
+      <el-text type="primary">{{ row.orderNo }}</el-text>
+    </template>
+    <template #agreementNo="{ row }">
+      <el-text type="primary">{{ row.agreementNo }}</el-text>
+    </template>
+    <template #customerNo="{ row }">
+      <el-text type="primary">{{ row.customerNo }}</el-text>
     </template>
 
-    <template #status="{ row }">
-      <el-tag effect="dark" type="success">{{ row.status }}</el-tag>
+    <template #auditStatus="{ row }">
+      <el-tag effect="dark" type="success">{{ row.auditStatus }}</el-tag>
     </template>
 
     <template #customerConfirm="{ row }">
       <el-tag effect="dark" type="success">{{ row.customerConfirm }}</el-tag>
     </template>
 
-    <template #acceptStatus="{ row }">
-      <el-tag effect="dark" type="success">{{ row.acceptStatus }}</el-tag>
+    <template #receiveStatus="{ row }">
+      <el-tag effect="dark" type="success">{{ row.receiveStatus }}</el-tag>
     </template>
 
-    <template #orderStatus="{ row }">
-      <el-tag effect="dark" type="success">{{ row.orderStatus }}</el-tag>
-    </template>
-
-    <template #finishConfirm="{ row }">
-      <el-tag effect="dark" type="success">{{ row.finishConfirm }}</el-tag>
+    <template #workStatus="{ row }">
+      <el-tag effect="dark" type="success">{{ row.workStatus }}</el-tag>
     </template>
 
     <template #operator>

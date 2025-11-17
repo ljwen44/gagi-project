@@ -5,9 +5,13 @@ import { Database, Edit } from '@vben/icons';
 import { useUserStore } from '@vben/stores';
 // import { VbenHelpTooltip } from '@vben-core/shadcn-ui';
 
-import { getCustomerList } from '#/api/core/customer';
+import { ElMessage } from 'element-plus';
+
+import { getCustomerList, updateCustomer } from '#/api/core/customer';
 import TableLayout from '#/components/table-layout/index.vue';
-import CustomerForm from '#/components/ui/customer/form.vue';
+import CustomerForm, {
+  type FormProps,
+} from '#/components/ui/customer/form.vue';
 import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetail.vue';
 
 import { columns, formItems, tabbar } from './config';
@@ -15,7 +19,8 @@ import { columns, formItems, tabbar } from './config';
 const customerFormRef = useTemplateRef('customerFormRef');
 const tableLayoutRef = useTemplateRef('tableLayoutRef');
 const showModal = ref(false);
-const currentForm = ref({});
+const currentId = ref<number | string>('');
+const currentTab = ref('');
 
 const userStore = useUserStore();
 // const handleSelectionChange = () => {
@@ -23,14 +28,30 @@ const userStore = useUserStore();
 // };
 const beforeQuery = (queryParams: Record<string, any>) => {
   queryParams.isPublicSea = 0;
+  queryParams.dealt = currentTab.value;
 };
 
 const refreshData = () => {
   tableLayoutRef.value?.query();
 };
-const openCustomerDetail = (row: any) => {
-  currentForm.value = { ...row };
+const openCustomerDetail = (id: number) => {
+  currentId.value = id;
   showModal.value = true;
+};
+
+const handleTabChange = (tab: string) => {
+  currentTab.value = tab === 'all' ? '' : tab;
+  requestAnimationFrame(refreshData);
+};
+
+const pushCustomerToSea = async (row: FormProps) => {
+  try {
+    await updateCustomer({ ...row, isPublicSea: 1 });
+    ElMessage.success('操作成功');
+    refreshData();
+  } catch {
+    ElMessage.error('操作失败');
+  }
 };
 </script>
 
@@ -42,6 +63,7 @@ const openCustomerDetail = (row: any) => {
     :columns
     :form-items="formItems"
     :tabbar="tabbar"
+    @tab-change="handleTabChange"
   >
     <!-- @select="handleSelectionChange" -->
     <template #action>
@@ -114,7 +136,7 @@ const openCustomerDetail = (row: any) => {
       <el-text
         class="cursor-pointer"
         type="primary"
-        @click="openCustomerDetail(row)"
+        @click="openCustomerDetail(row.id)"
       >
         {{ row.customerNo }}
       </el-text>
@@ -144,14 +166,23 @@ const openCustomerDetail = (row: any) => {
             })
           "
         />
-        <Database class="size-4 cursor-pointer text-orange-600" />
+        <el-popconfirm
+          placement="bottom"
+          title="确认把该客户放入公海吗?"
+          width="220"
+          @confirm="pushCustomerToSea(row)"
+        >
+          <template #reference>
+            <Database class="size-4 cursor-pointer text-orange-600" />
+          </template>
+        </el-popconfirm>
       </div>
     </template>
 
     <CustomerForm ref="customerFormRef" @confirm="refreshData" />
 
     <CustomerDetailDrawer
-      :form="currentForm"
+      :id="currentId"
       :show="showModal"
       @closed="showModal = false"
     />

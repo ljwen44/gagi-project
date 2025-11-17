@@ -24,33 +24,33 @@ export const tabbar: TabbarProps[] = [
   },
   {
     label: '未成交',
-    key: 'noOk',
+    key: 0,
   },
   {
     label: '已成交',
-    key: 'ok',
+    key: 1,
   },
-  {
-    label: '共享给我',
-    key: 'sharedMe',
-    tooltip: '其他人共享给我的',
-  },
-  {
-    label: '我共享的',
-    key: 'MyShare',
-    tooltip: '我共享出去的',
-  },
-  {
-    label: '协同客户',
-    key: 'coCustomer',
-    tooltip: '渠道客户通过协同来的',
-  },
-  {
-    label: '自主活动',
-    key: 'free',
-    tooltip:
-      '开启自动流转公海规则,且按系统配置设置的提醒日期天数为过滤条件\n公司自主组织的活动获得的新增客户',
-  },
+  // {
+  //   label: '共享给我',
+  //   key: 'sharedMe',
+  //   tooltip: '其他人共享给我的',
+  // },
+  // {
+  //   label: '我共享的',
+  //   key: 'MyShare',
+  //   tooltip: '我共享出去的',
+  // },
+  // {
+  //   label: '协同客户',
+  //   key: 'coCustomer',
+  //   tooltip: '渠道客户通过协同来的',
+  // },
+  // {
+  //   label: '自主活动',
+  //   key: 'free',
+  //   tooltip:
+  //     '开启自动流转公海规则,且按系统配置设置的提醒日期天数为过滤条件\n公司自主组织的活动获得的新增客户',
+  // },
 ];
 
 export const columns: ITableColumnProps[] = [

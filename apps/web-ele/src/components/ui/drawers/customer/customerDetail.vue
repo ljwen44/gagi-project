@@ -1,9 +1,10 @@
 <!-- eslint-disable unicorn/no-array-reduce -->
 <script lang="ts" setup>
-import { ref, useTemplateRef } from 'vue';
+import { ref, useTemplateRef, watch } from 'vue';
 
 import { Database, SquarePen } from '@vben/icons';
 
+import { getCustomerById } from '#/api/core/customer';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
 import CustomerForm from '#/components/ui/customer/form.vue';
 
@@ -15,25 +16,40 @@ import {
 } from './config';
 
 interface IProps {
-  id?: string;
+  id?: number | string;
   show: boolean;
-  form: Record<string, any>;
 }
 
-defineProps<IProps>();
+const props = defineProps<IProps>();
 
 const emits = defineEmits(['closed']);
 
 const activeTab = ref<CustomerTabEnum>(CustomerTabEnum.followRecord);
 const customerFormRef = useTemplateRef('customerFormRef');
+const form = ref<Record<string, any>>({});
 
 const handleClosed = () => {
   emits('closed');
 };
 
 const handleTabChange = (activeName: CustomerTabEnum) => {
-  activeTab.value = activeName;
+  requestAnimationFrame(() => (activeTab.value = activeName));
 };
+
+const getCustomerDetail = async () => {
+  if (props.id === '') {
+    return;
+  }
+  const result = await getCustomerById(props.id as number);
+  form.value = result;
+};
+
+watch(
+  () => props.id,
+  () => {
+    getCustomerDetail();
+  },
+);
 </script>
 
 <template>
@@ -83,6 +99,13 @@ const handleTabChange = (activeName: CustomerTabEnum) => {
         {{ tag }}
       </el-tag>
     </template>
+    <template #address="{ originData }">
+      <el-text type="primary">
+        {{
+          `${originData.province}${originData.city}${originData.district}${originData.detailAddress}`
+        }}
+      </el-text>
+    </template>
     <div class="flex flex-col gap-2 py-4">
       <el-tabs v-model="activeTab" @tab-change="handleTabChange">
         <el-tab-pane
@@ -97,6 +120,7 @@ const handleTabChange = (activeName: CustomerTabEnum) => {
           <component
             :is="componentsMap[activeTab]?.component"
             v-bind="componentsMap[activeTab]?.props || {}"
+            :form
           />
           <template #fallback>
             <div class="p-4 text-center">loading...</div>

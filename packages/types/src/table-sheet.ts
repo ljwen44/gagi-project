@@ -14,7 +14,7 @@ export type FormProps<T extends FormItemType[]> = {
 
 export interface TabbarProps {
   label: string;
-  key: string;
+  key: number | string;
   tooltip?: string;
   badge?: number;
   permissionCode?: string;

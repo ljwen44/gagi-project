@@ -8,6 +8,7 @@ export const modalFormItems: IFormItem[] = [
     prop: 'customerNo',
     componentProps: {
       placeholder: '请输入客户编号',
+      disabled: true,
     },
   },
   {
@@ -44,9 +45,13 @@ export const modalFormItems: IFormItem[] = [
     componentProps: {
       placeholder: '请选择客户来源',
       options: [
-        { label: '线上推广', value: '线上推广' },
-        { label: '线下推广', value: '线下推广' },
-        { label: '朋友介绍', value: '朋友介绍' },
+        { label: '行业展会', value: '行业展会' },
+        { label: '供应商大会', value: '供应商大会' },
+        { label: '客户转介绍', value: '客户转介绍' },
+        { label: '行业协会推荐', value: '行业协会推荐' },
+        { label: '线上招商平台', value: '线上招商平台' },
+        { label: '线下拜访', value: '线下拜访' },
+        { label: '行业峰会', value: '行业峰会' },
       ],
       width: '100%',
     },
@@ -60,6 +65,7 @@ export const modalFormItems: IFormItem[] = [
       options: [
         { label: '普通客户', value: '普通客户' },
         { label: 'VIP', value: 'VIP' },
+        { label: '钻石', value: '钻石' },
       ],
       width: '100%',
     },
@@ -71,9 +77,13 @@ export const modalFormItems: IFormItem[] = [
     componentProps: {
       placeholder: '请选择客户行业',
       options: [
-        { label: '互联网', value: '互联网' },
-        { label: '房地产', value: '房地产' },
-        { label: '农业', value: '农业' },
+        { label: '物流', value: '物流' },
+        { label: '零售', value: '零售' },
+        { label: '新能源', value: '新能源' },
+        { label: '餐饮', value: '餐饮' },
+        { label: '文旅', value: '文旅' },
+        { label: '医疗健康', value: '医疗健康' },
+        { label: '制造业', value: '制造业' },
       ],
       width: '100%',
     },
@@ -180,3 +190,16 @@ export const rules = {
     },
   ],
 };
+
+export const mockTags = [
+  { label: '大宗运输', value: '大宗运输' },
+  { label: '区域合作', value: '区域合作' },
+  { label: '快消品', value: '快消品' },
+  { label: '全国连锁', value: '全国连锁' },
+  { label: '技术合作', value: '技术合作' },
+  { label: '研发项目', value: '研发项目' },
+  { label: '连锁品牌', value: '食材采购' },
+  { label: '团队游', value: '团队游' },
+  { label: '长期合作', value: '长期合作' },
+  { label: '紧急需求', value: '紧急需求' },
+];

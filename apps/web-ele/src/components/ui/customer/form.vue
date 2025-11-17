@@ -1,19 +1,19 @@
 <script lang="ts" setup>
-import { ref, useTemplateRef } from 'vue';
+import { computed, ref, useTemplateRef } from 'vue';
 
 import { CircleHelp } from '@vben/icons';
 import { Input } from '@vben-core/shadcn-ui';
 
 import { ElMessage } from 'element-plus';
 
-import { addCustomer } from '#/api/core/customer';
+import { addCustomer, genCustNo } from '#/api/core/customer';
 import Aaddress from '#/components/common/address/index.vue';
 import AForm from '#/components/common/form/index.vue';
 import AModal from '#/components/common/modal/index.vue';
 
-import { modalFormItems, rules } from './config';
+import { mockTags, modalFormItems, rules } from './config';
 
-export interface FormRefProps {
+export interface FormProps {
   id?: number;
   area?: string[];
   detailAddress?: string;
@@ -30,11 +30,11 @@ export interface FormRefProps {
   email?: string;
   position?: string;
   remark?: string;
-  tags?: string;
+  tags?: string[];
 }
 
 interface IProps {
-  defaultForm?: FormRefProps;
+  defaultForm?: FormProps;
 }
 
 const props = defineProps<IProps>();
@@ -50,15 +50,24 @@ const initForm = {
 };
 
 const modalTitle = ref('新增客户');
-const form = ref<FormRefProps>(props.defaultForm || { ...initForm });
+const form = ref<FormProps>(props.defaultForm || { ...initForm });
 const showModal = ref(false);
 const formRef = useTemplateRef('formRef');
-const tags = ref([]);
+const tags = computed(() => {
+  if (form.value.tags?.length === 0) {
+    return mockTags;
+  }
+  const ts = form.value.tags;
+  return mockTags.filter((item) => !ts?.includes(item.value));
+});
 
-const openModal = (params?: { target?: FormRefProps; title?: string }) => {
+const openModal = async (params?: { target?: FormProps; title?: string }) => {
   const { target, title } = params || {};
   if (target) {
     form.value = { ...form.value, ...target };
+  } else {
+    const id = await genCustNo();
+    form.value.customerNo = id;
   }
   if (title) {
     modalTitle.value = title;
@@ -81,6 +90,10 @@ const onConfirm = async () => {
     closeModal();
     emits('confirm');
   } catch {}
+};
+
+const addTag = (tag: string) => {
+  form.value.tags?.push(tag);
 };
 
 defineExpose({
@@ -137,8 +150,9 @@ defineExpose({
             :key="item"
             class="cursor-pointer"
             type="primary"
+            @click="addTag(item.value)"
           >
-            {{ item }}
+            {{ item.label }}
           </el-tag>
         </div>
       </template>
