@@ -1,17 +1,108 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { computed, ref, useTemplateRef } from 'vue';
 
-import { CircleHelp, Fullscreen, X } from '@vben/icons';
+import { Fullscreen, X } from '@vben/icons';
 
+import { genAgreementNo } from '#/api/core/protocol';
 import AModal from '#/components/common/modal/index.vue';
 import ASelect from '#/components/common/select/index.vue';
 import ATable from '#/components/common/table/index.vue';
 
-import { agreementTypeOptions, protocolProductColumns, rules } from './config';
+import {
+  agreementTypeOptions,
+  productColumns,
+  protocolProductColumns,
+  rules,
+} from './config';
 
-const showModal = defineModel();
+export interface AgreementFormProps {
+  actualPerformance?: number;
+  agreementAmount?: number;
+  agreementCost?: number;
+  agreementRemark?: string;
+  agreementTax?: number;
+  agreementTitle?: string;
+  agreementType?: string;
+  budgetPerformance?: number;
+  createBy?: number;
+  custId?: number;
+  discountAmount?: number;
+  orderRemark?: string;
+  productIds?: string;
+  receivedAmount?: number;
+  salesCost?: number;
+  signTitle?: string;
+  agreementNo?: string;
+  updateBy?: number;
+}
+
+interface IProps {
+  customerOptions: any;
+  productList: any;
+}
+
+const props = defineProps<IProps>();
+
+const initForm = {
+  hasProduct: true,
+};
+
+const showModal = ref(false);
+const showProductModal = ref(false);
 const fullscreen = ref(false);
-const form = ref<Record<string, any>>({});
+const modalTitle = ref('新增协议');
+const form = ref<Record<string, any>>({ ...initForm });
+const productSelection = ref([]);
+let tempProductSelection: any = [];
+const formRef = useTemplateRef('formRef');
+
+const customerOptionsMap = computed(
+  () =>
+    new Map(
+      props.customerOptions.map((item: any) => [item.id, item.companyName]),
+    ),
+);
+
+const openModal = async (params?: {
+  target?: AgreementFormProps;
+  title?: string;
+}) => {
+  const { target, title } = params || {};
+  if (target) {
+    form.value = { ...form.value, ...target };
+  } else {
+    const id = await genAgreementNo();
+    form.value.agreementNo = id;
+  }
+  if (title) {
+    modalTitle.value = title;
+  }
+  showModal.value = true;
+};
+
+const closeModal = () => {
+  showModal.value = false;
+  form.value = { ...initForm };
+  formRef.value?.instance.resetFields();
+};
+
+const handleSignTitleChange = (value: number) => {
+  form.value.signTitle = customerOptionsMap.value?.get(value);
+};
+
+const handleSelectionChange = (rows: any) => {
+  tempProductSelection = rows;
+};
+
+const handleSelectProduct = () => {
+  productSelection.value = structuredClone(tempProductSelection);
+  showProductModal.value = false;
+};
+
+defineExpose({
+  openModal,
+  closeModal,
+});
 </script>
 
 <template>
@@ -19,12 +110,12 @@ const form = ref<Record<string, any>>({});
     v-model="showModal"
     :body-class="`overflow-auto pr-4 ${fullscreen ? '' : 'max-h-[60vh]'}`"
     :fullscreen
-    title="新增协议"
+    :title="modalTitle"
     width="750px"
   >
     <template #header="{ close }">
       <div class="flex items-center justify-between">
-        <span>新增协议</span>
+        <span>{{ modalTitle }}</span>
         <div class="flex items-center gap-2">
           <Fullscreen
             class="size-4 cursor-pointer"
@@ -34,29 +125,34 @@ const form = ref<Record<string, any>>({});
         </div>
       </div>
     </template>
-    <el-form :model="form" :rules label-position="top">
+    <el-form ref="formRef" :model="form" :rules label-position="top">
       <el-row :gutter="10">
         <el-col :span="12">
-          <el-form-item label="协议编号" prop="protocol">
+          <el-form-item label="协议编号" prop="agreementNo">
             <div class="flex w-full items-center gap-2">
-              <el-input v-model="form.protocol" />
-              <el-button type="primary">商机转化</el-button>
+              <el-input v-model="form.agreementNo" disabled />
+              <!-- <el-button type="primary">商机转化</el-button> -->
             </div>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="协议抬头" prop="protocolHead">
+          <el-form-item label="协议抬头" prop="agreementTitle">
             <ASelect
-              v-model="form.protocolHead"
-              :options="[]"
+              v-model="form.agreementTitle"
+              :options="[
+                {
+                  label: '深圳市驰威知识产权服务有限公司',
+                  value: '深圳市驰威知识产权服务有限公司',
+                },
+              ]"
               style="width: 100%"
             />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="协议类型" prop="protocolType">
+          <el-form-item label="协议类型" prop="agreementType">
             <ASelect
-              v-model="form.protocolType"
+              v-model="form.agreementType"
               :options="agreementTypeOptions"
               placement="bottom"
               style="width: 100%"
@@ -69,8 +165,13 @@ const form = ref<Record<string, any>>({});
       </div>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="签约抬头" prop="head">
-            <el-input v-model="form.head" />
+          <el-form-item label="签约抬头" prop="custId">
+            <ASelect
+              v-model="form.custId"
+              :options="customerOptions"
+              filterable
+              @change="handleSignTitleChange"
+            />
           </el-form-item>
         </el-col>
       </el-row>
@@ -80,14 +181,14 @@ const form = ref<Record<string, any>>({});
 
       <el-row class="mb-4">
         <el-col :span="12">
-          <el-form-item label="产品" label-position="left" prop="product">
-            <el-switch v-model="form.product" class="mr-2" />
-            <el-tooltip content="todo" placement="top">
+          <el-form-item label="产品" label-position="left" prop="hasProduct">
+            <el-switch v-model="form.hasProduct" class="mr-2" />
+            <!-- <el-tooltip content="todo" placement="top">
               <CircleHelp class="size-4 text-[#f00]" />
-            </el-tooltip>
+            </el-tooltip> -->
           </el-form-item>
         </el-col>
-        <el-col :span="24">
+        <el-col v-if="form.hasProduct" :span="24">
           <div class="flex flex-col gap-2 rounded-md border p-2">
             <div class="flex justify-between">
               <el-form-item
@@ -96,15 +197,23 @@ const form = ref<Record<string, any>>({});
                 label-position="left"
                 prop="tax"
               >
-                <ASelect v-model="form.tax" :options="[]" />
+                <ASelect
+                  v-model="form.tax"
+                  :options="[{ label: '0.3', value: 0.3 }]"
+                />
               </el-form-item>
-              <el-button type="primary">添加产品</el-button>
+              <el-button type="primary" @click="showProductModal = true">
+                添加产品
+              </el-button>
             </div>
-            <ATable :columns="protocolProductColumns" :data="[]" />
-            <p class="mt-2 text-right">
+            <ATable
+              :columns="protocolProductColumns"
+              :data="productSelection"
+            />
+            <!-- <p class="mt-2 text-right">
               已选中产品: <span class="text-[#f00]">0</span> 种，总销售额: 0
               元，总销售业绩：0 元
-            </p>
+            </p> -->
           </div>
         </el-col>
       </el-row>
@@ -209,6 +318,20 @@ const form = ref<Record<string, any>>({});
         <el-button type="primary">确定</el-button>
       </div>
     </template>
+  </AModal>
+
+  <AModal
+    v-model="showProductModal"
+    title="选择产品"
+    width="750px"
+    @close="tempProductSelection = []"
+    @confirm="handleSelectProduct"
+  >
+    <ATable
+      :columns="productColumns"
+      :data="productList"
+      @selection-change="handleSelectionChange"
+    />
   </AModal>
 </template>
 

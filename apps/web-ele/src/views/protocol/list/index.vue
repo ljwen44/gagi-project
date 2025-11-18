@@ -1,8 +1,10 @@
 <script lang="ts" setup>
-import { ref, useTemplateRef } from 'vue';
+import { onMounted, ref, useTemplateRef } from 'vue';
 
 import { AlertCircle, Bug } from '@vben/icons';
 
+import { getCustomerList } from '#/api/core/customer';
+import { getProductList } from '#/api/core/product';
 import { getAgreementList } from '#/api/core/protocol';
 import ATable from '#/components/common/table/index.vue';
 import TableLayout from '#/components/table-layout/index.vue';
@@ -19,10 +21,12 @@ import {
 } from './config';
 
 const modalType = ref(MODAL_TYPE.INIT);
-const showModal = ref(false);
 const currentTab = ref('');
 const drawerForm = ref({});
+const customerOptions = ref([]);
+const productList = ref([]);
 const tableLayoutRef = useTemplateRef('tableLayoutRef');
+const protocolFormRef = useTemplateRef('protocolFormRef');
 
 const beforeQuery = (queryParams: any) => {
   if (currentTab.value === 'all') {
@@ -41,6 +45,31 @@ const openDrawer = (type: MODAL_TYPE, row: any) => {
   modalType.value = type;
   drawerForm.value = row;
 };
+
+const getCustomerListOptions = async () => {
+  const { records } = await getCustomerList({
+    pageNum: 1,
+    pageSize: 1000,
+  });
+  customerOptions.value = records.map((item: any) => ({
+    ...item,
+    label: item.companyName,
+    value: item.id,
+  }));
+};
+
+const getProductListData = async () => {
+  const { records } = await getProductList({
+    pageNum: 1,
+    pageSize: 1000,
+  });
+  productList.value = records;
+};
+
+onMounted(() => {
+  getCustomerListOptions();
+  getProductListData();
+});
 </script>
 
 <template>
@@ -56,7 +85,9 @@ const openDrawer = (type: MODAL_TYPE, row: any) => {
     @tab-change="handleTabChange"
   >
     <template #action>
-      <el-button type="primary" @click="showModal = true"> 新增 </el-button>
+      <el-button type="primary" @click="protocolFormRef?.openModal()">
+        新增
+      </el-button>
     </template>
     <template #agreementNoHeader>
       <el-tooltip placement="top">
@@ -125,7 +156,7 @@ const openDrawer = (type: MODAL_TYPE, row: any) => {
       </ATable>
     </template>
 
-    <ProtocolForm v-model="showModal" />
+    <ProtocolForm ref="protocolFormRef" :customer-options :product-list />
 
     <ProtocolDrawer
       :form="drawerForm"

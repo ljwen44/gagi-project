@@ -5,7 +5,7 @@ import { Edit, Trash2 } from '@vben/icons';
 
 import { ElMessage } from 'element-plus';
 
-import { deleteProductById, getProdcutList } from '#/api/core/product';
+import { deleteProductById, getProductList } from '#/api/core/product';
 import TableLayout from '#/components/table-layout/index.vue';
 import ProductDrawer from '#/components/ui/drawers/product/productDrawer.vue';
 import ProductForm from '#/components/ui/product/form.vue';
@@ -38,7 +38,7 @@ const refreshData = () => {
 <template>
   <TableLayout
     ref="tableLayoutRef"
-    :api="getProdcutList"
+    :api="getProductList"
     :columns
     :form-items="formItems"
   >

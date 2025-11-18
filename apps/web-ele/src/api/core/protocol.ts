@@ -45,3 +45,9 @@ export const getAgreementPending = (params: {
   pageNum: number;
   pageSize: number;
 }) => requestClient.get(`/agreement/pending`, { params });
+
+/**
+ * 生成协议编号
+ */
+export const genAgreementNo = () =>
+  requestClient.get(`/agreement/genAgreementNo`);

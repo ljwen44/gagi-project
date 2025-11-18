@@ -1,8 +1,8 @@
 import { requestClient } from '#/api/request';
 
 export interface GetProductListParams {
-  categoryId: string;
-  country: string;
+  categoryId?: string;
+  country?: string;
   pageNum: number;
   pageSize: number;
   productName?: string;
@@ -44,7 +44,7 @@ export const addProduct = (data: any): Promise<ProductDto> =>
 /**
  * 分页条件查询产品
  */
-export const getProdcutList = (params: GetProductListParams) =>
+export const getProductList = (params: GetProductListParams) =>
   requestClient.get(`/product/page`, { params });
 
 /**
