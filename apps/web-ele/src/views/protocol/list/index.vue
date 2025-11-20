@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import { onMounted, ref, useTemplateRef } from 'vue';
 
-import { AlertCircle, Bug } from '@vben/icons';
+import { AlertCircle, Bug, Edit } from '@vben/icons';
 
 import { getCustomerList } from '#/api/core/customer';
-import { getProductList } from '#/api/core/product';
-import { getAgreementList } from '#/api/core/protocol';
+import { getAgreementById, getAgreementList } from '#/api/core/protocol';
 import ATable from '#/components/common/table/index.vue';
 import TableLayout from '#/components/table-layout/index.vue';
 import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetail.vue';
@@ -17,6 +16,7 @@ import {
   detailColumns,
   formItems,
   MODAL_TYPE,
+  statusTypeMap,
   tabbar,
 } from './config';
 
@@ -24,7 +24,6 @@ const modalType = ref(MODAL_TYPE.INIT);
 const currentTab = ref('');
 const drawerForm = ref({});
 const customerOptions = ref([]);
-const productList = ref([]);
 const tableLayoutRef = useTemplateRef('tableLayoutRef');
 const protocolFormRef = useTemplateRef('protocolFormRef');
 
@@ -58,17 +57,22 @@ const getCustomerListOptions = async () => {
   }));
 };
 
-const getProductListData = async () => {
-  const { records } = await getProductList({
-    pageNum: 1,
-    pageSize: 1000,
+const handleProductConfirm = () => {
+  tableLayoutRef.value?.query();
+};
+
+const handleEditAgreement = async (row: any) => {
+  const agreement = await getAgreementById(row.id);
+  protocolFormRef?.value?.openModal({
+    target: {
+      ...agreement,
+    },
+    title: '编辑协议',
   });
-  productList.value = records;
 };
 
 onMounted(() => {
   getCustomerListOptions();
-  getProductListData();
 });
 </script>
 
@@ -117,7 +121,9 @@ onMounted(() => {
     </template>
 
     <template #status="{ row }">
-      <el-tag effect="dark" type="success">{{ row.status }}</el-tag>
+      <el-tag :type="statusTypeMap[row.status] || 'primary'" effect="dark">
+        {{ row.status }}
+      </el-tag>
     </template>
     <!-- <template #workOrderStatus="{ row }">
       <el-tag type="success">{{ row.workOrderStatus }}</el-tag>
@@ -156,7 +162,20 @@ onMounted(() => {
       </ATable>
     </template>
 
-    <ProtocolForm ref="protocolFormRef" :customer-options :product-list />
+    <template #operator="{ row }">
+      <div class="flex items-center justify-center gap-1">
+        <Edit
+          class="size-4 cursor-pointer text-[var(--el-color-primary)]"
+          @click="handleEditAgreement(row)"
+        />
+      </div>
+    </template>
+
+    <ProtocolForm
+      ref="protocolFormRef"
+      :customer-options
+      @confirm="handleProductConfirm"
+    />
 
     <ProtocolDrawer
       :form="drawerForm"

@@ -103,5 +103,3 @@ const refreshData = () => {
     />
   </TableLayout>
 </template>
-
-<style lang="scss" scoped></style>

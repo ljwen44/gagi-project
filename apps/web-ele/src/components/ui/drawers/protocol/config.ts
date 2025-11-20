@@ -134,12 +134,12 @@ export const protocolTabs = [
   { label: '协议内容', key: ProtocolTabEnum.protocol },
   { label: '合同文件', key: ProtocolTabEnum.file },
   { label: '工单记录', key: ProtocolTabEnum.workOrderRecord },
-  { label: '回款记录', key: ProtocolTabEnum.amountRecord },
-  { label: '发票记录', key: ProtocolTabEnum.invoice },
-  { label: '分配记录', key: ProtocolTabEnum.allocationRecord },
-  { label: '跟进记录', key: ProtocolTabEnum.followRecord },
-  { label: '共享人员', key: ProtocolTabEnum.share },
-  { label: '操作记录', key: ProtocolTabEnum.operatorRecord },
+  // { label: '回款记录', key: ProtocolTabEnum.amountRecord },
+  // { label: '发票记录', key: ProtocolTabEnum.invoice },
+  // { label: '分配记录', key: ProtocolTabEnum.allocationRecord },
+  // { label: '跟进记录', key: ProtocolTabEnum.followRecord },
+  // { label: '共享人员', key: ProtocolTabEnum.share },
+  // { label: '操作记录', key: ProtocolTabEnum.operatorRecord },
 ];
 
 export const protocolDetailColumns: ITableColumnProps[] = [

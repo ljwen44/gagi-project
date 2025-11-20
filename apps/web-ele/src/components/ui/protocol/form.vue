@@ -1,19 +1,17 @@
 <script lang="ts" setup>
-import { computed, ref, useTemplateRef } from 'vue';
+import { computed, ref, useTemplateRef, watch } from 'vue';
 
-import { Fullscreen, X } from '@vben/icons';
+import { Fullscreen, Trash2, X } from '@vben/icons';
 
-import { genAgreementNo } from '#/api/core/protocol';
+import { ElMessage } from 'element-plus';
+
+import { addAgreement, genAgreementNo } from '#/api/core/protocol';
 import AModal from '#/components/common/modal/index.vue';
 import ASelect from '#/components/common/select/index.vue';
 import ATable from '#/components/common/table/index.vue';
 
-import {
-  agreementTypeOptions,
-  productColumns,
-  protocolProductColumns,
-  rules,
-} from './config';
+import { agreementTypeOptions, protocolProductColumns, rules } from './config';
+import ProductTable from './productTable.vue';
 
 export interface AgreementFormProps {
   actualPerformance?: number;
@@ -38,11 +36,11 @@ export interface AgreementFormProps {
 
 interface IProps {
   customerOptions: any;
-  productList: any;
+  fromCustomer?: boolean;
 }
 
 const props = defineProps<IProps>();
-
+const emits = defineEmits(['confirm']);
 const initForm = {
   hasProduct: true,
 };
@@ -52,7 +50,7 @@ const showProductModal = ref(false);
 const fullscreen = ref(false);
 const modalTitle = ref('新增协议');
 const form = ref<Record<string, any>>({ ...initForm });
-const productSelection = ref([]);
+const productSelection = ref<any>([]);
 let tempProductSelection: any = [];
 const formRef = useTemplateRef('formRef');
 
@@ -70,10 +68,13 @@ const openModal = async (params?: {
   const { target, title } = params || {};
   if (target) {
     form.value = { ...form.value, ...target };
-  } else {
+  }
+
+  if (!form.value.agreementNo) {
     const id = await genAgreementNo();
     form.value.agreementNo = id;
   }
+
   if (title) {
     modalTitle.value = title;
   }
@@ -83,7 +84,7 @@ const openModal = async (params?: {
 const closeModal = () => {
   showModal.value = false;
   form.value = { ...initForm };
-  formRef.value?.instance.resetFields();
+  formRef.value?.resetFields();
 };
 
 const handleSignTitleChange = (value: number) => {
@@ -95,9 +96,63 @@ const handleSelectionChange = (rows: any) => {
 };
 
 const handleSelectProduct = () => {
-  productSelection.value = structuredClone(tempProductSelection);
+  const products = productSelection.value;
+
+  productSelection.value =
+    products.length === 0
+      ? [...tempProductSelection]
+      : [
+          ...products,
+          ...tempProductSelection.filter((p: any) => products.includes(p.id)),
+        ];
   showProductModal.value = false;
 };
+
+const deleteProduct = (index: number) => {
+  productSelection.value.splice(index, 1);
+};
+
+const handleSubmitProduct = async (submit: boolean = false) => {
+  try {
+    await formRef.value?.validate();
+    if (form.value.hasProduct && productSelection.value.length === 0) {
+      ElMessage.error('请选择产品');
+      return;
+    }
+    const requestParam = {
+      ...form.value,
+      submit: +submit,
+      productIds: productSelection.value.map((item: any) => item.id).join(','),
+    };
+    await addAgreement(requestParam);
+    ElMessage.success('操作成功');
+    closeModal();
+    emits('confirm');
+  } catch (error) {
+    if (error instanceof Error) {
+      ElMessage.error('操作失败');
+    }
+  }
+};
+
+watch(
+  () => productSelection.value,
+  (nv) => {
+    form.value.productIds = nv.map((item: any) => item.id).join(',');
+    form.value.agreementAmount = +nv
+      .reduce((acc: number, cur: any) => acc + cur.standardPrice, 0)
+      .toFixed(2);
+    form.value.salesCost = +nv
+      .reduce((acc: number, cur: any) => acc + cur.officialFee, 0)
+      .toFixed(2);
+    form.value.budgetPerformance = +(
+      form.value.salesCost - form.value.agreementAmount
+    ).toFixed(2);
+  },
+  {
+    deep: true,
+  },
+);
 
 defineExpose({
   openModal,
@@ -168,6 +223,7 @@ defineExpose({
           <el-form-item label="签约抬头" prop="custId">
             <ASelect
               v-model="form.custId"
+              :disabled="!!fromCustomer"
               :options="customerOptions"
               filterable
               @change="handleSignTitleChange"
@@ -206,10 +262,16 @@ defineExpose({
                 添加产品
               </el-button>
             </div>
-            <ATable
-              :columns="protocolProductColumns"
-              :data="productSelection"
-            />
+            <ATable :columns="protocolProductColumns" :data="productSelection">
+              <template #operator="{ $index }">
+                <div class="flex items-center justify-center">
+                  <Trash2
+                    class="size-4 cursor-pointer text-red-600"
+                    @click="deleteProduct($index)"
+                  />
+                </div>
+              </template>
+            </ATable>
             <!-- <p class="mt-2 text-right">
               已选中产品: <span class="text-[#f00]">0</span> 种，总销售额: 0
               元，总销售业绩：0 元
@@ -313,9 +375,13 @@ defineExpose({
     </el-form>
     <template #footer>
       <div class="flex items-center justify-end gap-2">
-        <el-button @click="showModal = false">取消</el-button>
-        <el-button plain type="primary">暂存</el-button>
-        <el-button type="primary">确定</el-button>
+        <el-button @click="closeModal">取消</el-button>
+        <el-button plain type="primary" @click="handleSubmitProduct()">
+          暂存
+        </el-button>
+        <el-button type="primary" @click="handleSubmitProduct(true)">
+          确定
+        </el-button>
       </div>
     </template>
   </AModal>
@@ -323,15 +389,11 @@ defineExpose({
   <AModal
     v-model="showProductModal"
     title="选择产品"
-    width="750px"
+    width="850px"
     @close="tempProductSelection = []"
     @confirm="handleSelectProduct"
   >
-    <ATable
-      :columns="productColumns"
-      :data="productList"
-      @selection-change="handleSelectionChange"
-    />
+    <ProductTable @selection-change="handleSelectionChange" />
   </AModal>
 </template>
 

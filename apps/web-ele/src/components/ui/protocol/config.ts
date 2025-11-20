@@ -1,13 +1,15 @@
+import type { FormItemType } from '@vben/types';
+
 import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
 export const rules = {
-  protocolHead: [
+  agreementTitle: [
     { required: true, message: '请选择协议抬头', trigger: 'change' },
   ],
-  protocolType: [
+  agreementType: [
     { required: true, message: '请选择协议类型', trigger: 'change' },
   ],
-  head: [{ required: true, message: '请输入签约抬头', trigger: 'blur' }],
+  signTitle: [{ required: true, message: '请输入签约抬头', trigger: 'blur' }],
   agreementAmount: [
     { required: true, message: '请输入协议金额', trigger: 'blur' },
   ],
@@ -26,18 +28,25 @@ export const rules = {
   agreementTax: [
     { required: true, message: '请输入协议税费', trigger: 'blur' },
   ],
-  product: [{ required: true, message: '请选择', trigger: 'change' }],
 };
 
 export const protocolProductColumns: ITableColumnProps[] = [
-  { label: '产品名称', prop: 'name' },
-  { label: '服务分类', prop: 'service' },
+  { label: '产品名称', prop: 'productName' },
+  { label: '服务分类', prop: 'categoryId' },
   { label: '国家', prop: 'country' },
-  { label: '官费(元)', prop: 'official' },
-  { label: '售价(元)', prop: 'price' },
-  { label: '数量(标)', prop: 'number' },
-  { label: '附加项', prop: 'extra' },
-  { label: '操作', prop: 'operator', fixed: 'right' },
+  {
+    label: '官费(元)',
+    prop: 'officialFee',
+    format: (value) => value?.toFixed(2),
+  },
+  {
+    label: '售价(元)',
+    prop: 'standardPrice',
+    format: (value) => value?.toFixed(2),
+  },
+  // { label: '数量(标)', prop: 'number' },
+  // { label: '附加项', prop: 'extra' },
+  { label: '操作', prop: 'operator', fixed: 'right', align: 'center' },
 ];
 
 export const agreementTypeOptions = [
@@ -100,5 +109,23 @@ export const productColumns: ITableColumnProps[] = [
     prop: 'officialFee',
     sortable: true,
     format: (value: number) => value?.toFixed(2),
+  },
+];
+
+export const formItems: FormItemType[] = [
+  {
+    label: '国家',
+    key: 'country',
+    width: 36,
+    props: {
+      placeholder: '请输入',
+    },
+  },
+  {
+    label: '产品名称',
+    key: 'productName',
+    props: {
+      placeholder: '请输入产品名称',
+    },
   },
 ];

@@ -18,6 +18,8 @@ export interface AgreementDto {
   salesCost: number;
   signTitle: string;
   updateBy: number;
+  id: string;
+  submit: number;
 }
 
 /**
@@ -30,7 +32,7 @@ export const getAgreementById = (id: string) =>
  * 新增协议
  */
 export const addAgreement = (data: any): Promise<AgreementDto> =>
-  requestClient.post(`/agreement/add`, { data });
+  requestClient.post(`/agreement/add`, data);
 
 /**
  * 分页条件查询协议

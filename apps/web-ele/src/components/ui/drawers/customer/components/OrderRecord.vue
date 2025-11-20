@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { FormItemType } from '@vben/types';
 
-import { ref } from 'vue';
+import { useTemplateRef } from 'vue';
 
 import { getAgreementList } from '#/api/core/protocol';
 import TableLayout from '#/components/table-layout/index.vue';
@@ -25,7 +25,8 @@ const formItems: FormItemType[] = [
   },
 ];
 
-const showModal = ref(false);
+const protocolFormRef = useTemplateRef('protocolFormRef');
+
 const beforeQuery = (queryParams: any) => {
   queryParams.pageSize = 999;
   queryParams.customerId = props.form.id;
@@ -41,15 +42,32 @@ const beforeQuery = (queryParams: any) => {
     :hidden-filter="true"
   >
     <template #action>
-      <el-button type="primary" @click="showModal = true">添加</el-button>
+      <el-button
+        type="primary"
+        @click="
+          protocolFormRef?.openModal({
+            target: {
+              custId: form.id,
+              signTitle: form.companyName,
+            },
+          })
+        "
+      >
+        添加
+      </el-button>
     </template>
 
     <template #agreementNo="{ row }">
-      <el-link type="primary">{{ row.agreementNo }}</el-link>
+      <el-text type="primary">{{ row.agreementNo }}</el-text>
     </template>
     <template #status="{ row }">
       <el-tag effect="dark" type="success">{{ row.status }}</el-tag>
     </template>
-    <ProtocolForm v-model="showModal" />
+
+    <ProtocolForm
+      ref="protocolFormRef"
+      :customer-options="[{ ...form, label: form.companyName, value: form.id }]"
+      from-customer
+    />
   </TableLayout>
 </template>

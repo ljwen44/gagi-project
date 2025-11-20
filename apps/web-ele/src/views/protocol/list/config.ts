@@ -50,6 +50,12 @@ export const tabbar: TabbarProps[] = [
   },
 ];
 
+export const statusTypeMap: Record<string, string> = {
+  暂存: 'info',
+  已完结: 'success',
+  已驳回: 'danger',
+};
+
 export const columns: ITableColumnProps[] = [
   {
     label: '编号',
@@ -220,6 +226,7 @@ export const columns: ITableColumnProps[] = [
     prop: 'operator',
     fixed: 'right',
     disabledFilter: true,
+    align: 'center',
   },
 ];
 
