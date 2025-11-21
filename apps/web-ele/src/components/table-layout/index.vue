@@ -43,7 +43,7 @@ const {
 } = useTableSheet(props);
 
 const attrs = useAttrs();
-const activeTab = ref('');
+const activeTab = ref<number | string>('');
 const { hasRole } = useUserStore();
 const tableEeventMap: Record<string, string> = {
   onExpandChange: 'expand-change',
@@ -239,7 +239,7 @@ defineExpose({
       </el-form>
     </Modal>
 
-    <slot></slot>
+    <slot :table-data></slot>
   </div>
 </template>
 

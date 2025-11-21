@@ -5,6 +5,7 @@ import { Fullscreen, Trash2, X } from '@vben/icons';
 
 import { ElMessage } from 'element-plus';
 
+import { getProductById } from '#/api/core/product';
 import { addAgreement, genAgreementNo } from '#/api/core/protocol';
 import AModal from '#/components/common/modal/index.vue';
 import ASelect from '#/components/common/select/index.vue';
@@ -68,6 +69,14 @@ const openModal = async (params?: {
   const { target, title } = params || {};
   if (target) {
     form.value = { ...form.value, ...target };
+
+    if (target.productIds) {
+      const productIds = target.productIds.split(',');
+      const dataList = await Promise.all(
+        productIds.map(async (id) => await getProductById(+id)),
+      );
+      productSelection.value = dataList;
+    }
   }
 
   if (!form.value.agreementNo) {
@@ -165,6 +174,7 @@ defineExpose({
     v-model="showModal"
     :body-class="`overflow-auto pr-4 ${fullscreen ? '' : 'max-h-[60vh]'}`"
     :fullscreen
+    :show-close="false"
     :title="modalTitle"
     width="750px"
   >

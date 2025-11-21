@@ -20,6 +20,8 @@ import { columns, formItems, MODAL_TYPE, tabbar } from './config';
 const modalType = ref(MODAL_TYPE.INIT);
 const currentTab = ref('');
 const drawerForm = ref({});
+const previewCustomerId = ref('');
+const currentPreviewIndex = ref(0);
 const tableLayoutRef = useTemplateRef('tableLayoutRef');
 
 const beforeQuery = (queryParams: any) => {
@@ -34,9 +36,17 @@ const handleTabChange = (tab: string) => {
 
   tableLayoutRef.value?.query();
 };
-const openOrderDrawer = (row: any) => {
-  modalType.value = MODAL_TYPE.WORKORDER;
-  drawerForm.value = { ...row };
+
+const openDrawer = (type: MODAL_TYPE, row: any, index: number) => {
+  modalType.value = type;
+  currentPreviewIndex.value = index;
+  if (type === MODAL_TYPE.PROTOCOL) {
+    drawerForm.value = row;
+    return;
+  }
+  if (type === MODAL_TYPE.CUSTOMER) {
+    previewCustomerId.value = row.custId;
+  }
 };
 </script>
 
@@ -50,22 +60,34 @@ const openOrderDrawer = (row: any) => {
     :tabbar
     @tab-change="handleTabChange"
   >
-    <template #orderNo="{ row }">
-      <el-link type="primary" @click="openOrderDrawer(row)">
+    <template #orderNo="{ row, $index }">
+      <el-text
+        class="cursor-pointer"
+        type="primary"
+        @click="openDrawer(MODAL_TYPE.WORKORDER, row, $index)"
+      >
         {{ row.orderNo }}
-      </el-link>
+      </el-text>
     </template>
 
-    <template #customerNo="{ row }">
-      <el-link type="primary" @click="modalType = MODAL_TYPE.CUSTOMER">
+    <template #customerNo="{ row, $index }">
+      <el-text
+        class="cursor-pointer"
+        type="primary"
+        @click="openDrawer(MODAL_TYPE.CUSTOMER, row, $index)"
+      >
         {{ row.customerNo }}
-      </el-link>
+      </el-text>
     </template>
 
     <template #agreementNo="{ row }">
-      <el-link type="primary" @click="modalType = MODAL_TYPE.PROTOCOL">
+      <el-text
+        class="cursor-pointer"
+        type="primary"
+        @click="modalType = MODAL_TYPE.PROTOCOL"
+      >
         {{ row.agreementNo }}
-      </el-link>
+      </el-text>
     </template>
 
     <template #auditStatus="{ row }">
@@ -109,7 +131,7 @@ const openOrderDrawer = (row: any) => {
     />
 
     <CustomerDetailDrawer
-      :form="{}"
+      :id="previewCustomerId"
       :show="modalType === MODAL_TYPE.CUSTOMER"
       @closed="modalType = MODAL_TYPE.INIT"
     />

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, useAttrs } from 'vue';
 
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
 
@@ -20,6 +20,8 @@ defineProps<IProps>();
 
 const emits = defineEmits(['closed']);
 
+const attrs = useAttrs();
+
 const activeTab = ref<ProtocolTabEnum>(ProtocolTabEnum.protocol);
 
 const handleClosed = () => {
@@ -38,12 +40,13 @@ const handleTabChange = (activeName: ProtocolTabEnum) => {
     :show
     grid-cols="3"
     title="查看协议详情"
+    v-bind="attrs"
     @closed="handleClosed"
   >
-    <template #pre-content>
+    <!-- <template #pre-content>
       <el-alert title="xxx 通过了审核" type="success" />
       <el-alert :closable="false" title="此协议由 xxx 转化而来" type="info" />
-    </template>
+    </template> -->
 
     <AuditProgress v-bind="$props" />
 

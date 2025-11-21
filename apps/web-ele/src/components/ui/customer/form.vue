@@ -6,7 +6,7 @@ import { Input } from '@vben-core/shadcn-ui';
 
 import { ElMessage } from 'element-plus';
 
-import { addCustomer, genCustNo } from '#/api/core/customer';
+import { addCustomer, genCustNo, updateCustomer } from '#/api/core/customer';
 import Aaddress from '#/components/common/address/index.vue';
 import AForm from '#/components/common/form/index.vue';
 import AModal from '#/components/common/modal/index.vue';
@@ -84,11 +84,15 @@ const closeModal = () => {
 const onConfirm = async () => {
   try {
     await formRef.value?.instance.validate();
-    const api = form.value.id ? addCustomer : addCustomer;
-    await api(form.value);
+    const api = form.value.id ? updateCustomer : addCustomer;
+    const requestParams = {
+      ...form.value,
+      tags: form.value?.tags?.join(','),
+    };
+    await api(requestParams);
     ElMessage.success('操作成功');
     closeModal();
-    emits('confirm');
+    emits('confirm', requestParams);
   } catch {}
 };
 

@@ -24,11 +24,11 @@ export const protocolFormItems: IFormItem[] = [
   },
   {
     label: '协议抬头',
-    prop: 'pHead',
+    prop: 'agreementTitle',
   },
   {
     label: '协议类型',
-    prop: 'pType',
+    prop: 'agreementType',
   },
   {
     label: '客户编号',
@@ -40,93 +40,114 @@ export const protocolFormItems: IFormItem[] = [
   },
   {
     label: '签约抬头',
-    prop: 'head',
+    prop: 'signTitle',
   },
-  {
-    label: '联系人',
-    prop: 'contact',
-  },
-  {
-    label: '联系电话',
-    prop: 'phone',
-  },
-  {
-    label: '联系地址',
-    prop: 'addr',
-  },
+  // {
+  //   label: '联系人',
+  //   prop: 'contact',
+  // },
+  // {
+  //   label: '联系电话',
+  //   prop: 'phone',
+  // },
+  // {
+  //   label: '联系地址',
+  //   prop: 'addr',
+  // },
   {
     label: '协议金额',
     prop: 'agreementAmount',
+    format: (value) => value?.toFixed(2),
   },
   {
     label: '实收金额',
     prop: 'receivedAmount',
+    format: (value) => value?.toFixed(2),
   },
   {
     label: '协议成本',
-    prop: 'pCost',
+    prop: 'agreementCost',
+    format: (value) => value?.toFixed(2),
   },
-  {
-    label: '是否含税',
-    prop: 'hasTax',
-  },
-  {
-    label: '税率',
-    prop: 'tax',
-  },
+  // {
+  //   label: '是否含税',
+  //   prop: 'hasTax',
+  // },
+  // {
+  //   label: '税率',
+  //   prop: 'tax',
+  // },
   {
     label: '协议税费',
     prop: 'agreementTax',
+    format: (value) => value?.toFixed(2),
   },
   {
     label: '预算业绩',
     prop: 'budgetPerformance',
+    format: (value) => value?.toFixed(2),
   },
   {
     label: '实际业绩',
     prop: 'actualPerformance',
+    format: (value) => value?.toFixed(2),
   },
-  {
-    label: '业绩分配',
-    prop: 'performanceAllocation',
-  },
+  // {
+  //   label: '业绩分配',
+  //   prop: 'performanceAllocation',
+  // },
   {
     label: '销售成本',
     prop: 'salesCost',
-    class: 'col-span-3',
+    format: (value) => value?.toFixed(2),
   },
   {
-    label: '已回款',
-    prop: 'returned',
+    label: '折扣金额',
+    prop: 'discountAmount',
+    format: (value) => value?.toFixed(2),
   },
-  {
-    label: '未回款',
-    prop: 'unReturen',
-    class: 'col-span-2',
-  },
-  {
-    label: '所属人',
-    prop: 'owner',
-  },
-  {
-    label: '签订日期',
-    prop: 'date',
-  },
-  {
-    label: '到款时间',
-    prop: 'time',
-  },
+  // {
+  //   label: '已回款',
+  //   prop: 'returned',
+  // },
+  // {
+  //   label: '未回款',
+  //   prop: 'unReturen',
+  //   class: 'col-span-2',
+  // },
+  // {
+  //   label: '所属人',
+  //   prop: 'owner',
+  // },
+  // {
+  //   label: '签订日期',
+  //   prop: 'date',
+  // },
+  // {
+  //   label: '到款时间',
+  //   prop: 'time',
+  // },
   {
     label: '真实名',
     prop: 'realName',
   },
+  // {
+  //   label: '所属部门',
+  //   prop: 'dept',
+  // },
+  // {
+  //   label: '所属公司',
+  //   prop: 'company',
+  // },
   {
-    label: '所属部门',
-    prop: 'dept',
+    label: '协议备注',
+    prop: 'agreementRemark',
+    class: 'col-span-3',
   },
   {
-    label: '所属公司',
-    prop: 'company',
+    label: '订单备注',
+    prop: 'orderRemark',
+    class: 'col-span-3',
   },
 ];
 

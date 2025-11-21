@@ -3,8 +3,10 @@ import { onMounted, ref, useTemplateRef } from 'vue';
 
 import { AlertCircle, Bug, Edit } from '@vben/icons';
 
+import { ElMessage } from 'element-plus';
+
 import { getCustomerList } from '#/api/core/customer';
-import { getAgreementById, getAgreementList } from '#/api/core/protocol';
+import { getAgreementList } from '#/api/core/protocol';
 import ATable from '#/components/common/table/index.vue';
 import TableLayout from '#/components/table-layout/index.vue';
 import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetail.vue';
@@ -24,6 +26,8 @@ const modalType = ref(MODAL_TYPE.INIT);
 const currentTab = ref('');
 const drawerForm = ref({});
 const customerOptions = ref([]);
+const currentPreviewIndex = ref(0);
+const previewCustomerId = ref('');
 const tableLayoutRef = useTemplateRef('tableLayoutRef');
 const protocolFormRef = useTemplateRef('protocolFormRef');
 
@@ -40,9 +44,16 @@ const handleTabChange = (tab: string) => {
   tableLayoutRef.value?.query();
 };
 
-const openDrawer = (type: MODAL_TYPE, row: any) => {
+const openDrawer = (type: MODAL_TYPE, row: any, index: number) => {
   modalType.value = type;
-  drawerForm.value = row;
+  currentPreviewIndex.value = index;
+  if (type === MODAL_TYPE.PROTOCOL) {
+    drawerForm.value = row;
+    return;
+  }
+  if (type === MODAL_TYPE.CUSTOMER) {
+    previewCustomerId.value = row.custId;
+  }
 };
 
 const getCustomerListOptions = async () => {
@@ -61,14 +72,26 @@ const handleProductConfirm = () => {
   tableLayoutRef.value?.query();
 };
 
-const handleEditAgreement = async (row: any) => {
-  const agreement = await getAgreementById(row.id);
-  protocolFormRef?.value?.openModal({
-    target: {
-      ...agreement,
-    },
-    title: '编辑协议',
-  });
+const handleNextPreview = (list: any, symbol: number, type: MODAL_TYPE) => {
+  currentPreviewIndex.value += symbol;
+  if (currentPreviewIndex.value === list.length) {
+    currentPreviewIndex.value--;
+    ElMessage.info('已是最后一页');
+    return;
+  }
+
+  if (currentPreviewIndex.value < 0) {
+    currentPreviewIndex.value = 0;
+    ElMessage.info('已是第一页');
+    return;
+  }
+
+  if (type === MODAL_TYPE.PROTOCOL) {
+    drawerForm.value = list[currentPreviewIndex.value];
+    return;
+  }
+
+  previewCustomerId.value = list[currentPreviewIndex.value].custId;
 };
 
 onMounted(() => {
@@ -104,20 +127,24 @@ onMounted(() => {
         </div>
       </el-tooltip>
     </template>
-    <template #agreementNo="{ row }">
+    <template #agreementNo="{ row, $index }">
       <el-text
         class="cursor-pointer"
         type="primary"
-        @click="openDrawer(MODAL_TYPE.PROTOCOL, row)"
+        @click="openDrawer(MODAL_TYPE.PROTOCOL, row, $index)"
       >
         {{ row.agreementNo }}
       </el-text>
     </template>
 
-    <template #customerNo="{ row }">
-      <el-link type="primary" @click="openDrawer(MODAL_TYPE.CUSTOMER, row)">
+    <template #customerNo="{ row, $index }">
+      <el-text
+        class="cursor-pointer"
+        type="primary"
+        @click="openDrawer(MODAL_TYPE.CUSTOMER, row, $index)"
+      >
         {{ row.customerNo }}
-      </el-link>
+      </el-text>
     </template>
 
     <template #status="{ row }">
@@ -166,28 +193,41 @@ onMounted(() => {
       <div class="flex items-center justify-center gap-1">
         <Edit
           class="size-4 cursor-pointer text-[var(--el-color-primary)]"
-          @click="handleEditAgreement(row)"
+          @click="
+            protocolFormRef?.openModal({
+              target: {
+                ...row,
+              },
+              title: '编辑协议',
+            })
+          "
         />
       </div>
     </template>
 
-    <ProtocolForm
-      ref="protocolFormRef"
-      :customer-options
-      @confirm="handleProductConfirm"
-    />
+    <template #default="{ tableData }">
+      <ProtocolForm
+        ref="protocolFormRef"
+        :customer-options
+        @confirm="handleProductConfirm"
+      />
 
-    <ProtocolDrawer
-      :form="drawerForm"
-      :show="modalType === MODAL_TYPE.PROTOCOL"
-      @closed="modalType = MODAL_TYPE.INIT"
-    />
+      <ProtocolDrawer
+        :form="drawerForm"
+        :show="modalType === MODAL_TYPE.PROTOCOL"
+        @closed="modalType = MODAL_TYPE.INIT"
+        @next="handleNextPreview(tableData, 1, MODAL_TYPE.PROTOCOL)"
+        @prev="handleNextPreview(tableData, -1, MODAL_TYPE.PROTOCOL)"
+      />
 
-    <CustomerDetailDrawer
-      :form="{}"
-      :show="modalType === MODAL_TYPE.CUSTOMER"
-      @closed="modalType = MODAL_TYPE.INIT"
-    />
+      <CustomerDetailDrawer
+        :id="previewCustomerId"
+        :show="modalType === MODAL_TYPE.CUSTOMER"
+        @closed="modalType = MODAL_TYPE.INIT"
+        @next="handleNextPreview(tableData, 1, MODAL_TYPE.CUSTOMER)"
+        @prev="handleNextPreview(tableData, -1, MODAL_TYPE.CUSTOMER)"
+      />
+    </template>
   </TableLayout>
 </template>
 

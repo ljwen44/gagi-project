@@ -3,6 +3,8 @@ import { ref } from 'vue';
 
 import { Inbox } from '@vben/icons';
 
+import { ElMessage } from 'element-plus';
+
 import { getCustomerList } from '#/api/core/customer';
 import TableLayout from '#/components/table-layout/index.vue';
 import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetail.vue';
@@ -11,7 +13,8 @@ import { columns, formItems } from './config';
 
 const showModal = ref(false);
 const selection = ref([]);
-const currentForm = ref({});
+const currentPreviewIndex = ref(0);
+const previewCustomerId = ref('');
 
 const beforeQuery = (queryParams: Record<string, any>) => {
   queryParams.isPublicSea = 1;
@@ -21,9 +24,27 @@ const handleSelectionChange = (value: any) => {
   selection.value = value;
 };
 
-const openCustomerDetail = (row: any) => {
-  currentForm.value = structuredClone(row);
+const openCustomerDetail = (row: any, index: number) => {
+  previewCustomerId.value = row.id;
+  currentPreviewIndex.value = index;
   showModal.value = true;
+};
+
+const handleNextPreview = (list: any, symbol: number) => {
+  currentPreviewIndex.value += symbol;
+  if (currentPreviewIndex.value === list.length) {
+    currentPreviewIndex.value--;
+    ElMessage.info('已是最后一页');
+    return;
+  }
+
+  if (currentPreviewIndex.value < 0) {
+    currentPreviewIndex.value = 0;
+    ElMessage.info('已是第一页');
+    return;
+  }
+
+  previewCustomerId.value = list[currentPreviewIndex.value].custId;
 };
 </script>
 
@@ -41,8 +62,12 @@ const openCustomerDetail = (row: any) => {
       </el-button>
     </template>
 
-    <template #customerNo="{ row }">
-      <el-text type="primary" @click="openCustomerDetail">
+    <template #customerNo="{ row, $index }">
+      <el-text
+        class="cursor-pointer"
+        type="primary"
+        @click="openCustomerDetail(row, $index)"
+      >
         {{ row.customerNo }}
       </el-text>
     </template>
@@ -65,10 +90,14 @@ const openCustomerDetail = (row: any) => {
       </div>
     </template>
 
-    <CustomerDetailDrawer
-      :form="currentForm"
-      :show="showModal"
-      @closed="showModal = false"
-    />
+    <template #default="{ tableData }">
+      <CustomerDetailDrawer
+        :id="previewCustomerId"
+        :show="showModal"
+        @closed="showModal = false"
+        @next="handleNextPreview(tableData, 1)"
+        @prev="handleNextPreview(tableData, -1)"
+      />
+    </template>
   </TableLayout>
 </template>

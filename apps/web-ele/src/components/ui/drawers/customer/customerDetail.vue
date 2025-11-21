@@ -4,7 +4,9 @@ import { ref, useTemplateRef, watch } from 'vue';
 
 import { Database, SquarePen } from '@vben/icons';
 
-import { getCustomerById } from '#/api/core/customer';
+import { ElMessage, ElMessageBox } from 'element-plus';
+
+import { getCustomerById, updateCustomer } from '#/api/core/customer';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
 import CustomerForm from '#/components/ui/customer/form.vue';
 
@@ -44,6 +46,24 @@ const getCustomerDetail = async () => {
   form.value = result;
 };
 
+const handleUpdateCustomer = (customer: any) => {
+  form.value = customer;
+};
+
+const updateCustomerToisPublicSea = async () => {
+  try {
+    ElMessageBox.confirm('确定将该客户放入公海吗?', 'Warning', {
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      type: 'warning',
+    });
+    await updateCustomer({ ...form.value, isPublicSea: 1 });
+    ElMessage.success('操作成功');
+  } catch {
+    ElMessage.error('操作失败');
+  }
+};
+
 watch(
   () => props.id,
   () => {
@@ -81,8 +101,15 @@ watch(
               <SquarePen class="size-3 text-blue-600" />
             </div>
           </el-tooltip>
-          <el-tooltip content="放入公海" placement="top">
-            <div class="cursor-pointer rounded-md bg-orange-200 p-2">
+          <el-tooltip
+            v-if="!form.isPublicSea"
+            content="放入公海"
+            placement="top"
+          >
+            <div
+              class="cursor-pointer rounded-md bg-orange-200 p-2"
+              @click="updateCustomerToisPublicSea"
+            >
               <Database class="size-3 text-orange-600" />
             </div>
           </el-tooltip>
@@ -129,6 +156,10 @@ watch(
       </KeepAlive>
     </div>
 
-    <CustomerForm ref="customerFormRef" title="修改客户" />
+    <CustomerForm
+      ref="customerFormRef"
+      title="修改客户"
+      @confirm="handleUpdateCustomer"
+    />
   </DrawerLayout>
 </template>
