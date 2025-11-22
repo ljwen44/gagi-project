@@ -113,7 +113,8 @@ const handleNext = () => {
       <slot name="pre-content"></slot>
       <slot name="content-header">
         <el-form
-          :class="`grid grid-cols-${gridCols} border-b pb-2`"
+          :style="`grid-template-columns: repeat(${gridCols}, 1fr)`"
+          class="grid border-b pb-2"
           label-position="right"
           label-width="80px"
         >
@@ -125,7 +126,9 @@ const handleNext = () => {
           >
             <template #label>
               <slot :name="`${item.prop}Label`">
-                <span class="text-foreground/80 inline-block min-w-[80px]">
+                <span
+                  class="text-foreground/80 inline-block min-w-[80px] whitespace-nowrap"
+                >
                   {{ item.label }}:
                 </span>
               </slot>

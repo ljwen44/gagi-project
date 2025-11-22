@@ -187,7 +187,7 @@ export const columns: ITableColumnProps[] = [
   // },
   {
     label: '创建人',
-    prop: 'createdBy',
+    prop: 'username',
     sortable: true,
     disabledFilter: true,
   },
@@ -250,3 +250,9 @@ export const columns: ITableColumnProps[] = [
     width: 140,
   },
 ];
+
+export const TagTypeMap: Record<number, string> = {
+  0: 'info',
+  1: 'success',
+  2: 'danger',
+};

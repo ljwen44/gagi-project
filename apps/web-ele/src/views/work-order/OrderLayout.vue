@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { ref, useTemplateRef } from 'vue';
+import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
-import { Bell, Bug } from '@vben/icons';
+import { ref, useTemplateRef } from 'vue';
 
 import { ElMessage } from 'element-plus';
 
@@ -9,22 +9,48 @@ import { getWorkOrderList } from '#/api/core/workOrder';
 import TableLayout from '#/components/table-layout/index.vue';
 import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetail.vue';
 import ProtocolDrawer from '#/components/ui/drawers/protocol/protocolDrawer.vue';
-import AbnormalWorkOrderDrawer from '#/components/ui/drawers/workOrder/abnormal/abnormalWorkOrderDrawer.vue';
-import WorkOrderDrawer from '#/components/ui/drawers/workOrder/allList/workOrderDrawer.vue';
 
-import { TagTypeMap, WorkStatusMap } from '../commonConfig';
-import { columns, formItems, MODAL_TYPE, tabbar } from './config';
+import {
+  AuditStatusMap,
+  ConfirmMap,
+  formItems,
+  MODAL_TYPE,
+  ReceiveStatusMap,
+  tabbar,
+  TagTypeMap,
+} from './commonConfig';
+
+export interface IProps {
+  drawerType: MODAL_TYPE;
+  type: string;
+  columns: ITableColumnProps[];
+}
+
+const props = defineProps<IProps>();
 
 const modalType = ref(MODAL_TYPE.INIT);
 const currentPreviewIndex = ref(0);
 const previewId = ref<number | undefined>();
-const previewOrderId = ref<number | undefined>();
 const previewCustomerId = ref<number | undefined>();
 const previewProtocolId = ref<number | undefined>();
 const tableLayoutRef = useTemplateRef('tableLayoutRef');
 
-const beforeQuery = (queryParams: any) => {
-  queryParams.orderType = 'abnormal';
+const beforeQuery = (params: any) => {
+  params.categoryName = props.type;
+};
+
+const openDrawer = (type: MODAL_TYPE, row: any, index: number) => {
+  modalType.value = type;
+  currentPreviewIndex.value = index;
+  if (type === MODAL_TYPE.PROTOCOL) {
+    previewProtocolId.value = row.agreementId;
+    return;
+  }
+  if (type === MODAL_TYPE.CUSTOMER) {
+    previewCustomerId.value = row.custId;
+    return;
+  }
+  previewId.value = row.id;
 };
 
 const handleNextPreview = (list: any, symbol: number, type: MODAL_TYPE) => {
@@ -59,25 +85,7 @@ const handleCloseDrawer = () => {
   previewId.value = undefined;
   previewCustomerId.value = undefined;
   previewProtocolId.value = undefined;
-  previewOrderId.value = undefined;
   tableLayoutRef.value?.query();
-};
-const openDrawer = (type: MODAL_TYPE, row: any, index: number) => {
-  modalType.value = type;
-  currentPreviewIndex.value = index;
-  if (type === MODAL_TYPE.PROTOCOL) {
-    previewProtocolId.value = row.agreementId;
-    return;
-  }
-  if (type === MODAL_TYPE.CUSTOMER) {
-    previewCustomerId.value = row.custId;
-    return;
-  }
-  if (type === MODAL_TYPE.WORKORDER) {
-    previewOrderId.value = row.orderId;
-    return;
-  }
-  previewId.value = row.id;
 };
 </script>
 
@@ -94,7 +102,7 @@ const openDrawer = (type: MODAL_TYPE, row: any, index: number) => {
       <el-text
         class="cursor-pointer"
         type="primary"
-        @click="openDrawer(MODAL_TYPE.ABNORMALWORKORDER, row, $index)"
+        @click="openDrawer(drawerType, row, $index)"
       >
         {{ row.orderNo }}
       </el-text>
@@ -132,51 +140,30 @@ const openDrawer = (type: MODAL_TYPE, row: any, index: number) => {
 
     <template #auditStatus="{ row }">
       <el-tag :type="TagTypeMap[row.auditStatus]" effect="dark">
-        {{ WorkStatusMap[row.auditStatus] }}
+        {{ AuditStatusMap[row.auditStatus] }}
       </el-tag>
     </template>
 
     <template #customerConfirm="{ row }">
       <el-tag :type="TagTypeMap[row.customerConfirm]" effect="dark">
-        {{ WorkStatusMap[row.customerConfirm] }}
+        {{ ConfirmMap[row.customerConfirm] }}
       </el-tag>
     </template>
 
     <template #workStatus="{ row }">
       <el-tag :type="TagTypeMap[row.workStatus]" effect="dark">
-        {{ WorkStatusMap[row.workStatus] }}
+        {{ ReceiveStatusMap[row.workStatus] }}
       </el-tag>
-    </template>
-
-    <!-- <template #method="{ row }">
-      <el-tag v-if=row.method :type="TagTypeMap[row.method]" effect="dark">
-        {{ row.method }}
-      </el-tag>
-    </template> -->
-
-    <template #operator>
-      <div class="flex items-center justify-center gap-1">
-        <Bug class="size-4 cursor-pointer text-red-600" />
-        <Bell class="size-4 cursor-pointer text-green-600" />
-      </div>
     </template>
 
     <template #default="{ tableData }">
-      <WorkOrderDrawer
-        :id="previewOrderId"
-        :show="modalType === MODAL_TYPE.WORKORDER"
-        @closed="handleCloseDrawer"
-        @next="handleNextPreview(tableData, 1, MODAL_TYPE.WORKORDER)"
-        @prev="handleNextPreview(tableData, -1, MODAL_TYPE.WORKORDER)"
-      />
-
-      <AbnormalWorkOrderDrawer
+      <slot
         :id="previewId"
-        :show="modalType === MODAL_TYPE.ABNORMALWORKORDER"
+        :show="modalType === drawerType"
         @closed="handleCloseDrawer"
-        @next="handleNextPreview(tableData, 1, MODAL_TYPE.ABNORMALWORKORDER)"
-        @prev="handleNextPreview(tableData, -1, MODAL_TYPE.ABNORMALWORKORDER)"
-      />
+        @next="handleNextPreview(tableData, 1, drawerType)"
+        @prev="handleNextPreview(tableData, -1, drawerType)"
+      ></slot>
 
       <CustomerDetailDrawer
         :id="previewCustomerId"
@@ -196,5 +183,3 @@ const openDrawer = (type: MODAL_TYPE, row: any, index: number) => {
     </template>
   </TableLayout>
 </template>
-
-<style lang="scss" scoped></style>

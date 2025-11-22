@@ -39,7 +39,8 @@ const handleTabChange = (activeName: CustomerTabEnum) => {
 };
 
 const getCustomerDetail = async () => {
-  if (props.id === '') {
+  if (typeof props.id !== 'number') {
+    form.value = {};
     return;
   }
   const result = await getCustomerById(props.id as number);
@@ -84,7 +85,7 @@ watch(
     <template #pre-content>
       <slot name="form-action">
         <div class="flex items-center gap-2">
-          <el-tooltip content="修改" placement="top">
+          <el-tooltip v-if="id" content="修改" placement="top">
             <div
               class="cursor-pointer rounded-md bg-blue-200 p-2"
               @click="
@@ -102,7 +103,7 @@ watch(
             </div>
           </el-tooltip>
           <el-tooltip
-            v-if="!form.isPublicSea"
+            v-if="id && !form.isPublicSea"
             content="放入公海"
             placement="top"
           >
@@ -129,7 +130,7 @@ watch(
     <template #address="{ originData }">
       <el-text type="primary">
         {{
-          `${originData.province}${originData.city}${originData.district}${originData.detailAddress}`
+          `${originData.province ?? ''}${originData.city ?? ''}${originData.district ?? ''}${originData.detailAddress ?? ''}`
         }}
       </el-text>
     </template>

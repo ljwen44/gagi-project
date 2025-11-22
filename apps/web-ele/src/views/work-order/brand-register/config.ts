@@ -17,7 +17,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '工单编号',
-    prop: 'number',
+    prop: 'orderNo',
     sortable: true,
   },
   {
@@ -37,27 +37,27 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '客户编号',
-    prop: 'customerCode',
+    prop: 'customerNo',
     sortable: true,
   },
   {
     label: '协议编号',
-    prop: 'protocol',
+    prop: 'agreementNo',
     sortable: true,
   },
   {
     label: '关联工单',
-    prop: 'workOrderCode',
+    prop: 'workOrderNo',
     sortable: true,
   },
   {
     label: '审核状态',
-    prop: 'status',
+    prop: 'auditStatus',
     sortable: true,
   },
   {
     label: '做单状态',
-    prop: 'acceptStatus',
+    prop: 'workStatus',
     sortable: true,
   },
   {

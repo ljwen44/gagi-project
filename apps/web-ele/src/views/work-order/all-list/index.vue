@@ -3,6 +3,8 @@ import { ref, useTemplateRef } from 'vue';
 
 import { Bell, Flag, NotebookText, RefreshCcw } from '@vben/icons';
 
+import { ElMessage } from 'element-plus';
+
 import { getWorkOrderList } from '#/api/core/workOrder';
 import TableLayout from '#/components/table-layout/index.vue';
 import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetail.vue';
@@ -13,15 +15,17 @@ import {
   AuditStatusMap,
   ConfirmMap,
   ReceiveStatusMap,
+  TagTypeMap,
   WorkStatusMap,
 } from '../commonConfig';
 import { columns, formItems, MODAL_TYPE, tabbar } from './config';
 
 const modalType = ref(MODAL_TYPE.INIT);
 const currentTab = ref('');
-const drawerForm = ref({});
-const previewCustomerId = ref('');
 const currentPreviewIndex = ref(0);
+const previewId = ref<number | undefined>();
+const previewCustomerId = ref<number | undefined>();
+const previewProtocolId = ref<number | undefined>();
 const tableLayoutRef = useTemplateRef('tableLayoutRef');
 
 const beforeQuery = (queryParams: any) => {
@@ -41,12 +45,49 @@ const openDrawer = (type: MODAL_TYPE, row: any, index: number) => {
   modalType.value = type;
   currentPreviewIndex.value = index;
   if (type === MODAL_TYPE.PROTOCOL) {
-    drawerForm.value = row;
+    previewProtocolId.value = row.agreementId;
     return;
   }
   if (type === MODAL_TYPE.CUSTOMER) {
     previewCustomerId.value = row.custId;
+    return;
   }
+  previewId.value = row.id;
+};
+
+const handleNextPreview = (list: any, symbol: number, type: MODAL_TYPE) => {
+  currentPreviewIndex.value += symbol;
+  if (currentPreviewIndex.value === list.length) {
+    currentPreviewIndex.value--;
+    ElMessage.info('已是最后一页');
+    return;
+  }
+
+  if (currentPreviewIndex.value < 0) {
+    currentPreviewIndex.value = 0;
+    ElMessage.info('已是第一页');
+    return;
+  }
+
+  if (type === MODAL_TYPE.PROTOCOL) {
+    previewProtocolId.value = list[currentPreviewIndex.value].id;
+    return;
+  }
+
+  if (type === MODAL_TYPE.CUSTOMER) {
+    previewCustomerId.value = list[currentPreviewIndex.value].custId;
+    return;
+  }
+
+  previewId.value = list[currentPreviewIndex.value].custId;
+};
+
+const handleCloseDrawer = () => {
+  modalType.value = MODAL_TYPE.INIT;
+  previewId.value = undefined;
+  previewCustomerId.value = undefined;
+  previewProtocolId.value = undefined;
+  tableLayoutRef.value?.query();
 };
 </script>
 
@@ -80,36 +121,36 @@ const openDrawer = (type: MODAL_TYPE, row: any, index: number) => {
       </el-text>
     </template>
 
-    <template #agreementNo="{ row }">
+    <template #agreementNo="{ row, $index }">
       <el-text
         class="cursor-pointer"
         type="primary"
-        @click="modalType = MODAL_TYPE.PROTOCOL"
+        @click="openDrawer(MODAL_TYPE.PROTOCOL, row, $index)"
       >
         {{ row.agreementNo }}
       </el-text>
     </template>
 
     <template #auditStatus="{ row }">
-      <el-tag effect="dark" type="success">
+      <el-tag :type="TagTypeMap[row.auditStatus]" effect="dark">
         {{ AuditStatusMap[row.auditStatus] }}
       </el-tag>
     </template>
 
     <template #customerConfirm="{ row }">
-      <el-tag effect="dark" type="info">
+      <el-tag :type="TagTypeMap[row.customerConfirm]" effect="dark">
         {{ ConfirmMap[row.customerConfirm] }}
       </el-tag>
     </template>
 
     <template #receiveStatus="{ row }">
-      <el-tag effect="dark" type="success">
+      <el-tag :type="TagTypeMap[row.receiveStatus]" effect="dark">
         {{ ReceiveStatusMap[row.receiveStatus] }}
       </el-tag>
     </template>
 
     <template #workStatus="{ row }">
-      <el-tag effect="dark" type="success">
+      <el-tag :type="TagTypeMap[row.workStatus]" effect="dark">
         {{ WorkStatusMap[row.workStatus] }}
       </el-tag>
     </template>
@@ -124,22 +165,31 @@ const openDrawer = (type: MODAL_TYPE, row: any, index: number) => {
       </div>
     </template>
 
-    <WorkOrderDrawer
-      :form="drawerForm"
-      :show="modalType === MODAL_TYPE.WORKORDER"
-      @closed="modalType = MODAL_TYPE.INIT"
-    />
+    <template #default="{ tableData }">
+      <WorkOrderDrawer
+        :id="previewId"
+        :show="modalType === MODAL_TYPE.WORKORDER"
+        @closed="handleCloseDrawer"
+        @next="handleNextPreview(tableData, 1, MODAL_TYPE.WORKORDER)"
+        @prev="handleNextPreview(tableData, -1, MODAL_TYPE.WORKORDER)"
+      />
 
-    <CustomerDetailDrawer
-      :id="previewCustomerId"
-      :show="modalType === MODAL_TYPE.CUSTOMER"
-      @closed="modalType = MODAL_TYPE.INIT"
-    />
+      <CustomerDetailDrawer
+        :id="previewCustomerId"
+        :show="modalType === MODAL_TYPE.CUSTOMER"
+        @closed="handleCloseDrawer"
+        @next="handleNextPreview(tableData, 1, MODAL_TYPE.CUSTOMER)"
+        @prev="handleNextPreview(tableData, -1, MODAL_TYPE.CUSTOMER)"
+      />
 
-    <ProtocolDrawer
-      :show="modalType === MODAL_TYPE.PROTOCOL"
-      @closed="modalType = MODAL_TYPE.INIT"
-    />
+      <ProtocolDrawer
+        :id="previewProtocolId"
+        :show="modalType === MODAL_TYPE.PROTOCOL"
+        @closed="handleCloseDrawer"
+        @next="handleNextPreview(tableData, 1, MODAL_TYPE.PROTOCOL)"
+        @prev="handleNextPreview(tableData, -1, MODAL_TYPE.PROTOCOL)"
+      />
+    </template>
   </TableLayout>
 </template>
 

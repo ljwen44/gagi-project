@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { ref, useAttrs } from 'vue';
+import { ref, useAttrs, watch } from 'vue';
 
+import { getAgreementById } from '#/api/core/protocol';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
 
 import AuditProgress from '../common/AuditProgress.vue';
@@ -13,14 +14,16 @@ import {
 
 interface IProps {
   show: boolean;
-  form?: Record<string, any>;
+  id?: number;
 }
 
-defineProps<IProps>();
+const props = defineProps<IProps>();
 
 const emits = defineEmits(['closed']);
 
 const attrs = useAttrs();
+
+const form = ref<Record<string, any>>({});
 
 const activeTab = ref<ProtocolTabEnum>(ProtocolTabEnum.protocol);
 
@@ -31,11 +34,27 @@ const handleClosed = () => {
 const handleTabChange = (activeName: ProtocolTabEnum) => {
   activeTab.value = activeName;
 };
+
+const getProtocolDetail = async () => {
+  if (typeof props.id !== 'number') {
+    form.value = {};
+    return;
+  }
+  const result = await getAgreementById(props.id);
+  form.value = result;
+};
+
+watch(
+  () => props.id,
+  () => {
+    getProtocolDetail();
+  },
+);
 </script>
 
 <template>
   <DrawerLayout
-    :form="form || {}"
+    :form
     :form-items="protocolFormItems"
     :show
     grid-cols="3"
@@ -48,7 +67,7 @@ const handleTabChange = (activeName: ProtocolTabEnum) => {
       <el-alert :closable="false" title="此协议由 xxx 转化而来" type="info" />
     </template> -->
 
-    <AuditProgress v-bind="$props" />
+    <AuditProgress :instance-id="form.instanceId" />
 
     <template #content-footer>
       <div class="flex flex-col gap-2 pb-4 pt-2">

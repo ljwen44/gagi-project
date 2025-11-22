@@ -13,13 +13,15 @@ import ProductForm from '#/components/ui/product/form.vue';
 import { columns, formItems } from './config';
 
 const showDrawer = ref(false);
-const currentProductId = ref(0);
+const previewId = ref(0);
+const currentPreviewIndex = ref(0);
 const tableLayoutRef = useTemplateRef('tableLayoutRef');
 const productFormRef = useTemplateRef('productFormRef');
 
-const openDrawer = (row: any) => {
+const openDrawer = (row: any, index: number) => {
   showDrawer.value = true;
-  currentProductId.value = row.id;
+  previewId.value = row.id;
+  currentPreviewIndex.value = index;
 };
 
 const handleDelete = async (id: number) => {
@@ -31,6 +33,28 @@ const handleDelete = async (id: number) => {
 };
 
 const refreshData = () => {
+  tableLayoutRef.value?.query();
+};
+
+const handleNextPreview = (list: any, symbol: number) => {
+  currentPreviewIndex.value += symbol;
+  if (currentPreviewIndex.value === list.length) {
+    currentPreviewIndex.value--;
+    ElMessage.info('已是最后一页');
+    return;
+  }
+
+  if (currentPreviewIndex.value < 0) {
+    currentPreviewIndex.value = 0;
+    ElMessage.info('已是第一页');
+    return;
+  }
+
+  previewId.value = list[currentPreviewIndex.value].id;
+};
+
+const handleCloseDrawer = () => {
+  showDrawer.value = false;
   tableLayoutRef.value?.query();
 };
 </script>
@@ -52,10 +76,14 @@ const refreshData = () => {
       </el-button>
     </template>
 
-    <template #productNo="{ row }">
-      <el-link type="primary" @click="openDrawer(row)">
+    <template #productNo="{ row, $index }">
+      <el-text
+        class="cursor-pointer"
+        type="primary"
+        @click="openDrawer(row, $index)"
+      >
         {{ row.productNo }}
-      </el-link>
+      </el-text>
     </template>
     <template #isCertified="{ row }">
       <el-tag :type="row.isCertified ? 'primary' : 'info'">
@@ -94,12 +122,16 @@ const refreshData = () => {
       </div>
     </template>
 
-    <ProductForm ref="productFormRef" @confirm="refreshData" />
+    <template #default="{ tableData }">
+      <ProductForm ref="productFormRef" @confirm="refreshData" />
 
-    <ProductDrawer
-      :id="currentProductId"
-      :show="showDrawer"
-      @closed="showDrawer = false"
-    />
+      <ProductDrawer
+        :id="previewId"
+        :show="showDrawer"
+        @closed="handleCloseDrawer"
+        @next="handleNextPreview(tableData, 1)"
+        @prev="handleNextPreview(tableData, -1)"
+      />
+    </template>
   </TableLayout>
 </template>

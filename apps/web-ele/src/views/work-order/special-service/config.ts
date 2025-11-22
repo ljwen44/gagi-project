@@ -36,7 +36,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '工单编号',
-    prop: 'number',
+    prop: 'orderNo',
     sortable: true,
   },
   {
@@ -46,12 +46,12 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '客户编号',
-    prop: 'customerCode',
+    prop: 'customerNo',
     sortable: true,
   },
   {
     label: '协议编号',
-    prop: 'protocol',
+    prop: 'agreementNo',
     sortable: true,
   },
   {
@@ -66,27 +66,27 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '所属人',
-    prop: 'owner',
+    prop: 'username',
     sortable: true,
   },
   {
     label: '真实名',
-    prop: 'username',
+    prop: 'realName',
     width: 100,
   },
-  {
-    label: '所属部门',
-    prop: 'group',
-  },
-  {
-    label: '部门负责人',
-    prop: 'leader',
-    width: 120,
-  },
-  {
-    label: '所属公司',
-    prop: 'company',
-  },
+  // {
+  //   label: '所属部门',
+  //   prop: 'group',
+  // },
+  // {
+  //   label: '部门负责人',
+  //   prop: 'leader',
+  //   width: 120,
+  // },
+  // {
+  //   label: '所属公司',
+  //   prop: 'company',
+  // },
   {
     label: '创建时间',
     prop: 'createTime',

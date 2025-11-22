@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 import { getWorkflowDetail } from '#/api/core/workFlow';
 
@@ -45,24 +45,37 @@ export interface Workflow {
 export const useWorkflow = (props: any) => {
   const workflow = ref<undefined | Workflow>();
 
+  const steps = computed(() =>
+    workflow.value?.nodes
+      ?.filter((node) => ![1, 3].includes(node.nodeType))
+      .map((node) => {
+        const approval = workflow.value?.approvals.find(
+          (approval) => approval.nodeId === node.id,
+        );
+        return {
+          node,
+          approval,
+        };
+      }),
+  );
+
   const getWorkflow = async () => {
-    if (!props.form?.instanceId) {
+    if (!props?.instanceId) {
       return;
     }
-    const data = await getWorkflowDetail({ instanceId: props.form.instanceId });
+    const data = await getWorkflowDetail({ instanceId: props.instanceId });
     workflow.value = data;
   };
 
   watch(
-    () => props.show,
-    (nv) => {
-      if (nv) {
-        getWorkflow();
-      }
+    () => props.instanceId,
+    () => {
+      getWorkflow();
     },
   );
 
   return {
     workflow,
+    steps,
   };
 };

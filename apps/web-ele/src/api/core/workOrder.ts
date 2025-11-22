@@ -17,7 +17,7 @@ export interface WorkOrderDto {
 /**
  * 根据ID查询工单详情
  */
-export const getWorkOrderById = (id: string) =>
+export const getWorkOrderById = (id: number) =>
   requestClient.get(`/work-order/${id}`);
 
 /**

@@ -69,7 +69,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '异常单号',
-    prop: 'number',
+    prop: 'orderNo',
     sortable: true,
   },
   {
@@ -104,12 +104,12 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '审核状态',
-    prop: 'status',
+    prop: 'auditStatus',
     sortable: true,
   },
   {
     label: '做单状态',
-    prop: 'acceptStatus',
+    prop: 'workStatus',
     sortable: true,
   },
   {
@@ -117,11 +117,11 @@ export const columns: ITableColumnProps[] = [
     prop: 'confirm',
     sortable: true,
   },
-  {
-    label: '处理方式',
-    prop: 'method',
-    sortable: true,
-  },
+  // {
+  //   label: '处理方式',
+  //   prop: 'method',
+  //   sortable: true,
+  // },
   {
     label: '所属人',
     prop: 'username',
@@ -130,24 +130,24 @@ export const columns: ITableColumnProps[] = [
     label: '真实名',
     prop: 'username',
   },
-  {
-    label: '所属部门',
-    prop: 'group',
-  },
-  {
-    label: '部门负责人',
-    prop: 'leader',
-    width: 100,
-  },
-  {
-    label: '所属公司',
-    prop: 'belongCompany',
-  },
-  {
-    label: '主做单人',
-    prop: 'owner',
-    sortable: true,
-  },
+  // {
+  //   label: '所属部门',
+  //   prop: 'group',
+  // },
+  // {
+  //   label: '部门负责人',
+  //   prop: 'leader',
+  //   width: 100,
+  // },
+  // {
+  //   label: '所属公司',
+  //   prop: 'belongCompany',
+  // },
+  // {
+  //   label: '主做单人',
+  //   prop: 'owner',
+  //   sortable: true,
+  // },
   {
     label: '创建人',
     prop: 'createdBy',

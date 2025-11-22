@@ -71,12 +71,12 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '客户编号',
-    prop: 'customerCode',
+    prop: 'customerNo',
     sortable: true,
   },
   {
     label: '协议编号',
-    prop: 'protocol',
+    prop: 'agreementNo',
     sortable: true,
   },
   {

@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 import { Bell, RefreshCcw, SquarePen } from '@vben/icons';
 
+import { getWorkOrderById } from '#/api/core/workOrder';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
 
 import AuditProgress from '../../common/AuditProgress.vue';
@@ -15,13 +16,15 @@ import {
 } from './config';
 
 interface IProps {
+  id?: number;
   show: boolean;
 }
 
-defineProps<IProps>();
+const props = defineProps<IProps>();
 
 const emits = defineEmits(['closed']);
 
+const form = ref<Record<string, any>>({});
 const activeTab = ref<WorkOrderEnum>(WorkOrderEnum.detail);
 
 const handleClosed = () => {
@@ -31,11 +34,27 @@ const handleClosed = () => {
 const handleTabChange = (activeName: WorkOrderEnum) => {
   activeTab.value = activeName;
 };
+
+const getOrderDetail = async () => {
+  if (typeof props.id !== 'number') {
+    form.value = {};
+    return;
+  }
+  const result = await getWorkOrderById(props.id);
+  form.value = result;
+};
+
+watch(
+  () => props.id,
+  () => {
+    getOrderDetail();
+  },
+);
 </script>
 
 <template>
   <DrawerLayout
-    :form="{}"
+    :form
     :form-items="drawerFormItems"
     :show
     grid-cols="3"
@@ -44,7 +63,7 @@ const handleTabChange = (activeName: WorkOrderEnum) => {
   >
     <template #pre-content>
       <div class="flex flex-col gap-2">
-        <el-alert title="xxx 通过了" type="success" />
+        <!-- <el-alert title="xxx 通过了" type="success" /> -->
 
         <div class="flex items-center gap-2">
           <el-tooltip content="编辑" placement="top">

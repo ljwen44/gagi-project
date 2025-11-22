@@ -24,10 +24,10 @@ import {
 
 const modalType = ref(MODAL_TYPE.INIT);
 const currentTab = ref('');
-const drawerForm = ref({});
 const customerOptions = ref([]);
 const currentPreviewIndex = ref(0);
-const previewCustomerId = ref('');
+const previewId = ref<number | undefined>();
+const previewCustomerId = ref<number | undefined>();
 const tableLayoutRef = useTemplateRef('tableLayoutRef');
 const protocolFormRef = useTemplateRef('protocolFormRef');
 
@@ -48,7 +48,7 @@ const openDrawer = (type: MODAL_TYPE, row: any, index: number) => {
   modalType.value = type;
   currentPreviewIndex.value = index;
   if (type === MODAL_TYPE.PROTOCOL) {
-    drawerForm.value = row;
+    previewId.value = row.id;
     return;
   }
   if (type === MODAL_TYPE.CUSTOMER) {
@@ -87,11 +87,18 @@ const handleNextPreview = (list: any, symbol: number, type: MODAL_TYPE) => {
   }
 
   if (type === MODAL_TYPE.PROTOCOL) {
-    drawerForm.value = list[currentPreviewIndex.value];
+    previewId.value = list[currentPreviewIndex.value].id;
     return;
   }
 
   previewCustomerId.value = list[currentPreviewIndex.value].custId;
+};
+
+const handleCloseDrawer = () => {
+  modalType.value = MODAL_TYPE.INIT;
+  tableLayoutRef.value?.query();
+  previewId.value = void 0;
+  previewCustomerId.value = void 0;
 };
 
 onMounted(() => {
@@ -213,9 +220,9 @@ onMounted(() => {
       />
 
       <ProtocolDrawer
-        :form="drawerForm"
+        :id="previewId"
         :show="modalType === MODAL_TYPE.PROTOCOL"
-        @closed="modalType = MODAL_TYPE.INIT"
+        @closed="handleCloseDrawer"
         @next="handleNextPreview(tableData, 1, MODAL_TYPE.PROTOCOL)"
         @prev="handleNextPreview(tableData, -1, MODAL_TYPE.PROTOCOL)"
       />
@@ -223,7 +230,7 @@ onMounted(() => {
       <CustomerDetailDrawer
         :id="previewCustomerId"
         :show="modalType === MODAL_TYPE.CUSTOMER"
-        @closed="modalType = MODAL_TYPE.INIT"
+        @closed="handleCloseDrawer"
         @next="handleNextPreview(tableData, 1, MODAL_TYPE.CUSTOMER)"
         @prev="handleNextPreview(tableData, -1, MODAL_TYPE.CUSTOMER)"
       />

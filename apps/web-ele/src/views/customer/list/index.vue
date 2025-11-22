@@ -19,8 +19,9 @@ import { columns, formItems, tabbar } from './config';
 const customerFormRef = useTemplateRef('customerFormRef');
 const tableLayoutRef = useTemplateRef('tableLayoutRef');
 const showModal = ref(false);
-const currentId = ref<number | string>('');
 const currentTab = ref('');
+const currentPreviewIndex = ref(0);
+const previewCustomerId = ref<number | undefined>();
 
 const userStore = useUserStore();
 // const handleSelectionChange = () => {
@@ -34,9 +35,10 @@ const beforeQuery = (queryParams: Record<string, any>) => {
 const refreshData = () => {
   tableLayoutRef.value?.query();
 };
-const openCustomerDetail = (id: number) => {
-  currentId.value = id;
+const openCustomerDetail = (id: number, index: number) => {
+  previewCustomerId.value = id;
   showModal.value = true;
+  currentPreviewIndex.value = index;
 };
 
 const handleTabChange = (tab: string) => {
@@ -52,6 +54,27 @@ const pushCustomerToSea = async (row: FormProps) => {
   } catch {
     ElMessage.error('操作失败');
   }
+};
+const handleCloseDrawer = () => {
+  showModal.value = false;
+  tableLayoutRef.value?.query();
+};
+
+const handleNextPreview = (list: any, symbol: number) => {
+  currentPreviewIndex.value += symbol;
+  if (currentPreviewIndex.value === list.length) {
+    currentPreviewIndex.value--;
+    ElMessage.info('已是最后一页');
+    return;
+  }
+
+  if (currentPreviewIndex.value < 0) {
+    currentPreviewIndex.value = 0;
+    ElMessage.info('已是第一页');
+    return;
+  }
+
+  previewCustomerId.value = list[currentPreviewIndex.value].id;
 };
 </script>
 
@@ -132,11 +155,11 @@ const pushCustomerToSea = async (row: FormProps) => {
     <!-- <template #customerFlag>
       <span></span>
     </template> -->
-    <template #customerNo="{ row }">
+    <template #customerNo="{ row, $index }">
       <el-text
         class="cursor-pointer"
         type="primary"
-        @click="openCustomerDetail(row.id)"
+        @click="openCustomerDetail(row.id, $index)"
       >
         {{ row.customerNo }}
       </el-text>
@@ -179,13 +202,17 @@ const pushCustomerToSea = async (row: FormProps) => {
       </div>
     </template>
 
-    <CustomerForm ref="customerFormRef" @confirm="refreshData" />
+    <template #default="{ tableData }">
+      <CustomerForm ref="customerFormRef" @confirm="refreshData" />
 
-    <CustomerDetailDrawer
-      :id="currentId"
-      :show="showModal"
-      @closed="showModal = false"
-    />
+      <CustomerDetailDrawer
+        :id="previewCustomerId"
+        :show="showModal"
+        @closed="handleCloseDrawer"
+        @next="handleNextPreview(tableData, 1)"
+        @prev="handleNextPreview(tableData, -1)"
+      />
+    </template>
   </TableLayout>
 </template>
 

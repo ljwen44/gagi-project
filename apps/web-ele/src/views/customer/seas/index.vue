@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, useTemplateRef } from 'vue';
 
 import { Inbox } from '@vben/icons';
 
@@ -15,6 +15,7 @@ const showModal = ref(false);
 const selection = ref([]);
 const currentPreviewIndex = ref(0);
 const previewCustomerId = ref('');
+const tableRef = useTemplateRef('tableRef');
 
 const beforeQuery = (queryParams: Record<string, any>) => {
   queryParams.isPublicSea = 1;
@@ -44,12 +45,18 @@ const handleNextPreview = (list: any, symbol: number) => {
     return;
   }
 
-  previewCustomerId.value = list[currentPreviewIndex.value].custId;
+  previewCustomerId.value = list[currentPreviewIndex.value].id;
+};
+
+const handleCloseDrawer = () => {
+  showModal.value = false;
+  tableRef.value?.query();
 };
 </script>
 
 <template>
   <TableLayout
+    ref="tableRef"
     :api="getCustomerList"
     :before-query
     :columns
@@ -94,7 +101,7 @@ const handleNextPreview = (list: any, symbol: number) => {
       <CustomerDetailDrawer
         :id="previewCustomerId"
         :show="showModal"
-        @closed="showModal = false"
+        @closed="handleCloseDrawer"
         @next="handleNextPreview(tableData, 1)"
         @prev="handleNextPreview(tableData, -1)"
       />

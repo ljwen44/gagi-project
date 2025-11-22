@@ -38,38 +38,47 @@ export const tabbar: TabbarProps[] = [
   {
     label: '全部工单',
     key: 'all',
+    permissionCode: 'workorder:query:productA:all',
   },
   {
     label: '未备注',
-    key: 'noremark',
+    key: 'unremark',
+    permissionCode: 'workorder:query:productA:unremark',
   },
   {
     label: '审核中',
-    key: 'auditing',
+    key: 'reviewing',
+    permissionCode: 'workorder:query:productA:reviewing',
   },
   {
     label: '公示中',
-    key: 'show',
+    key: 'publicing',
+    permissionCode: 'workorder:query:productA:publicing',
   },
   {
     label: '异常',
     key: 'abnormal',
+    permissionCode: 'workorder:query:productA:abnormal',
   },
   {
     label: '暂停',
-    key: 'pause',
+    key: 'paused',
+    permissionCode: 'workorder:query:productA:paused',
   },
   {
     label: '电子证书',
-    key: 'online',
+    key: 'electronic',
+    permissionCode: 'workorder:query:productA:electronic',
   },
   {
     label: '纸质证书',
     key: 'paper',
+    permissionCode: 'workorder:query:productA:paper',
   },
   {
     label: '失败',
-    key: 'fail',
+    key: 'failed',
+    permissionCode: 'workorder:query:productA:failed',
   },
 ];
 
@@ -82,12 +91,12 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '工单编号',
-    prop: 'number',
+    prop: 'orderNo',
     sortable: true,
   },
   {
     label: '工单类型',
-    prop: 'type',
+    prop: 'orderType',
     sortable: true,
   },
   {
@@ -137,12 +146,12 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '客户编号',
-    prop: 'customerCode',
+    prop: 'customerNo',
     sortable: true,
   },
   {
     label: '协议编号',
-    prop: 'protocol',
+    prop: 'agreementNo',
     sortable: true,
   },
   {
@@ -163,19 +172,19 @@ export const columns: ITableColumnProps[] = [
     label: '真实名',
     prop: 'username',
   },
-  {
-    label: '所属部门',
-    prop: 'group',
-  },
-  {
-    label: '部门负责人',
-    prop: 'leader',
-    width: 100,
-  },
-  {
-    label: '所属公司',
-    prop: 'belongCompany',
-  },
+  // {
+  //   label: '所属部门',
+  //   prop: 'group',
+  // },
+  // {
+  //   label: '部门负责人',
+  //   prop: 'leader',
+  //   width: 100,
+  // },
+  // {
+  //   label: '所属公司',
+  //   prop: 'belongCompany',
+  // },
   {
     label: '主做单人',
     prop: 'owner',

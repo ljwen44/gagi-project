@@ -2,9 +2,9 @@ import type { FormItemType, TabbarProps } from '@vben/types';
 
 export enum MODAL_TYPE {
   BRANDOBJECTION = 'brand-objection',
-  BRANDPDATE = 'brand-update',
   BRANDREGISTER = 'brand-register',
   BRANDRENEWAL = 'brand-renewal',
+  BRANDUPDATE = 'brand-update',
   COPYRIGHT = 'copyright',
   CUSTOMER = 'customer',
   INIT = '',
@@ -88,6 +88,12 @@ export const tabbar: TabbarProps[] = [
     permissionCode: 'workorder:query:productA:failed',
   },
 ];
+
+export const TagTypeMap: Record<number, string> = {
+  0: 'info',
+  1: 'success',
+  2: 'danger',
+};
 
 export const AuditStatusMap: Record<number, string> = {
   0: '待审核',
