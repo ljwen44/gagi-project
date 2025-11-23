@@ -28,19 +28,17 @@ export const useAuthStore = defineStore('auth', () => {
     onSuccess?: () => Promise<void> | void,
   ) {
     // 异步处理用户登录操作并获取 accessToken
-    const userInfo: any | UserInfo = {
-      username: params.username as string,
-      roles: [],
-    };
+    let userInfo: any | UserInfo;
     try {
       loginLoading.value = true;
       await loginApi(params);
-      const data = await getAccessCodesApi();
-      const roles = extractPermissionCodes(data);
-      userInfo.roles = roles;
+      const user = await getUserInfoApi();
+      // const data = await getAccessCodesApi();
+      // const roles = extractPermissionCodes(data);
+      userInfo = user;
       accessStore.setAccessToken(params.password);
       userStore.setUserInfo(userInfo);
-      accessStore.setAccessCodes(data);
+      accessStore.setAccessCodes(user.permissions as string[]);
       onSuccess ? await onSuccess?.() : await toHomePage();
       // const { accessToken } = await loginApi(params);
 
@@ -127,7 +125,7 @@ export const useAuthStore = defineStore('auth', () => {
     let userInfo: any | UserInfo = null;
     userInfo = await getUserInfoApi();
     userStore.setUserInfo(userInfo);
-    return userInfo;
+    return userInfo.permissions;
   }
 
   function $reset() {

@@ -400,12 +400,12 @@ export const modalFormItems: IFormItem[] = [
 
 export const detailColumns: ITableColumnProps[] = [
   { label: '产品名称', prop: 'productName', width: '150' },
-  { label: '服务分类', prop: 'serviceType', width: '100' },
+  { label: '服务分类', prop: 'categoryName', width: '100' },
   { label: '国家', prop: 'country', width: '100' },
-  { label: '售价(元)', prop: 'price', width: '100' },
-  { label: '官费(元)', prop: 'fee', width: '100' },
-  { label: '数量(标)', prop: 'quantity', width: '80' },
-  { label: '附加项', prop: 'attachment', width: '300' },
-  { label: '销售额(元)', prop: 'salePrice', width: '100' },
-  { label: '销售业绩(元)', prop: 'performance', width: '120' },
+  { label: '售价(元)', prop: 'standardPrice', width: '100' },
+  { label: '官费(元)', prop: 'officialFee', width: '100' },
+  // { label: '数量(标)', prop: 'quantity', width: '80' },
+  // { label: '附加项', prop: 'attachment', width: '300' },
+  // { label: '销售额(元)', prop: 'salePrice', width: '100' },
+  // { label: '销售业绩(元)', prop: 'performance', width: '120' },
 ];

@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
+import { useDrawerForm } from '@vben/hooks';
 import { Bell, Star } from '@vben/icons';
 
+import { getWorkOrderById } from '#/api/core/workOrder';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
 
 import {
@@ -16,9 +18,11 @@ interface IProps {
   show: boolean;
 }
 
-defineProps<IProps>();
+const props = defineProps<IProps>();
 
 const emits = defineEmits(['closed']);
+
+const { form } = useDrawerForm(props, getWorkOrderById);
 
 const activeTab = ref<FollowUpEnum>(FollowUpEnum.followRecord);
 
@@ -33,7 +37,7 @@ const handleTabChange = (activeName: FollowUpEnum) => {
 
 <template>
   <DrawerLayout
-    :form="{}"
+    :form
     :form-items="drawerFormItems"
     :show
     grid-cols="3"

@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-import { ref, useAttrs, watch } from 'vue';
+import { ref, useAttrs } from 'vue';
+
+import { useDrawerForm } from '@vben/hooks';
 
 import { getAgreementById } from '#/api/core/protocol';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
@@ -23,9 +25,9 @@ const emits = defineEmits(['closed']);
 
 const attrs = useAttrs();
 
-const form = ref<Record<string, any>>({});
-
 const activeTab = ref<ProtocolTabEnum>(ProtocolTabEnum.protocol);
+
+const { form } = useDrawerForm(props, getAgreementById);
 
 const handleClosed = () => {
   emits('closed');
@@ -34,22 +36,6 @@ const handleClosed = () => {
 const handleTabChange = (activeName: ProtocolTabEnum) => {
   activeTab.value = activeName;
 };
-
-const getProtocolDetail = async () => {
-  if (typeof props.id !== 'number') {
-    form.value = {};
-    return;
-  }
-  const result = await getAgreementById(props.id);
-  form.value = result;
-};
-
-watch(
-  () => props.id,
-  () => {
-    getProtocolDetail();
-  },
-);
 </script>
 
 <template>
@@ -84,6 +70,7 @@ watch(
             <component
               :is="componentsMap[activeTab]?.component"
               v-bind="componentsMap[activeTab]?.props || {}"
+              :form
             />
             <template #fallback>
               <div class="p-4 text-center">loading...</div>

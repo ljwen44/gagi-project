@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
+
+import { useDrawerForm } from '@vben/hooks';
 
 import { getProductById } from '#/api/core/product';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
@@ -21,7 +23,7 @@ const props = defineProps<IProps>();
 const emits = defineEmits(['closed']);
 
 const activeTab = ref<ProductTabEnum>(ProductTabEnum.additionalItem);
-const productDetail = ref<Record<string, any>>({});
+const { form } = useDrawerForm(props, getProductById);
 
 const handleClosed = () => {
   emits('closed');
@@ -30,23 +32,11 @@ const handleClosed = () => {
 const handleTabChange = (activeName: ProductTabEnum) => {
   activeTab.value = activeName;
 };
-
-const getProductDetail = async () => {
-  const data = await getProductById(props.id);
-  productDetail.value = data;
-};
-
-watch(
-  () => props.id,
-  () => {
-    getProductDetail();
-  },
-);
 </script>
 
 <template>
   <DrawerLayout
-    :form="productDetail"
+    :form
     :form-items="drawerFormItems"
     :show
     grid-cols="3"

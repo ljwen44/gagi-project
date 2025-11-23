@@ -1,7 +1,8 @@
 <!-- eslint-disable unicorn/no-array-reduce -->
 <script lang="ts" setup>
-import { ref, useTemplateRef, watch } from 'vue';
+import { ref, useTemplateRef } from 'vue';
 
+import { useDrawerForm } from '@vben/hooks';
 import { Database, SquarePen } from '@vben/icons';
 
 import { ElMessage, ElMessageBox } from 'element-plus';
@@ -18,7 +19,7 @@ import {
 } from './config';
 
 interface IProps {
-  id?: number | string;
+  id?: number;
   show: boolean;
 }
 
@@ -26,9 +27,10 @@ const props = defineProps<IProps>();
 
 const emits = defineEmits(['closed']);
 
+const { form, updateForm } = useDrawerForm(props, getCustomerById);
+
 const activeTab = ref<CustomerTabEnum>(CustomerTabEnum.followRecord);
 const customerFormRef = useTemplateRef('customerFormRef');
-const form = ref<Record<string, any>>({});
 
 const handleClosed = () => {
   emits('closed');
@@ -36,19 +38,6 @@ const handleClosed = () => {
 
 const handleTabChange = (activeName: CustomerTabEnum) => {
   requestAnimationFrame(() => (activeTab.value = activeName));
-};
-
-const getCustomerDetail = async () => {
-  if (typeof props.id !== 'number') {
-    form.value = {};
-    return;
-  }
-  const result = await getCustomerById(props.id as number);
-  form.value = result;
-};
-
-const handleUpdateCustomer = (customer: any) => {
-  form.value = customer;
 };
 
 const updateCustomerToisPublicSea = async () => {
@@ -64,13 +53,6 @@ const updateCustomerToisPublicSea = async () => {
     ElMessage.error('操作失败');
   }
 };
-
-watch(
-  () => props.id,
-  () => {
-    getCustomerDetail();
-  },
-);
 </script>
 
 <template>
@@ -160,7 +142,7 @@ watch(
     <CustomerForm
       ref="customerFormRef"
       title="修改客户"
-      @confirm="handleUpdateCustomer"
+      @confirm="updateForm"
     />
   </DrawerLayout>
 </template>

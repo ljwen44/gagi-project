@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
+import { useDrawerForm } from '@vben/hooks';
 import { Bell, Star } from '@vben/icons';
 
+import { getWorkOrderById } from '#/api/core/workOrder';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
 
 import OrderArea from '../../common/OrderArea.vue';
@@ -17,9 +19,11 @@ interface IProps {
   show: boolean;
 }
 
-defineProps<IProps>();
+const props = defineProps<IProps>();
 
 const emits = defineEmits(['closed']);
+
+const { form } = useDrawerForm(props, getWorkOrderById);
 
 const activeTab = ref<ReviewCommentTabEnum>(ReviewCommentTabEnum.detail);
 
@@ -34,7 +38,7 @@ const handleTabChange = (activeName: ReviewCommentTabEnum) => {
 
 <template>
   <DrawerLayout
-    :form="{}"
+    :form
     :form-items="drawerFormItems"
     :show
     grid-cols="2"

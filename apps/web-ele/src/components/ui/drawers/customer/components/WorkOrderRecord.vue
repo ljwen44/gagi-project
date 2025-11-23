@@ -1,6 +1,13 @@
 <script lang="ts" setup>
 import type { FormItemType } from '@vben/types';
 
+import {
+  AuditStatusMap,
+  ConfirmMap,
+  ReceiveStatusMap,
+  TagTypeMap,
+  WorkStatusMap,
+} from '@vben/constants';
 import { Bell, FileText, Star } from '@vben/icons';
 
 import { getWorkOrderList } from '#/api/core/workOrder';
@@ -17,7 +24,7 @@ const props = defineProps<IProps>();
 const formItems: FormItemType[] = [
   {
     label: '工单编号',
-    key: 'agreementId',
+    key: 'orderNo',
     props: {
       placeholder: '请输入工单编号',
     },
@@ -49,19 +56,27 @@ const beforeQuery = (queryParams: any) => {
     </template>
 
     <template #auditStatus="{ row }">
-      <el-tag effect="dark" type="success">{{ row.auditStatus }}</el-tag>
+      <el-tag :type="TagTypeMap[row.auditStatus]" effect="dark">
+        {{ AuditStatusMap[row.auditStatus] }}
+      </el-tag>
     </template>
 
     <template #customerConfirm="{ row }">
-      <el-tag effect="dark" type="success">{{ row.customerConfirm }}</el-tag>
+      <el-tag :type="TagTypeMap[row.customerConfirm]" effect="dark">
+        {{ ConfirmMap[row.customerConfirm] }}
+      </el-tag>
     </template>
 
     <template #receiveStatus="{ row }">
-      <el-tag effect="dark" type="success">{{ row.receiveStatus }}</el-tag>
+      <el-tag :type="TagTypeMap[row.receiveStatus]" effect="dark">
+        {{ ReceiveStatusMap[row.receiveStatus] }}
+      </el-tag>
     </template>
 
     <template #workStatus="{ row }">
-      <el-tag effect="dark" type="success">{{ row.workStatus }}</el-tag>
+      <el-tag :type="TagTypeMap[row.workStatus]" effect="dark">
+        {{ WorkStatusMap[row.workStatus] }}
+      </el-tag>
     </template>
 
     <template #operator>

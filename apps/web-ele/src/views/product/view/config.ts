@@ -39,7 +39,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '服务分类',
-    prop: 'categoryId',
+    prop: 'categoryName',
     sortable: true,
   },
   {

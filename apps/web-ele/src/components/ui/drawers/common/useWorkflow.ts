@@ -1,5 +1,8 @@
 import { computed, ref, watch } from 'vue';
 
+import { CircleDashed, Loader } from '@vben/icons';
+import { useUserStore } from '@vben/stores';
+
 import { getWorkflowDetail } from '#/api/core/workFlow';
 
 interface Approval {
@@ -45,6 +48,8 @@ export interface Workflow {
 export const useWorkflow = (props: any) => {
   const workflow = ref<undefined | Workflow>();
 
+  const userStore = useUserStore();
+
   const steps = computed(() =>
     workflow.value?.nodes
       ?.filter((node) => ![1, 3].includes(node.nodeType))
@@ -52,12 +57,50 @@ export const useWorkflow = (props: any) => {
         const approval = workflow.value?.approvals.find(
           (approval) => approval.nodeId === node.id,
         );
+        let status;
+        if (approval) {
+          status = approval.approvalType === 1 ? 'success' : 'error';
+        } else {
+          status =
+            workflow.value?.instance.currentNodeId === node.id
+              ? 'process'
+              : 'wait';
+        }
+        let icon;
+        switch (status) {
+          case 'process': {
+            icon = Loader;
+            break;
+          }
+          case 'wrait': {
+            icon = CircleDashed;
+            break;
+          }
+          default: {
+            break;
+          }
+        }
         return {
-          node,
-          approval,
+          ...node,
+          comment: approval?.comment,
+          status,
+          icon,
         };
       }),
   );
+
+  const showAudit = computed(() => {
+    const currentUserId = userStore.userInfo?.id;
+    const currentNodeId = workflow.value?.instance?.currentNodeId;
+
+    const node = workflow.value?.nodes.find((n) => n.id === currentNodeId);
+
+    if (!currentNodeId || !node) {
+      return false;
+    }
+
+    return currentUserId === +node.approverValue;
+  });
 
   const getWorkflow = async () => {
     if (!props?.instanceId) {
@@ -76,6 +119,7 @@ export const useWorkflow = (props: any) => {
 
   return {
     workflow,
+    showAudit,
     steps,
   };
 };

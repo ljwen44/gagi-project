@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { CircleHelp, Layers } from '@vben/icons';
+import { Layers } from '@vben/icons';
 </script>
 
 <template>
@@ -10,9 +10,9 @@ import { CircleHelp, Layers } from '@vben/icons';
           <Layers class="size-4 text-white" />
         </div>
         <span>做单区域</span>
-        <el-tooltip content="todo" placement="top">
+        <!-- <el-tooltip content="todo" placement="top">
           <CircleHelp class="size-4 text-[#f00]" />
-        </el-tooltip>
+        </el-tooltip> -->
       </div>
     </div>
     <div class="flex flex-col gap-2">

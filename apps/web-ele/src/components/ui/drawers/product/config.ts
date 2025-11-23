@@ -17,7 +17,7 @@ export enum ProductTabEnum {
 export const drawerFormItems: IFormItem[] = [
   { label: '产品编号', prop: 'productNo' },
   { label: '产品名称', prop: 'productName' },
-  { label: '服务分类', prop: 'categoryId' },
+  { label: '服务分类', prop: 'categoryName' },
   { label: '国家', prop: 'country' },
   {
     label: '是否公证',

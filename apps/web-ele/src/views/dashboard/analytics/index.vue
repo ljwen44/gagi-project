@@ -47,7 +47,7 @@ onMounted(() => {
       :today-performance="performance.todayPerformance"
     >
       <template #title>
-        {{ `${greeting}` }}
+        {{ `${greeting}, ${userStore.userInfo?.realName}` }}
       </template>
       <!-- <template #description>
         <el-tag type="primary"> 职级: S2 </el-tag>

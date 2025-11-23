@@ -1,30 +1,44 @@
 <script lang="ts" setup>
-import type { UploadProps } from 'element-plus';
-
-import { useAttrs } from 'vue';
-
 import { Upload } from '@vben/icons';
+
+import { ElMessage, type UploadProps, type UploadRawFile } from 'element-plus';
 
 interface IProps extends Partial<UploadProps> {
   hiddenTip?: boolean;
   hasCustomClass?: boolean;
+  limitSize?: number;
+  tip?: string;
 }
 
-withDefaults(defineProps<IProps>(), {
+const props = withDefaults(defineProps<IProps>(), {
   hasCustomClass: true,
+  limitSize: 0,
+  tip: '',
 });
 
 const uploadFiles = defineModel();
 
-const attrs = useAttrs();
+const beforeUpload = (file: UploadRawFile) => {
+  if (props.limitSize !== 0 && file.size > props.limitSize) {
+    ElMessage.error('文件超出大小');
+    return false;
+  }
+
+  return true;
+};
+// const handleUpload = (options: UploadRequestOptions) => {};
 </script>
 
 <template>
   <el-upload
-    v-bind="attrs"
+    action="#"
+    v-bind="$props"
     v-model:file-list="uploadFiles"
+    :before-upload
     :class="[hasCustomClass ? 'custom-upload' : '']"
+    :drag
   >
+    <!-- :http-request="handleUpload" -->
     <slot>
       <div class="flex items-center justify-center gap-2">
         <Upload class="size-4" />
@@ -32,7 +46,7 @@ const attrs = useAttrs();
       </div>
     </slot>
     <template #tip>
-      <p v-if="!hiddenTip">{{ attrs.tip || '单个文件限制大小1M' }}</p>
+      <p v-if="!hiddenTip">{{ tip || '单个文件限制大小1M' }}</p>
     </template>
   </el-upload>
 </template>

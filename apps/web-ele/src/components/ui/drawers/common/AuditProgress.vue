@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { computed } from 'vue';
-
 import { Check, CircleX, Users } from '@vben/icons';
 
 import AEmpty from '#/components/common/empty/index.vue';
@@ -13,14 +11,7 @@ interface IProps {
 
 const props = defineProps<IProps>();
 
-const { workflow, steps } = useWorkflow(props);
-
-const showAudit = computed(() => {
-  if (!workflow.value) {
-    return false;
-  }
-  return true;
-});
+const { workflow, showAudit, steps } = useWorkflow(props);
 </script>
 
 <template>
@@ -37,24 +28,19 @@ const showAudit = computed(() => {
         <el-button :icon="CircleX" type="danger">拒绝</el-button>
       </div>
     </div>
-    <el-steps v-if="workflow" align-center>
+    <el-steps
+      v-if="workflow"
+      :active="workflow?.instance.currentNodeId"
+      align-center
+    >
       <el-step
         v-for="step in steps"
-        :key="step.node.id"
-        :description="step.approval?.comment"
-        :title="step.node.nodeName"
+        :key="step.id"
+        :description="step.comment"
+        :icon="step.icon"
+        :status="step.status"
+        :title="step.nodeName"
       />
-      <!-- <el-step
-        :icon="LoaderCircle"
-        class="current-step"
-        description="Some description"
-        title="Step 2"
-      />
-      <el-step
-        :icon="CircleDashed"
-        description="Some description"
-        title="Step 3"
-      /> -->
     </el-steps>
     <AEmpty v-else />
   </div>

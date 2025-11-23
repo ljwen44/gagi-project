@@ -93,7 +93,7 @@ function setupAccessGuard(router: Router) {
     // 生成路由表
     // 当前登录用户拥有的角色标识列表
     const userRoles =
-      userStore.userInfo?.roles || (await authStore.getUserPermissions());
+      userStore.userInfo?.permissions || (await authStore.fetchUserInfo());
     // const userRoles = userInfo.roles ?? [];
 
     // 生成菜单和路由

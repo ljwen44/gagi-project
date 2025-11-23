@@ -264,7 +264,7 @@ export const workOrderRecordColumns: ITableColumnProps[] = [
   // { label: '结单确认', prop: 'finishConfirm', sortable: true },
   // { label: '所属人', prop: 'owner' },
   { label: '真实名', prop: 'realName' },
-  { label: '所属部门', prop: 'group' },
+  // { label: '所属部门', prop: 'group' },
   // { label: '部门负责人', prop: 'leader', width: 110 },
   // { label: '所属公司', prop: 'belongCompany' },
   { label: '操作', prop: 'operator', fixed: 'right' },

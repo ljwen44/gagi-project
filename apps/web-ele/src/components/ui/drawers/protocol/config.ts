@@ -250,7 +250,7 @@ export const workOrderColumns: ITableColumnProps[] = [
   },
   {
     label: '工单编号',
-    prop: 'number',
+    prop: 'orderNo',
     sortable: true,
   },
   {
@@ -260,24 +260,24 @@ export const workOrderColumns: ITableColumnProps[] = [
   },
   {
     label: '审核状态',
-    prop: 'status',
+    prop: 'auditStatus',
     sortable: true,
   },
   {
     label: '接单状态',
-    prop: 'acceptStatus',
+    prop: 'receiveStatus',
     sortable: true,
   },
   {
     label: '做单状态',
-    prop: 'orderStatus',
+    prop: 'workStatus',
     sortable: true,
   },
-  {
-    label: '结单确认',
-    prop: 'finishConfirm',
-    sortable: true,
-  },
+  // {
+  //   label: '结单确认',
+  //   prop: 'finishConfirm',
+  //   sortable: true,
+  // },
   {
     label: '国家',
     prop: 'country',
@@ -292,21 +292,21 @@ export const workOrderColumns: ITableColumnProps[] = [
     label: '所属人',
     prop: 'username',
   },
-  {
-    label: '主做单人',
-    prop: 'owner',
-    sortable: true,
-  },
-  {
-    label: '创建人',
-    prop: 'createdBy',
-    sortable: true,
-  },
-  {
-    label: '创建时间',
-    prop: 'createdTime',
-    sortable: true,
-  },
+  // {
+  //   label: '主做单人',
+  //   prop: 'owner',
+  //   sortable: true,
+  // },
+  // {
+  //   label: '创建人',
+  //   prop: 'createdBy',
+  //   sortable: true,
+  // },
+  // {
+  //   label: '创建时间',
+  //   prop: 'createdTime',
+  //   sortable: true,
+  // },
   {
     label: '操作',
     prop: 'operator',

@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
+import { useDrawerForm } from '@vben/hooks';
 import { Bell, Star } from '@vben/icons';
 
+import { getWorkOrderById } from '#/api/core/workOrder';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
 
 import AuditProgress from '../../common/AuditProgress.vue';
@@ -16,11 +18,14 @@ import {
 
 interface IProps {
   show: boolean;
+  id: number;
 }
 
-defineProps<IProps>();
+const props = defineProps<IProps>();
 
 const emits = defineEmits(['closed']);
+
+const { form } = useDrawerForm(props, getWorkOrderById);
 
 const activeTab = ref<PatentObjectionTabEnum>(PatentObjectionTabEnum.detail);
 
@@ -35,7 +40,7 @@ const handleTabChange = (activeName: PatentObjectionTabEnum) => {
 
 <template>
   <DrawerLayout
-    :form="{}"
+    :form
     :form-items="drawerFormItems"
     :show
     grid-cols="4"

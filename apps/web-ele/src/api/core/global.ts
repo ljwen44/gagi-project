@@ -22,4 +22,9 @@ export const getAttachmentDownload = (id: string) =>
  * 上传文件
  */
 export const getAttachmentUpload = (data: any) =>
-  requestClient.get(`/attachment/upload`, data);
+  requestClient.post(`/attachment/upload`, data);
+
+/**
+ * 获取当前用户
+ */
+export const getCurrentUser = () => requestClient.get(`/user/current`);

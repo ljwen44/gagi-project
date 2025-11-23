@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
+import { useDrawerForm } from '@vben/hooks';
 import { Bell, Star } from '@vben/icons';
 
+import { getWorkOrderById } from '#/api/core/workOrder';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
 
 import AuditProgress from '../../common/AuditProgress.vue';
@@ -16,14 +18,15 @@ import {
 
 interface IProps {
   show: boolean;
+  id: number;
 }
 
-defineProps<IProps>();
+const props = defineProps<IProps>();
 
 const emits = defineEmits(['closed']);
 
+const { form } = useDrawerForm(props, getWorkOrderById);
 const activeTab = ref<BrandObjectionTabEnum>(BrandObjectionTabEnum.detail);
-
 const handleClosed = () => {
   emits('closed');
 };
@@ -35,7 +38,7 @@ const handleTabChange = (activeName: BrandObjectionTabEnum) => {
 
 <template>
   <DrawerLayout
-    :form="{}"
+    :form
     :form-items="drawerFormItems"
     :show
     grid-cols="4"
@@ -44,7 +47,7 @@ const handleTabChange = (activeName: BrandObjectionTabEnum) => {
   >
     <template #pre-content>
       <div class="flex flex-col gap-2">
-        <el-alert title="xxx 通过了" type="success" />
+        <!-- <el-alert title="xxx 通过了" type="success" /> -->
 
         <div class="flex items-center gap-2">
           <el-tooltip content="收藏" placement="top">

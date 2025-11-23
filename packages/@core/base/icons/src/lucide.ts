@@ -58,6 +58,7 @@ export {
   InspectionPanel,
   Languages,
   Layers,
+  Loader,
   LoaderCircle,
   LoaderCircleIcon,
   LockKeyhole,

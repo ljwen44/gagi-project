@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 import { onMounted, ref, useTemplateRef } from 'vue';
 
-import { AlertCircle, Bug, Edit } from '@vben/icons';
+import { AlertCircle, Edit } from '@vben/icons';
 
 import { ElMessage } from 'element-plus';
 
 import { getCustomerList } from '#/api/core/customer';
 import { getAgreementList } from '#/api/core/protocol';
-import ATable from '#/components/common/table/index.vue';
 import TableLayout from '#/components/table-layout/index.vue';
 import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetail.vue';
 import ProtocolDrawer from '#/components/ui/drawers/protocol/protocolDrawer.vue';
@@ -15,7 +14,6 @@ import ProtocolForm from '#/components/ui/protocol/form.vue';
 
 import {
   columns,
-  detailColumns,
   formItems,
   MODAL_TYPE,
   statusTypeMap,
@@ -51,9 +49,7 @@ const openDrawer = (type: MODAL_TYPE, row: any, index: number) => {
     previewId.value = row.id;
     return;
   }
-  if (type === MODAL_TYPE.CUSTOMER) {
-    previewCustomerId.value = row.custId;
-  }
+  previewCustomerId.value = row.custId;
 };
 
 const getCustomerListOptions = async () => {
@@ -101,6 +97,16 @@ const handleCloseDrawer = () => {
   previewCustomerId.value = void 0;
 };
 
+// const handleExpandChange = async (row: any) => {
+//   if (row.productIds && !row.products) {
+//     const productIds = row.productIds.split(',');
+//     const dataList = await Promise.all(
+//       productIds.map(async (id: number) => await getProductById(+id)),
+//     );
+//     row.products = dataList;
+//   }
+// };
+
 onMounted(() => {
   getCustomerListOptions();
 });
@@ -112,12 +118,13 @@ onMounted(() => {
     :api="getAgreementList"
     :before-query
     :columns
-    :expand="true"
     :form-items="formItems"
     :tabbar
     hidden-filter
     @tab-change="handleTabChange"
   >
+    <!-- :expand="true"
+    @expand-change="handleExpandChange" -->
     <template #action>
       <el-button type="primary" @click="protocolFormRef?.openModal()">
         新增
@@ -181,20 +188,24 @@ onMounted(() => {
     <template #protocolType="{ row }">
       <el-tag type="primary">{{ row.protocolType }}</el-tag>
     </template> -->
-
+    <!-- 
     <template #expand>
       <Bug
         class="flex size-4 w-full cursor-pointer items-center justify-center text-red-600"
       />
     </template>
 
-    <template #expand-content>
-      <ATable :columns="detailColumns" :data="[]" class="pl-[108px]">
+    <template #expand-content="{ data: rowInstance }">
+      <ATable
+        :columns="detailColumns"
+        :data="rowInstance.products || []"
+        class="pl-[108px]"
+      >
         <template #price="{ row }">
           <span class="text-red-600">{{ row.price }}</span>
         </template>
       </ATable>
-    </template>
+    </template> -->
 
     <template #operator="{ row }">
       <div class="flex items-center justify-center gap-1">

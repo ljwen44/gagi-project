@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 
+import { useDrawerForm } from '@vben/hooks';
 import { Bell, RefreshCcw, SquarePen } from '@vben/icons';
 
 import { getWorkOrderById } from '#/api/core/workOrder';
@@ -24,32 +25,17 @@ const props = defineProps<IProps>();
 
 const emits = defineEmits(['closed']);
 
-const form = ref<Record<string, any>>({});
 const activeTab = ref<WorkOrderEnum>(WorkOrderEnum.detail);
 
 const handleClosed = () => {
   emits('closed');
 };
 
+const { form } = useDrawerForm(props, getWorkOrderById);
+
 const handleTabChange = (activeName: WorkOrderEnum) => {
   activeTab.value = activeName;
 };
-
-const getOrderDetail = async () => {
-  if (typeof props.id !== 'number') {
-    form.value = {};
-    return;
-  }
-  const result = await getWorkOrderById(props.id);
-  form.value = result;
-};
-
-watch(
-  () => props.id,
-  () => {
-    getOrderDetail();
-  },
-);
 </script>
 
 <template>
