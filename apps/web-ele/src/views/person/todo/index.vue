@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, useTemplateRef } from 'vue';
+
+import { ElMessage } from 'element-plus';
 
 import TableLayout from '#/components/table-layout/index.vue';
 import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetail.vue';
@@ -15,34 +17,85 @@ import {
 
 const currentTab = ref('protocol');
 
-const api = computed(() => apiMap[currentTab.value]);
+const api = computed(() => apiMap[currentTab.value] || (() => {}));
 const columns = computed(() => columnsMap[currentTab.value] || []);
-// const formItems = computed(() => formItemsMap[currentTab.value] || []);
+const currentPreviewIndex = ref(0);
+const previewCustomerId = ref<number | undefined>();
+const previewAgreementId = ref<number | undefined>();
+const modalType = ref(MODAL_TYPE.INIT);
+const tableLayoutRef = useTemplateRef('tableLayoutRef');
 
 const handleTabChange = (tab: string) => {
   currentTab.value = tab;
+  // requestAnimationFrame(() => tableLayoutRef.value?.query());
 };
 
-const modalType = ref('');
+const openDrawer = (type: MODAL_TYPE, row: any, index: number) => {
+  modalType.value = type;
+  currentPreviewIndex.value = index;
+  if (type === MODAL_TYPE.PROTOCOL) {
+    previewAgreementId.value = +row.agreementId;
+    return;
+  }
+  previewCustomerId.value = +row.custId;
+};
+
+const handleCloseDrawer = () => {
+  modalType.value = MODAL_TYPE.INIT;
+  tableLayoutRef.value?.query();
+  previewAgreementId.value = void 0;
+  previewCustomerId.value = void 0;
+};
+
+const handleNextPreview = (list: any, symbol: number, type: MODAL_TYPE) => {
+  currentPreviewIndex.value += symbol;
+  if (currentPreviewIndex.value === list.length) {
+    currentPreviewIndex.value--;
+    ElMessage.info('已是最后一页');
+    return;
+  }
+
+  if (currentPreviewIndex.value < 0) {
+    currentPreviewIndex.value = 0;
+    ElMessage.info('已是第一页');
+    return;
+  }
+
+  if (type === MODAL_TYPE.PROTOCOL) {
+    previewAgreementId.value = +list[currentPreviewIndex.value].agreementId;
+    return;
+  }
+
+  previewCustomerId.value = +list[currentPreviewIndex.value].custId;
+};
 </script>
 
 <template>
   <TableLayout
+    ref="tableLayoutRef"
     :api
     :columns
     :form-items="[]"
     :tabbar
     @tab-change="handleTabChange"
   >
-    <template #customerNo="{ row }">
-      <el-link type="primary" @click="modalType = MODAL_TYPE.CUSTOMER">
+    <template #customerNo="{ row, $index }">
+      <el-text
+        class="cursor-pointer"
+        type="primary"
+        @click="openDrawer(MODAL_TYPE.CUSTOMER, row, $index)"
+      >
         {{ row.customerNo }}
-      </el-link>
+      </el-text>
     </template>
-    <template #agreementNo="{ row }">
-      <el-link type="primary" @click="modalType = MODAL_TYPE.PROTOCOL">
+    <template #agreementNo="{ row, $index }">
+      <el-text
+        class="cursor-pointer"
+        type="primary"
+        @click="openDrawer(MODAL_TYPE.PROTOCOL, row, $index)"
+      >
         {{ row.agreementNo }}
-      </el-link>
+      </el-text>
     </template>
     <template #status="{ row }">
       <el-tag type="primary">{{ row.status }}</el-tag>
@@ -64,20 +117,27 @@ const modalType = ref('');
       </el-tag>
     </template>
     <template #auditStatus="{ row }">
-      <el-tag :type="auditStatusMap[row.auditStatus].type">
-        {{ auditStatusMap[row.auditStatus].text }}
+      <el-tag :type="auditStatusMap[row.auditStatus]?.type">
+        {{ auditStatusMap[row.auditStatus]?.text }}
       </el-tag>
     </template>
 
-    <CustomerDetailDrawer
-      id=""
-      :show="modalType === MODAL_TYPE.CUSTOMER"
-      @closed="modalType = MODAL_TYPE.INIT"
-    />
+    <template #default="{ tableData }">
+      <CustomerDetailDrawer
+        :id="previewCustomerId"
+        :show="modalType === MODAL_TYPE.CUSTOMER"
+        @closed="handleCloseDrawer"
+        @next="handleNextPreview(tableData, 1, MODAL_TYPE.CUSTOMER)"
+        @prev="handleNextPreview(tableData, -1, MODAL_TYPE.CUSTOMER)"
+      />
 
-    <ProtocolDrawer
-      :show="modalType === MODAL_TYPE.PROTOCOL"
-      @closed="modalType = MODAL_TYPE.INIT"
-    />
+      <ProtocolDrawer
+        :id="previewAgreementId"
+        :show="modalType === MODAL_TYPE.PROTOCOL"
+        @closed="handleCloseDrawer"
+        @next="handleNextPreview(tableData, 1, MODAL_TYPE.PROTOCOL)"
+        @prev="handleNextPreview(tableData, -1, MODAL_TYPE.PROTOCOL)"
+      />
+    </template>
   </TableLayout>
 </template>

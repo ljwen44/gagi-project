@@ -90,12 +90,12 @@ export const useWorkflow = (props: any) => {
   );
 
   const showAudit = computed(() => {
-    const currentUserId = userStore.userInfo?.id;
+    const currentUserId = userStore.userInfo?.userId;
     const currentNodeId = workflow.value?.instance?.currentNodeId;
 
     const node = workflow.value?.nodes.find((n) => n.id === currentNodeId);
 
-    if (!currentNodeId || !node) {
+    if (!currentNodeId || !node || !currentUserId) {
       return false;
     }
 
