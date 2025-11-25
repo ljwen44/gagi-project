@@ -66,7 +66,7 @@ const handleTabChange = (activeName: BrandUpdateTabEnum) => {
       </div>
     </template>
 
-    <AuditProgress />
+    <AuditProgress :instance-id="form.instanceId" business-type="work_order" />
 
     <OrderArea />
 

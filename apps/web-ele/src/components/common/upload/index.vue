@@ -1,19 +1,28 @@
 <script lang="ts" setup>
 import { Upload } from '@vben/icons';
 
-import { ElMessage, type UploadProps, type UploadRawFile } from 'element-plus';
+import {
+  ElMessage,
+  type UploadProps,
+  type UploadRawFile,
+  type UploadRequestOptions,
+} from 'element-plus';
+
+import { postAttachmentUpload } from '#/api/core/global';
 
 interface IProps extends Partial<UploadProps> {
   hiddenTip?: boolean;
   hasCustomClass?: boolean;
   limitSize?: number;
   tip?: string;
+  businessType?: string;
 }
 
 const props = withDefaults(defineProps<IProps>(), {
   hasCustomClass: true,
   limitSize: 0,
   tip: '',
+  businessType: '',
 });
 
 const uploadFiles = defineModel();
@@ -26,19 +35,36 @@ const beforeUpload = (file: UploadRawFile) => {
 
   return true;
 };
-// const handleUpload = (options: UploadRequestOptions) => {};
+const handleUpload = async (options: UploadRequestOptions) => {
+  try {
+    if (!props.businessType) {
+      return ElMessage.error('参数错误');
+    }
+    const file = new File([options.file], options.file.name, {
+      type: options.file.type,
+    });
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('businessType', props.businessType);
+    const data = await postAttachmentUpload(formData);
+    uploadFiles.value = data;
+  } catch {
+    ElMessage.error('上传失败');
+  }
+};
 </script>
 
 <template>
   <el-upload
-    action="#"
+    action=""
     v-bind="$props"
     v-model:file-list="uploadFiles"
     :before-upload
     :class="[hasCustomClass ? 'custom-upload' : '']"
     :drag
+    :http-request="handleUpload"
+    auto-upload
   >
-    <!-- :http-request="handleUpload" -->
     <slot>
       <div class="flex items-center justify-center gap-2">
         <Upload class="size-4" />

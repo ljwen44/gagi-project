@@ -21,7 +21,7 @@ export const getAttachmentDownload = (id: string) =>
 /**
  * 上传文件
  */
-export const getAttachmentUpload = (data: any) =>
+export const postAttachmentUpload = (data: any) =>
   requestClient.post(`/attachment/upload`, data);
 
 /**

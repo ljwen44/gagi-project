@@ -53,7 +53,7 @@ const handleTabChange = (activeName: ProtocolTabEnum) => {
       <el-alert :closable="false" title="此协议由 xxx 转化而来" type="info" />
     </template> -->
 
-    <AuditProgress :instance-id="form.instanceId" />
+    <AuditProgress :instance-id="form.instanceId" business-type="agreement" />
 
     <template #content-footer>
       <div class="flex flex-col gap-2 pb-4 pt-2">

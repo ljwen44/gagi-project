@@ -68,7 +68,7 @@ const handleTabChange = (activeName: BrandObjectionTabEnum) => {
       <span class="font-bold text-[var(--el-color-primary)]">最终状态</span>
     </template>
 
-    <AuditProgress />
+    <AuditProgress :instance-id="form.instanceId" business-type="work_order" />
 
     <OrderArea />
 
