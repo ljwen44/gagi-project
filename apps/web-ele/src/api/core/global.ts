@@ -1,9 +1,9 @@
 import { requestClient } from '#/api/request';
 
 export interface AttachmentParams {
-  businessType: 'agreement' | 'sales_order' | 'work_order';
-  businessId: string;
-  roofId: string;
+  businessType?: 'agreement' | 'sales_order' | 'work_order';
+  businessId?: string;
+  roofId?: string;
 }
 
 /**
@@ -22,7 +22,11 @@ export const getAttachmentDownload = (id: string) =>
  * 上传文件
  */
 export const postAttachmentUpload = (data: any) =>
-  requestClient.post(`/attachment/upload`, data);
+  requestClient.post(`/attachment/upload`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 
 /**
  * 获取当前用户

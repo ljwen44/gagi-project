@@ -121,5 +121,6 @@ export const useWorkflow = (props: any) => {
     workflow,
     showAudit,
     steps,
+    refreshWorkflow: getWorkflow,
   };
 };

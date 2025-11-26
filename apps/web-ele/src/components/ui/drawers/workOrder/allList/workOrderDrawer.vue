@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 
 import { useDrawerForm } from '@vben/hooks';
-import { Bell, RefreshCcw, SquarePen } from '@vben/icons';
 
 import { getWorkOrderById } from '#/api/core/workOrder';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
@@ -47,10 +46,8 @@ const handleTabChange = (activeName: WorkOrderEnum) => {
     title="查看工单详情"
     @closed="handleClosed"
   >
-    <template #pre-content>
+    <!-- <template #pre-content>
       <div class="flex flex-col gap-2">
-        <!-- <el-alert title="xxx 通过了" type="success" /> -->
-
         <div class="flex items-center gap-2">
           <el-tooltip content="编辑" placement="top">
             <div class="cursor-pointer rounded-md bg-blue-200 p-2">
@@ -69,7 +66,7 @@ const handleTabChange = (activeName: WorkOrderEnum) => {
           </el-tooltip>
         </div>
       </div>
-    </template>
+    </template> -->
 
     <template #finalStatusLabel>
       <span class="font-bold text-[var(--el-color-primary)]">最终状态</span>

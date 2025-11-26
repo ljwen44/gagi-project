@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 
 import { useDrawerForm } from '@vben/hooks';
-import { Bell, Star } from '@vben/icons';
 
 import { getWorkOrderById } from '#/api/core/workOrder';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
@@ -17,6 +16,7 @@ import {
 
 interface IProps {
   show: boolean;
+  id: number;
 }
 
 const props = defineProps<IProps>();
@@ -45,7 +45,7 @@ const handleTabChange = (activeName: ReviewCommentTabEnum) => {
     title="查看异常单详情"
     @closed="handleClosed"
   >
-    <template #pre-content>
+    <!-- <template #pre-content>
       <div class="flex flex-col gap-2">
         <el-alert title="xxx 通过了" type="success" />
 
@@ -62,7 +62,7 @@ const handleTabChange = (activeName: ReviewCommentTabEnum) => {
           </el-tooltip>
         </div>
       </div>
-    </template>
+    </template> -->
 
     <template #finalStatusLabel>
       <span class="font-bold text-[var(--el-color-primary)]">最终状态</span>

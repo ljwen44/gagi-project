@@ -3,6 +3,9 @@ import { ref, useTemplateRef } from 'vue';
 
 import { Check, CircleX, Users } from '@vben/icons';
 
+import { ElMessage } from 'element-plus';
+
+import { approveWorkflow } from '#/api/core/workFlow';
 import AEmpty from '#/components/common/empty/index.vue';
 import AModal from '#/components/common/modal/index.vue';
 import AUpload from '#/components/common/upload/index.vue';
@@ -21,19 +24,35 @@ const initForm = {
   fileIds: [],
 };
 
-const { workflow, showAudit, steps } = useWorkflow(props);
+const { workflow, showAudit, steps, refreshWorkflow } = useWorkflow(props);
 
 const showModal = ref(false);
 const form = ref({ ...initForm });
 const formRef = useTemplateRef('formRef');
+const isPass = ref(true);
 
 const closeModal = () => {
   showModal.value = false;
   form.value = { ...initForm };
-  formRef.value?.instance.resetFields();
+  formRef.value?.resetFields();
 };
 
-const onConfirm = async () => {};
+const onConfirm = async () => {
+  try {
+    const requestParams = {
+      ...form.value,
+      fileIds: form.value.fileIds.map((item: any) => item.result.id),
+      instanceId: props.instanceId,
+      approvalType: +isPass.value,
+    };
+    await approveWorkflow(requestParams);
+    await refreshWorkflow();
+    ElMessage.error('操作成功');
+    closeModal();
+  } catch {
+    ElMessage.error('操作失败');
+  }
+};
 </script>
 
 <template>
@@ -81,15 +100,16 @@ const onConfirm = async () => {};
         label-position="right"
         label-width="100"
       >
-        <el-form-item label="审批意见" prop="comment">
+        <el-form-item :label="isPass ? '审批意见' : '驳回理由'" prop="comment">
           <el-input
             v-model="form.comment"
             :autosize="{ minRows: 4 }"
             type="textarea"
           />
         </el-form-item>
-        <el-form-item label="上传文件" prop="fileIds">
+        <el-form-item v-if="isPass" label="上传文件" prop="fileIds">
           <AUpload
+            v-model="form.fileIds"
             :business-type
             :has-custom-class="false"
             :hidden-tip="true"

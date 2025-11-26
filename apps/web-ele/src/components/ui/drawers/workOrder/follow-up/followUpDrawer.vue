@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 
 import { useDrawerForm } from '@vben/hooks';
-import { Bell, Star } from '@vben/icons';
 
 import { getWorkOrderById } from '#/api/core/workOrder';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
@@ -16,6 +15,7 @@ import {
 
 interface IProps {
   show: boolean;
+  id: number;
 }
 
 const props = defineProps<IProps>();
@@ -44,7 +44,7 @@ const handleTabChange = (activeName: FollowUpEnum) => {
     title="查看工单详情"
     @closed="handleClosed"
   >
-    <template #pre-content>
+    <!-- <template #pre-content>
       <div class="flex flex-col gap-2">
         <el-alert title="xxx 通过了" type="success" />
 
@@ -61,7 +61,7 @@ const handleTabChange = (activeName: FollowUpEnum) => {
           </el-tooltip>
         </div>
       </div>
-    </template>
+    </template> -->
 
     <div class="flex flex-col gap-2 py-4">
       <el-tabs v-model="activeTab" @tab-change="handleTabChange">

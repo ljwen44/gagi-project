@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<IProps>(), {
   businessType: '',
 });
 
-const uploadFiles = defineModel();
+const uploadFiles = defineModel<Array<any>>({ required: true });
 
 const beforeUpload = (file: UploadRawFile) => {
   if (props.limitSize !== 0 && file.size > props.limitSize) {
@@ -47,9 +47,13 @@ const handleUpload = async (options: UploadRequestOptions) => {
     formData.append('file', file);
     formData.append('businessType', props.businessType);
     const data = await postAttachmentUpload(formData);
-    uploadFiles.value = data;
+    uploadFiles.value[uploadFiles.value.length - 1] = {
+      ...uploadFiles.value.at(-1),
+      result: data,
+    };
   } catch {
     ElMessage.error('上传失败');
+    uploadFiles.value.splice(-1, 1);
   }
 };
 </script>
@@ -64,6 +68,8 @@ const handleUpload = async (options: UploadRequestOptions) => {
     :drag
     :http-request="handleUpload"
     auto-upload
+    multiple
+    show-file-list
   >
     <slot>
       <div class="flex items-center justify-center gap-2">

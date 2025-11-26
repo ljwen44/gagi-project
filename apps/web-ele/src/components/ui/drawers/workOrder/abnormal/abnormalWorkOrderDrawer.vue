@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 
 import { useDrawerForm } from '@vben/hooks';
-import { Bell } from '@vben/icons';
 
 import { getWorkOrderById } from '#/api/core/workOrder';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
@@ -46,7 +45,7 @@ const handleTabChange = (activeName: AbnormalWorkOrderEnum) => {
     title="查看异常单详情"
     @closed="handleClosed"
   >
-    <template #pre-content>
+    <!-- <template #pre-content>
       <div class="flex flex-col gap-2">
         <el-alert title="xxx 通过了" type="success" />
 
@@ -58,7 +57,7 @@ const handleTabChange = (activeName: AbnormalWorkOrderEnum) => {
           </el-tooltip>
         </div>
       </div>
-    </template>
+    </template> -->
     <OrderArea />
     <div class="flex flex-col gap-2 py-4">
       <el-tabs v-model="activeTab" @tab-change="handleTabChange">
