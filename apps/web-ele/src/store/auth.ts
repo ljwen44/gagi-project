@@ -3,7 +3,7 @@ import type { Recordable, UserInfo } from '@vben/types';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import { DEFAULT_HOME_PATH, LOGIN_PATH } from '@vben/constants';
+import { LOGIN_PATH } from '@vben/constants';
 import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 import { extractPermissionCodes } from '@vben/utils';
 
@@ -89,7 +89,7 @@ export const useAuthStore = defineStore('auth', () => {
         resolve();
       }, 1000);
     });
-    window.location.href = DEFAULT_HOME_PATH;
+    window.location.href = '/';
   }
 
   async function logout(redirect: boolean = true) {
