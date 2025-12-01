@@ -52,7 +52,7 @@ const openDrawer = (type: MODAL_TYPE, row: any, index: number) => {
     previewCustomerId.value = row.custId;
     return;
   }
-  previewId.value = row.id;
+  previewId.value = row.workOrderId;
 };
 
 const handleNextPreview = (list: any, symbol: number, type: MODAL_TYPE) => {

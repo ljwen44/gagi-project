@@ -47,7 +47,7 @@ const onConfirm = async () => {
     };
     await approveWorkflow(requestParams);
     await refreshWorkflow();
-    ElMessage.error('操作成功');
+    ElMessage.success('操作成功');
     closeModal();
   } catch {
     ElMessage.error('操作失败');

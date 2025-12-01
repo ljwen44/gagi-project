@@ -1,6 +1,12 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
+import {
+  AuditStatusMap,
+  ReceiveStatusMap,
+  TagTypeMap,
+  WorkStatusMap,
+} from '@vben/constants';
 import { useDrawerForm } from '@vben/hooks';
 
 import { getWorkOrderById } from '#/api/core/workOrder';
@@ -21,16 +27,15 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
-
 const emits = defineEmits(['closed']);
+
+const { form } = useDrawerForm(props, getWorkOrderById);
 
 const activeTab = ref<WorkOrderEnum>(WorkOrderEnum.detail);
 
 const handleClosed = () => {
   emits('closed');
 };
-
-const { form } = useDrawerForm(props, getWorkOrderById);
 
 const handleTabChange = (activeName: WorkOrderEnum) => {
   activeTab.value = activeName;
@@ -68,9 +73,27 @@ const handleTabChange = (activeName: WorkOrderEnum) => {
       </div>
     </template> -->
 
-    <template #finalStatusLabel>
-      <span class="font-bold text-[var(--el-color-primary)]">最终状态</span>
+    <template #auditStatus="{ data }">
+      <el-tag :type="TagTypeMap[data]" effect="dark">
+        {{ AuditStatusMap[data] }}
+      </el-tag>
     </template>
+
+    <template #receiveStatus="{ data }">
+      <el-tag :type="TagTypeMap[data]" effect="dark">
+        {{ ReceiveStatusMap[data] }}
+      </el-tag>
+    </template>
+
+    <template #workStatus="{ data }">
+      <el-tag :type="TagTypeMap[data]" effect="dark">
+        {{ WorkStatusMap[data] }}
+      </el-tag>
+    </template>
+
+    <!-- <template #finalStatusLabel>
+      <span class="font-bold text-[var(--el-color-primary)]">最终状态</span>
+    </template> -->
 
     <AuditProgress :instance-id="form.instanceId" business-type="work_order" />
     <OrderArea />

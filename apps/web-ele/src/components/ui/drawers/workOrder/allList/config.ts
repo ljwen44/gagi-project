@@ -17,18 +17,18 @@ export enum WorkOrderEnum {
 }
 
 export const drawerFormItems: IFormItem[] = [
-  { label: '工单编号', prop: 'number' },
-  { label: '工单类型', prop: 'type' },
-  { label: '工单状态', prop: 'status', class: 'col-span-2' },
-  { label: '客户编号', prop: 'customerCode' },
-  { label: '协议编号', prop: 'protocolCode', class: 'col-span-3' },
+  { label: '工单编号', prop: 'orderNo' },
+  { label: '工单类型', prop: 'categoryName' },
+  { label: '客户编号', prop: 'customerNo' },
+  { label: '协议编号', prop: 'agreementNo' },
   { label: '国家', prop: 'country' },
-  { label: '产品名称', prop: 'productName' },
-  { label: '所属人', prop: 'owner', class: 'col-span-2' },
-  { label: '', prop: 'finalStatus', class: 'col-span-4' },
-  { label: '状态', prop: 'status' },
-  { label: '是否完结', prop: 'finished' },
-  { label: '状态备注', prop: 'remark' },
+  { label: '产品分类', prop: 'productName' },
+  { label: '所属人', prop: 'username', class: 'col-span-3' },
+  // { label: '', prop: 'finalStatus' },
+  { label: '接单状态', prop: 'receiveStatus' },
+  { label: '做单状态', prop: 'workStatus' },
+  { label: '审核状态', prop: 'auditStatus' },
+  { label: '状态备注', prop: 'remark', class: 'col-span-3' },
 ];
 
 export const workOrderTabs = [

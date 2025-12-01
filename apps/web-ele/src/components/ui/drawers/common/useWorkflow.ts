@@ -98,8 +98,17 @@ export const useWorkflow = (props: any) => {
     if (!currentNodeId || !node || !currentUserId) {
       return false;
     }
+    // 是否已经审批
+    const hasApproval = workflow.value?.approvals.find(
+      (approval) => approval.nodeId === node.id,
+    );
 
-    return currentUserId === +node.approverValue;
+    return (
+      (currentUserId === +node.approverValue ||
+        (workflow.value?.instance.initiatorId === currentUserId &&
+          +node.approverValue === 0)) &&
+      !hasApproval
+    );
   });
 
   const getWorkflow = async () => {

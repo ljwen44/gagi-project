@@ -2,6 +2,7 @@ import { ref, watch } from 'vue';
 
 export interface Props {
   id?: number;
+  show: boolean;
 }
 
 export const useDrawerForm = (props: Props, api: (id: number) => any) => {

@@ -6,6 +6,7 @@ import { ElMessage } from 'element-plus';
 import TableLayout from '#/components/table-layout/index.vue';
 import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetail.vue';
 import ProtocolDrawer from '#/components/ui/drawers/protocol/protocolDrawer.vue';
+import WorkOrderDrawer from '#/components/ui/drawers/workOrder/allList/workOrderDrawer.vue';
 
 import {
   apiMap,
@@ -22,6 +23,7 @@ const columns = computed(() => columnsMap[currentTab.value] || []);
 const currentPreviewIndex = ref(0);
 const previewCustomerId = ref<number | undefined>();
 const previewAgreementId = ref<number | undefined>();
+const previewOrderId = ref<number | undefined>();
 const modalType = ref(MODAL_TYPE.INIT);
 const tableLayoutRef = useTemplateRef('tableLayoutRef');
 
@@ -35,6 +37,10 @@ const openDrawer = (type: MODAL_TYPE, row: any, index: number) => {
   currentPreviewIndex.value = index;
   if (type === MODAL_TYPE.PROTOCOL) {
     previewAgreementId.value = +row.agreementId;
+    return;
+  }
+  if (type === MODAL_TYPE.WORKORDER) {
+    previewOrderId.value = +row.workOrderId;
     return;
   }
   previewCustomerId.value = +row.custId;
@@ -97,8 +103,19 @@ const handleNextPreview = (list: any, symbol: number, type: MODAL_TYPE) => {
         {{ row.agreementNo }}
       </el-text>
     </template>
-    <template #status="{ row }">
-      <el-tag type="primary">{{ row.status }}</el-tag>
+    <template #orderNo="{ row, $index }">
+      <el-text
+        class="cursor-pointer"
+        type="primary"
+        @click="openDrawer(MODAL_TYPE.WORKORDER, row, $index)"
+      >
+        {{ row.orderNo }}
+      </el-text>
+    </template>
+    <template #approveStatus="{ row }">
+      <el-tag type="primary">
+        {{ row.approveStatus }}
+      </el-tag>
     </template>
 
     <template #workStatus="{ row }">
@@ -137,6 +154,14 @@ const handleNextPreview = (list: any, symbol: number, type: MODAL_TYPE) => {
         @closed="handleCloseDrawer"
         @next="handleNextPreview(tableData, 1, MODAL_TYPE.PROTOCOL)"
         @prev="handleNextPreview(tableData, -1, MODAL_TYPE.PROTOCOL)"
+      />
+
+      <WorkOrderDrawer
+        :id="previewOrderId"
+        :show="modalType === MODAL_TYPE.WORKORDER"
+        @closed="handleCloseDrawer"
+        @next="handleNextPreview(tableData, 1, MODAL_TYPE.WORKORDER)"
+        @prev="handleNextPreview(tableData, -1, MODAL_TYPE.WORKORDER)"
       />
     </template>
   </TableLayout>

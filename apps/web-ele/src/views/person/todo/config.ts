@@ -11,6 +11,7 @@ export enum MODAL_TYPE {
   CUSTOMER = 'customer',
   INIT = '',
   PROTOCOL = 'protocol',
+  WORKORDER = 'workOrder',
 }
 
 export const typeMap = {
@@ -121,6 +122,7 @@ export const columnsMap: Record<string, ITableColumnProps[]> = {
     {
       label: '客户编码',
       prop: 'customerNo',
+      width: 200,
       // sortable: true,
     },
     {
@@ -137,10 +139,12 @@ export const columnsMap: Record<string, ITableColumnProps[]> = {
       label: '审批状态',
       prop: 'approveStatus',
       // sortable: true,
+      width: 150,
     },
     {
       label: '审批时间',
       prop: 'approveTime',
+      width: 180,
       // sortable: true,
     },
     {
@@ -174,6 +178,7 @@ export const columnsMap: Record<string, ITableColumnProps[]> = {
     {
       label: '工单编号',
       prop: 'orderNo',
+      width: 200,
       // sortable: true,
     },
     {

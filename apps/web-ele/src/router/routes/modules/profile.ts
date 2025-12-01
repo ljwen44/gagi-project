@@ -10,7 +10,7 @@ const routes: RouteRecordRaw[] = [
       icon: 'lucide:user',
       order: 1,
       title: $t('page.person.title'),
-      permissionCode: 'profile:view',
+      // permissionCode: 'profile:view',
     },
     name: 'PersonCenter',
     path: '/profile',
@@ -22,7 +22,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           icon: 'lucide:list-todo',
           title: $t('page.person.todoTasks'),
-          permissionCode: 'profile:todo:view',
+          // permissionCode: 'profile:todo:view',
         },
       },
       // {
