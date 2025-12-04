@@ -4,6 +4,8 @@ import type { IFormItem } from '#/components/common/form/index.vue';
 
 import { defineAsyncComponent } from 'vue';
 
+import { orderAttachmentColumns } from '@vben/constants';
+
 export enum ReviewCommentTabEnum {
   attachment = 'attachment',
   detail = 'detail',
@@ -76,8 +78,11 @@ export const componentsMap: Record<any, IComponent> = {
   },
   [ReviewCommentTabEnum.attachment]: {
     component: defineAsyncComponent(
-      () => import('./components/AbnormalAttachment.vue'),
+      () => import('../../common/OrderAttachment.vue'),
     ),
+    props: {
+      columns: orderAttachmentColumns,
+    },
   },
 };
 

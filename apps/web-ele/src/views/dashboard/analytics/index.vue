@@ -31,7 +31,11 @@ const performance = ref({
 });
 
 const getDashboard = async () => {
-  const data = await getPerformanceStat();
+  const data = await getPerformanceStat(
+    [2, 5].includes(userStore.userInfo?.userId!)
+      ? {}
+      : { salesmanId: userStore.userInfo?.userId },
+  );
   performance.value = data;
 };
 onMounted(() => {

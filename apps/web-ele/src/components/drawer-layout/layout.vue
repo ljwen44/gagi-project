@@ -66,6 +66,7 @@ const handleNext = () => {
     v-bind="attrs"
     v-model="showModal"
     body-class="border-t border-b !px-4 !py-0"
+    destroy-on-close
     header-class="!mb-0 !p-4"
     @closed="handleClosed"
     @open="handleOpen"

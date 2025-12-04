@@ -4,6 +4,8 @@ import type { IFormItem } from '#/components/common/form/index.vue';
 
 import { defineAsyncComponent } from 'vue';
 
+import { orderAttachmentColumns } from '@vben/constants';
+
 export enum AbnormalWorkOrderEnum {
   attachment = 'attachment',
   detail = 'detail',
@@ -32,6 +34,15 @@ export const abnormalWorkOrderTabs = [
   { label: '跟进记录', key: AbnormalWorkOrderEnum.followRecord },
   { label: '共享人员', key: AbnormalWorkOrderEnum.share },
   { label: '操作记录', key: AbnormalWorkOrderEnum.operatorRecord },
+];
+
+export const detailFormItems: IFormItem[] = [
+  { label: '异常原因', prop: 'reason' },
+  { label: '处理方案', prop: 'plan' },
+  { label: '推荐产品', prop: 'recommendProduct' },
+  { label: '截止日期', prop: 'deadline' },
+  { label: '说明', prop: 'description' },
+  { label: '处理方式', prop: 'method' },
 ];
 
 export const componentsMap: Record<any, IComponent> = {
@@ -70,16 +81,10 @@ export const componentsMap: Record<any, IComponent> = {
   },
   [AbnormalWorkOrderEnum.attachment]: {
     component: defineAsyncComponent(
-      () => import('./components/AbnormalAttachment.vue'),
+      () => import('../../common/OrderAttachment.vue'),
     ),
+    props: {
+      columns: orderAttachmentColumns,
+    },
   },
 };
-
-export const detailFormItems: IFormItem[] = [
-  { label: '异常原因', prop: 'reason' },
-  { label: '处理方案', prop: 'plan' },
-  { label: '推荐产品', prop: 'recommendProduct' },
-  { label: '截止日期', prop: 'deadline' },
-  { label: '说明', prop: 'description' },
-  { label: '处理方式', prop: 'method' },
-];

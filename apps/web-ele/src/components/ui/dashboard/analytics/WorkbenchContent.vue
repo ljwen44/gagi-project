@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-import { HandCoins, MessageSquare, TrendingUp, Users } from '@vben/icons';
+import {
+  HandCoins,
+  MessageSquare,
+  TrendingDown,
+  TrendingUp,
+  Users,
+} from '@vben/icons';
 import { Card, CardContent, CardHeader, CardTitle } from '@vben-core/shadcn-ui';
 
 import dayjs from 'dayjs';
@@ -125,6 +131,18 @@ const last6MonthPerformance = computed(() => {
               >
                 <span class="text-lg">较 {{ month }}</span>
                 <span class="text-xl">{{ item.data[month] || '-' }}</span>
+                <component
+                  :is="
+                    item.data[month] <= item.amount ? TrendingUp : TrendingDown
+                  "
+                  v-if="item.data[month] !== undefined"
+                  :class="
+                    item.data[month] <= item.amount
+                      ? 'text-green-500'
+                      : 'text-red-500'
+                  "
+                  class="size-4"
+                />
               </div>
             </CardContent>
           </Card>

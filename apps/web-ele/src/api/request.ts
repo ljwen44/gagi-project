@@ -72,9 +72,9 @@ function createRequestClient(baseURL: string) {
   // response数据解构
   client.addResponseInterceptor<HttpResponse>({
     fulfilled: (response) => {
-      const { data: responseData } = response;
+      const { data: responseData, config } = response;
 
-      if (Array.isArray(responseData)) {
+      if (Array.isArray(responseData) || config.responseType === 'blob') {
         return responseData;
       }
 

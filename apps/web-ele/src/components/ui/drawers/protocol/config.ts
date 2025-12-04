@@ -210,8 +210,9 @@ export const protocolDetailColumns: ITableColumnProps[] = [
 export const fileColumns: ITableColumnProps[] = [
   {
     label: '编号',
-    prop: 'number',
+    prop: 'id',
     fixed: 'left',
+    width: 60,
   },
   {
     label: '协议名称',
@@ -221,17 +222,33 @@ export const fileColumns: ITableColumnProps[] = [
     label: '协议阶段',
     prop: 'stage',
   },
-  {
-    label: '协议来源',
-    prop: 'origin',
-  },
+  // {
+  //   label: '协议来源',
+  //   prop: 'origin',
+  // },
   {
     label: '文件大小',
-    prop: 'size',
+    prop: 'fileSize',
+    format: (value: number) => {
+      // 判断文件大小
+      if (value < 1024) {
+        return `${value}B`;
+      }
+      const m = 1024 * 1024;
+      if (value <= m) {
+        return `${(value / 1024).toFixed(1)}KB`;
+      }
+
+      const g = m * 1024;
+      if (value <= g) {
+        return `${(value / m).toFixed(1)}MB`;
+      }
+      return `${(value / g).toFixed(1)}MB`;
+    },
   },
   {
     label: '上传时间',
-    prop: 'time',
+    prop: 'uploadTime',
   },
   {
     label: '操作',

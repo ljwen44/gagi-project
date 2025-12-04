@@ -42,52 +42,6 @@ export const workOrderTabs = [
   { label: '操作记录', key: WorkOrderEnum.operatorRecord },
 ];
 
-export const componentsMap: Record<any, IComponent> = {
-  [WorkOrderEnum.followRecord]: {
-    component: defineAsyncComponent(
-      () => import('../../common/FollowUpRecord.vue'),
-    ),
-  },
-  [WorkOrderEnum.share]: {
-    component: defineAsyncComponent(
-      () => import('../../common/SharePerson.vue'),
-    ),
-  },
-  [WorkOrderEnum.operatorRecord]: {
-    component: defineAsyncComponent(
-      () => import('../../common/OperatorRecord.vue'),
-    ),
-    props: {
-      records: [],
-    },
-  },
-  [WorkOrderEnum.detail]: {
-    component: defineAsyncComponent(
-      () => import('./components/OrderDetail.vue'),
-    ),
-  },
-  [WorkOrderEnum.confirm]: {
-    component: defineAsyncComponent(
-      () => import('./components/OrderConfirm.vue'),
-    ),
-  },
-  [WorkOrderEnum.attachment]: {
-    component: defineAsyncComponent(
-      () => import('./components/OrderAttachment.vue'),
-    ),
-  },
-  [WorkOrderEnum.protocol]: {
-    component: defineAsyncComponent(
-      () => import('./components/ProtocolTable.vue'),
-    ),
-  },
-  [WorkOrderEnum.abnormalOrder]: {
-    component: defineAsyncComponent(
-      () => import('./components/AbnormalOrder.vue'),
-    ),
-  },
-};
-
 export const detailFormItems: IFormItem[] = [
   { label: '回执号', prop: 'receiptNumber', class: 'col-span-2' },
   { label: '申请人名称', prop: 'applicantName' },
@@ -117,11 +71,30 @@ export const orderConfirmColumns: ITableColumnProps[] = [
 
 export const orderAttachmentColumns: ITableColumnProps[] = [
   { label: '编号', type: 'index', fixed: 'left', width: 60 },
-  { label: '文件名称', prop: 'name' },
-  { label: '文件类型', prop: 'type' },
-  { label: '文件大小', prop: 'size' },
-  { label: '上传人', prop: 'user' },
-  { label: '上传时间', prop: 'time' },
+  { label: '文件名称', prop: 'fileName' },
+  { label: '文件类型', prop: 'fileSuffix' },
+  {
+    label: '文件大小',
+    prop: 'fileSize',
+    format: (value: number) => {
+      // 判断文件大小
+      if (value < 1024) {
+        return `${value}B`;
+      }
+      const m = 1024 * 1024;
+      if (value <= m) {
+        return `${(value / 1024).toFixed(1)}KB`;
+      }
+
+      const g = m * 1024;
+      if (value <= g) {
+        return `${(value / m).toFixed(1)}MB`;
+      }
+      return `${(value / g).toFixed(1)}MB`;
+    },
+  },
+  { label: '上传人', prop: 'uploadUserId' },
+  { label: '上传时间', prop: 'uploadTime' },
   { label: '操作', prop: 'operator', fixed: 'right' },
 ];
 
@@ -158,3 +131,52 @@ export const abnormalOrderColumns: ITableColumnProps[] = [
   { label: '创建时间', prop: 'createdTime', sortable: true },
   { label: '操作', prop: 'operator', fixed: 'right' },
 ];
+
+export const componentsMap: Record<any, IComponent> = {
+  [WorkOrderEnum.followRecord]: {
+    component: defineAsyncComponent(
+      () => import('../../common/FollowUpRecord.vue'),
+    ),
+  },
+  [WorkOrderEnum.share]: {
+    component: defineAsyncComponent(
+      () => import('../../common/SharePerson.vue'),
+    ),
+  },
+  [WorkOrderEnum.operatorRecord]: {
+    component: defineAsyncComponent(
+      () => import('../../common/OperatorRecord.vue'),
+    ),
+    props: {
+      records: [],
+    },
+  },
+  [WorkOrderEnum.detail]: {
+    component: defineAsyncComponent(
+      () => import('./components/OrderDetail.vue'),
+    ),
+  },
+  [WorkOrderEnum.confirm]: {
+    component: defineAsyncComponent(
+      () => import('./components/OrderConfirm.vue'),
+    ),
+  },
+  [WorkOrderEnum.attachment]: {
+    component: defineAsyncComponent(
+      () => import('../../common/OrderAttachment.vue'),
+    ),
+    props: {
+      columns: orderAttachmentColumns,
+    },
+  },
+  [WorkOrderEnum.protocol]: {
+    component: defineAsyncComponent(
+      () => import('./components/ProtocolTable.vue'),
+    ),
+  },
+  [WorkOrderEnum.abnormalOrder]: {
+    component: defineAsyncComponent(
+      () => import('./components/AbnormalOrder.vue'),
+    ),
+  },
+};

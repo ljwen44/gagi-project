@@ -29,12 +29,18 @@ const activeTab = ref<ProtocolTabEnum>(ProtocolTabEnum.protocol);
 
 const { form } = useDrawerForm(props, getAgreementById);
 
+const workflow = ref<any>(null);
+
 const handleClosed = () => {
   emits('closed');
 };
 
 const handleTabChange = (activeName: ProtocolTabEnum) => {
   activeTab.value = activeName;
+};
+
+const handleWorkflowChange = (value: any) => {
+  workflow.value = value;
 };
 </script>
 
@@ -53,7 +59,11 @@ const handleTabChange = (activeName: ProtocolTabEnum) => {
       <el-alert :closable="false" title="此协议由 xxx 转化而来" type="info" />
     </template> -->
 
-    <AuditProgress :instance-id="form.instanceId" business-type="agreement" />
+    <AuditProgress
+      :instance-id="form.instanceId"
+      business-type="agreement"
+      @update:workflow="handleWorkflowChange"
+    />
 
     <template #content-footer>
       <div class="flex flex-col gap-2 pb-4 pt-2">
@@ -70,7 +80,9 @@ const handleTabChange = (activeName: ProtocolTabEnum) => {
             <component
               :is="componentsMap[activeTab]?.component"
               v-bind="componentsMap[activeTab]?.props || {}"
+              :id
               :form
+              :workflow
             />
             <template #fallback>
               <div class="p-4 text-center">loading...</div>

@@ -87,6 +87,7 @@ const handleTabChange = (activeName: SpecialServiceTabEnum) => {
           <component
             :is="componentsMap[activeTab]?.component"
             v-bind="componentsMap[activeTab]?.props || {}"
+            :id
           />
           <template #fallback>
             <div class="p-4 text-center">loading...</div>

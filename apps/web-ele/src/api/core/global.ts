@@ -3,7 +3,7 @@ import { requestClient } from '#/api/request';
 export interface AttachmentParams {
   businessType?: 'agreement' | 'sales_order' | 'work_order';
   businessId?: string;
-  roofId?: string;
+  roofId?: number | string;
 }
 
 /**
@@ -15,8 +15,10 @@ export const getAttachment = (params: AttachmentParams) =>
 /**
  * 下载文件
  */
-export const getAttachmentDownload = (id: string) =>
-  requestClient.get(`/attachment/download/${id}`);
+export const getAttachmentDownload = (id: number) =>
+  requestClient.get(`/attachment/download/${id}`, {
+    responseType: 'blob',
+  });
 
 /**
  * 上传文件

@@ -155,7 +155,7 @@ watch(
       .reduce((acc: number, cur: any) => acc + cur.officialFee, 0)
       .toFixed(2);
     form.value.budgetPerformance = +(
-      form.value.salesCost - form.value.agreementAmount
+      form.value.agreementAmount - form.value.salesCost
     ).toFixed(2);
   },
   {

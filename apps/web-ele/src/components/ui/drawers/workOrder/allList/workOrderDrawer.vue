@@ -33,12 +33,18 @@ const { form } = useDrawerForm(props, getWorkOrderById);
 
 const activeTab = ref<WorkOrderEnum>(WorkOrderEnum.detail);
 
+const workflow = ref<any>(null);
+
 const handleClosed = () => {
   emits('closed');
 };
 
 const handleTabChange = (activeName: WorkOrderEnum) => {
   activeTab.value = activeName;
+};
+
+const handleWorkflowChange = (value: any) => {
+  workflow.value = value;
 };
 </script>
 
@@ -95,7 +101,11 @@ const handleTabChange = (activeName: WorkOrderEnum) => {
       <span class="font-bold text-[var(--el-color-primary)]">最终状态</span>
     </template> -->
 
-    <AuditProgress :instance-id="form.instanceId" business-type="work_order" />
+    <AuditProgress
+      :instance-id="form.instanceId"
+      business-type="work_order"
+      @update:workflow="handleWorkflowChange"
+    />
     <OrderArea />
     <div class="flex flex-col gap-2 py-4">
       <el-tabs v-model="activeTab" @tab-change="handleTabChange">
@@ -111,6 +121,7 @@ const handleTabChange = (activeName: WorkOrderEnum) => {
           <component
             :is="componentsMap[activeTab]?.component"
             v-bind="componentsMap[activeTab]?.props || {}"
+            :id
           />
           <template #fallback>
             <div class="p-4 text-center">loading...</div>

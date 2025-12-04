@@ -25,6 +25,8 @@ const props = withDefaults(defineProps<IProps>(), {
   businessType: '',
 });
 
+const emits = defineEmits(['uploadSuccess']);
+
 const uploadFiles = defineModel<Array<any>>({ required: true });
 
 const beforeUpload = (file: UploadRawFile) => {
@@ -51,6 +53,7 @@ const handleUpload = async (options: UploadRequestOptions) => {
       ...uploadFiles.value.at(-1),
       result: data,
     };
+    emits('uploadSuccess', uploadFiles.value);
   } catch {
     ElMessage.error('上传失败');
     uploadFiles.value.splice(-1, 1);
@@ -60,16 +63,15 @@ const handleUpload = async (options: UploadRequestOptions) => {
 
 <template>
   <el-upload
-    action=""
-    v-bind="$props"
+    v-bind="props"
     v-model:file-list="uploadFiles"
     :before-upload
     :class="[hasCustomClass ? 'custom-upload' : '']"
     :drag
     :http-request="handleUpload"
+    :show-file-list="props.showFileList ?? true"
     auto-upload
     multiple
-    show-file-list
   >
     <slot>
       <div class="flex items-center justify-center gap-2">

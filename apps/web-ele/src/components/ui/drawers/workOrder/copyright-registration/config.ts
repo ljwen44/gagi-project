@@ -5,6 +5,8 @@ import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
 import { defineAsyncComponent } from 'vue';
 
+import { orderAttachmentColumns } from '@vben/constants';
+
 export enum CopyrightRegistrationTabEnum {
   abnormalOrder = 'abnormalOrder',
   attachment = 'attachment',
@@ -73,8 +75,11 @@ export const componentsMap: Record<any, IComponent> = {
   },
   [CopyrightRegistrationTabEnum.attachment]: {
     component: defineAsyncComponent(
-      () => import('./components/OrderAttachment.vue'),
+      () => import('../../common/OrderAttachment.vue'),
     ),
+    props: {
+      columns: orderAttachmentColumns,
+    },
   },
   [CopyrightRegistrationTabEnum.protocol]: {
     component: defineAsyncComponent(
@@ -111,16 +116,6 @@ export const orderConfirmColumns: ITableColumnProps[] = [
   { label: '确认书阶段', prop: 'stage' },
   { label: '确认书来源', prop: 'origin' },
   { label: '文件大小', prop: 'size' },
-  { label: '上传时间', prop: 'time' },
-  { label: '操作', prop: 'operator', fixed: 'right' },
-];
-
-export const orderAttachmentColumns: ITableColumnProps[] = [
-  { label: '编号', type: 'index', fixed: 'left', width: 60 },
-  { label: '文件名称', prop: 'name' },
-  { label: '文件类型', prop: 'type' },
-  { label: '文件大小', prop: 'size' },
-  { label: '上传人', prop: 'user' },
   { label: '上传时间', prop: 'time' },
   { label: '操作', prop: 'operator', fixed: 'right' },
 ];

@@ -98,6 +98,7 @@ export {
   SunMoon,
   SwatchBook,
   Trash2,
+  TrendingDown,
   TrendingUp,
   Triangle,
   Upload,

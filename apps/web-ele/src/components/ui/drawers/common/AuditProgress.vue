@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, useTemplateRef } from 'vue';
+import { ref, useTemplateRef, watch } from 'vue';
 
 import { Check, CircleX, Users } from '@vben/icons';
 
@@ -18,6 +18,8 @@ export interface IProps {
 }
 
 const props = defineProps<IProps>();
+
+const emits = defineEmits(['update:workflow']);
 
 const initForm = {
   comment: '',
@@ -53,6 +55,17 @@ const onConfirm = async () => {
     ElMessage.error('操作失败');
   }
 };
+
+watch(
+  () => workflow,
+  (nv) => {
+    emits('update:workflow', nv);
+  },
+  {
+    deep: true,
+    immediate: true,
+  },
+);
 </script>
 
 <template>
