@@ -144,6 +144,23 @@ const handleSubmitProduct = async (submit: boolean = false) => {
   }
 };
 
+const handleTaxChange = (value: number) => {
+  form.value.agreementTax = +(form.value.receivedAmount * value).toFixed(2);
+};
+const handleDiscountAmountChange = (value: number) => {
+  form.value.receivedAmount = +(
+    form.value.agreementAmount - (value || 0)
+  ).toFixed(2);
+  form.value.actualPerformance = +(
+    form.value.budgetPerformance - (value || 0)
+  ).toFixed(2);
+  if (form.value.taxRate) {
+    form.value.agreementTax = +(
+      form.value.receivedAmount * form.value.taxRate
+    ).toFixed(2);
+  }
+};
+
 watch(
   () => productSelection.value,
   (nv) => {
@@ -151,12 +168,21 @@ watch(
     form.value.agreementAmount = +nv
       .reduce((acc: number, cur: any) => acc + cur.standardPrice, 0)
       .toFixed(2);
-    form.value.salesCost = +nv
+    form.value.salesCost = form.value.agreementCost = +nv
       .reduce((acc: number, cur: any) => acc + cur.officialFee, 0)
       .toFixed(2);
     form.value.budgetPerformance = +(
       form.value.agreementAmount - form.value.salesCost
     ).toFixed(2);
+    form.value.receivedAmount = +(
+      form.value.agreementAmount - (form.value.discountAmount || 0)
+    ).toFixed(2);
+    form.value.actualPerformance = +(
+      form.value.budgetPerformance - (form.value.discountAmount || 0)
+    ).toFixed(2);
+    form.value.agreementTax = form.value.taxRate
+      ? +(form.value.receivedAmount * form.value.taxRate).toFixed(2)
+      : 0;
   },
   {
     deep: true,
@@ -176,6 +202,7 @@ defineExpose({
     :fullscreen
     :show-close="false"
     :title="modalTitle"
+    destroy-on-close
     width="750px"
   >
     <template #header="{ close }">
@@ -261,11 +288,12 @@ defineExpose({
                 class="!mb-0"
                 label="增值税"
                 label-position="left"
-                prop="tax"
+                prop="taxRate"
               >
                 <ASelect
-                  v-model="form.tax"
-                  :options="[{ label: '0.3', value: 0.3 }]"
+                  v-model="form.taxRate"
+                  :options="[{ label: '30%', value: 0.3 }]"
+                  @change="handleTaxChange"
                 />
               </el-form-item>
               <el-button type="primary" @click="showProductModal = true">
@@ -296,6 +324,7 @@ defineExpose({
             <el-input-number
               v-model="form.agreementAmount"
               controls-position="right"
+              disabled
               style="width: 100%"
             />
           </el-form-item>
@@ -305,6 +334,7 @@ defineExpose({
             <el-input-number
               v-model="form.receivedAmount"
               controls-position="right"
+              disabled
               style="width: 100%"
             />
           </el-form-item>
@@ -314,6 +344,7 @@ defineExpose({
             <el-input-number
               v-model="form.budgetPerformance"
               controls-position="right"
+              disabled
               style="width: 100%"
             />
           </el-form-item>
@@ -323,6 +354,7 @@ defineExpose({
             <el-input-number
               v-model="form.actualPerformance"
               controls-position="right"
+              disabled
               style="width: 100%"
             />
           </el-form-item>
@@ -332,6 +364,7 @@ defineExpose({
             <el-input-number
               v-model="form.agreementCost"
               controls-position="right"
+              disabled
               style="width: 100%"
             />
           </el-form-item>
@@ -341,6 +374,7 @@ defineExpose({
             <el-input-number
               v-model="form.agreementTax"
               controls-position="right"
+              disabled
               style="width: 100%"
             />
           </el-form-item>
@@ -351,6 +385,7 @@ defineExpose({
               v-model="form.discountAmount"
               controls-position="right"
               style="width: 100%"
+              @change="handleDiscountAmountChange"
             />
           </el-form-item>
         </el-col>
@@ -359,6 +394,7 @@ defineExpose({
             <el-input-number
               v-model="form.salesCost"
               controls-position="right"
+              disabled
               style="width: 100%"
             />
           </el-form-item>

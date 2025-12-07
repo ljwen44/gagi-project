@@ -8,3 +8,10 @@ import { requestClient } from '#/api/request';
 export async function getUserInfoApi() {
   return requestClient.get<UserInfo>('/user/current');
 }
+
+/**
+ * 更新密码
+ */
+export async function userUpdatePwd(data: any) {
+  return requestClient.post<UserInfo>('/user/updatePwd', data);
+}

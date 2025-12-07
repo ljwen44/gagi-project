@@ -102,6 +102,7 @@ export {
   TrendingUp,
   Triangle,
   Upload,
+  User,
   UserRoundPen,
   Users,
   X,

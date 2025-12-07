@@ -52,5 +52,7 @@
     "center": "居中",
     "alignLeft": "居左",
     "alignRight": "居右"
-  }
+  },
+  "oldPassword": "旧密码",
+  "newPassword": "新密码"
 }

@@ -16,6 +16,7 @@ interface IProps extends Partial<UploadProps> {
   limitSize?: number;
   tip?: string;
   businessType?: string;
+  showFileList?: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -23,6 +24,7 @@ const props = withDefaults(defineProps<IProps>(), {
   limitSize: 0,
   tip: '',
   businessType: '',
+  showFileList: undefined,
 });
 
 const emits = defineEmits(['uploadSuccess']);
@@ -69,7 +71,7 @@ const handleUpload = async (options: UploadRequestOptions) => {
     :class="[hasCustomClass ? 'custom-upload' : '']"
     :drag
     :http-request="handleUpload"
-    :show-file-list="props.showFileList ?? true"
+    :show-file-list="showFileList ?? true"
     auto-upload
     multiple
   >

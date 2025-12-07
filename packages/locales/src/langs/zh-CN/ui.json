@@ -57,6 +57,7 @@
     "clearNotifications": "清空",
     "checkUpdatesTitle": "新版本可用",
     "checkUpdatesDescription": "点击刷新以获取最新版本",
+    "updatePwd": "更改密码",
     "search": {
       "title": "搜索",
       "searchNavigate": "搜索导航菜单",
@@ -76,6 +77,13 @@
       "errorPasswordTip": "密码错误，请重新输入",
       "backToLogin": "返回登录",
       "entry": "进入系统"
+    },
+    "user": {
+      "oldPwdPlaceholder": "请输入旧密码",
+      "confirmOldPwdPlaceholder": "请确认旧密码",
+      "newPwdPlaceholder": "请输入新密码",
+      "confirmNewPwdPlaceholder": "请确认新密码",
+      "confirmButton": "确认更改"
     }
   }
 }

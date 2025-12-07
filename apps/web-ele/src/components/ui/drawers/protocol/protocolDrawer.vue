@@ -61,6 +61,7 @@ const handleWorkflowChange = (value: any) => {
 
     <AuditProgress
       :instance-id="form.instanceId"
+      :show-file-list="true"
       business-type="agreement"
       @update:workflow="handleWorkflowChange"
     />

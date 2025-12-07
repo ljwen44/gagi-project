@@ -7,9 +7,17 @@ import { LOGIN_PATH } from '@vben/constants';
 import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 import { extractPermissionCodes } from '@vben/utils';
 
+import { ElMessage } from 'element-plus';
+import { md5 } from 'js-md5';
 import { defineStore } from 'pinia';
 
-import { getAccessCodesApi, getUserInfoApi, loginApi, logoutApi } from '#/api';
+import {
+  getAccessCodesApi,
+  getUserInfoApi,
+  loginApi,
+  logoutApi,
+  userUpdatePwd,
+} from '#/api';
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
@@ -112,6 +120,23 @@ export const useAuthStore = defineStore('auth', () => {
     });
   }
 
+  async function updatePwd(values: any) {
+    if (!userStore.userInfo?.userId) {
+      return ElMessage.error('请登录');
+    }
+    try {
+      await userUpdatePwd({
+        oldPassword: md5(values.oldPassword),
+        newPassword: md5(values.newPassword),
+        userId: userStore.userInfo?.userId,
+      });
+      ElMessage.success('更新成功, 请重新登录');
+      logout();
+    } catch {
+      ElMessage.error('更新失败');
+    }
+  }
+
   async function getUserPermissions() {
     try {
       const data = await getAccessCodesApi();
@@ -139,5 +164,6 @@ export const useAuthStore = defineStore('auth', () => {
     getUserPermissions,
     loginLoading,
     logout,
+    updatePwd,
   };
 });

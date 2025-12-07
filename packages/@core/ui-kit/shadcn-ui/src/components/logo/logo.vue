@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { VbenAvatar } from '../avatar';
+import logo from './logo.png';
 
 interface Props {
   /**
@@ -51,7 +52,7 @@ withDefaults(defineProps<Props>(), {
       <VbenAvatar
         v-if="src"
         :alt="text"
-        :src="src"
+        :src="logo"
         class="relative w-8 rounded-none bg-transparent"
       />
       <span
