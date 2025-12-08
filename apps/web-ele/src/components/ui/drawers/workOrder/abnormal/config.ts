@@ -66,7 +66,7 @@ export const componentsMap: Record<any, IComponent> = {
   },
   [AbnormalWorkOrderEnum.detail]: {
     component: defineAsyncComponent(
-      () => import('./components/AbnormalDetail.vue'),
+      () => import('../../common/WorkOrderDetail.vue'),
     ),
   },
   [AbnormalWorkOrderEnum.workOrder]: {

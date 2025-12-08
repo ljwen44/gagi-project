@@ -57,7 +57,7 @@ export const componentsMap: Record<any, IComponent> = {
   },
   [FollowUpEnum.detail]: {
     component: defineAsyncComponent(
-      () => import('./components/OrderDetail.vue'),
+      () => import('../../common/WorkOrderDetail.vue'),
     ),
   },
   [FollowUpEnum.confirm]: {

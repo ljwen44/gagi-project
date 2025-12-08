@@ -122,6 +122,7 @@ const handleWorkflowChange = (value: any) => {
             :is="componentsMap[activeTab]?.component"
             v-bind="componentsMap[activeTab]?.props || {}"
             :id
+            :form
           />
           <template #fallback>
             <div class="p-4 text-center">loading...</div>

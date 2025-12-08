@@ -63,7 +63,7 @@ export const componentsMap: Record<any, IComponent> = {
   },
   [BrandUpdateTabEnum.detail]: {
     component: defineAsyncComponent(
-      () => import('./components/OrderDetail.vue'),
+      () => import('../../common/WorkOrderDetail.vue'),
     ),
   },
   [BrandUpdateTabEnum.confirm]: {

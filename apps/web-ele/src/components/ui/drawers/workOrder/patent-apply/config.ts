@@ -65,7 +65,7 @@ export const componentsMap: Record<any, IComponent> = {
   },
   [PatentApplyTabEnum.detail]: {
     component: defineAsyncComponent(
-      () => import('./components/OrderDetail.vue'),
+      () => import('../../common/WorkOrderDetail.vue'),
     ),
   },
   [PatentApplyTabEnum.confirm]: {
