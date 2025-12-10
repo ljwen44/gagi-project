@@ -192,5 +192,3 @@ const handleCloseDrawer = () => {
     </template>
   </TableLayout>
 </template>
-
-<style lang="scss" scoped></style>

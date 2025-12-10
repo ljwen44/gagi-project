@@ -1,6 +1,8 @@
 import type { IFormItem } from '#/components/common/form/index.vue';
 
+import { getCategoryList } from '#/api/core/product';
 import ARadio from '#/components/common/radio/index.vue';
+import ASelect from '#/components/common/select/index.vue';
 
 export const modalFormItems: IFormItem[] = [
   {
@@ -27,8 +29,15 @@ export const modalFormItems: IFormItem[] = [
   {
     label: '服务分类',
     prop: 'categoryId',
+    component: ASelect,
     componentProps: {
       placeholder: '请输入服务分类',
+      api: getCategoryList,
+      labelKey: 'categoryName',
+      valueKey: 'id',
+      style: {
+        width: '100%',
+      },
     },
   },
   {

@@ -39,3 +39,9 @@ export const getWorkOrderPending = (params: {
   pageNum: number;
   pageSize: number;
 }) => requestClient.get(`/work-order/pending`, { params });
+
+/**
+ * 更新工单详情
+ */
+export const updateDynamicFields = (data: any) =>
+  requestClient.post(`/work-order/updateDynamicFields`, data);

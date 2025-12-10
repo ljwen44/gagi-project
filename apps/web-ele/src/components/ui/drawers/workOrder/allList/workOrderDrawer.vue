@@ -13,6 +13,7 @@ import { getWorkOrderById } from '#/api/core/workOrder';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
 
 import AuditProgress from '../../common/AuditProgress.vue';
+import EditWorkOrder from '../../common/EditWorkOrder.vue';
 import OrderArea from '../../common/OrderArea.vue';
 import {
   componentsMap,
@@ -29,7 +30,7 @@ interface IProps {
 const props = defineProps<IProps>();
 const emits = defineEmits(['closed']);
 
-const { form } = useDrawerForm(props, getWorkOrderById);
+const { form, updateForm } = useDrawerForm(props, getWorkOrderById);
 
 const activeTab = ref<WorkOrderEnum>(WorkOrderEnum.detail);
 
@@ -57,27 +58,14 @@ const handleWorkflowChange = (value: any) => {
     title="查看工单详情"
     @closed="handleClosed"
   >
-    <!-- <template #pre-content>
-      <div class="flex flex-col gap-2">
-        <div class="flex items-center gap-2">
-          <el-tooltip content="编辑" placement="top">
-            <div class="cursor-pointer rounded-md bg-blue-200 p-2">
-              <SquarePen class="size-3 text-blue-600" />
-            </div>
-          </el-tooltip>
-          <el-tooltip content="刷新" placement="top">
-            <div class="cursor-pointer rounded-md bg-gray-200 p-2">
-              <RefreshCcw class="size-3 text-gray-600" />
-            </div>
-          </el-tooltip>
-          <el-tooltip content="提醒" placement="top">
-            <div class="cursor-pointer rounded-md bg-lime-200 p-2">
-              <Bell class="size-3 text-lime-600" />
-            </div>
-          </el-tooltip>
-        </div>
-      </div>
-    </template> -->
+    <template #pre-content>
+      <EditWorkOrder
+        v-if="form.status !== '审核通过'"
+        :id
+        :form
+        @confirm="updateForm"
+      />
+    </template>
 
     <template #auditStatus="{ data }">
       <el-tag :type="TagTypeMap[data]" effect="dark">

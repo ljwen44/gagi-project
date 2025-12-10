@@ -52,3 +52,8 @@ export const getProductList = (params: GetProductListParams) =>
  */
 export const updateProduct = (data: any) =>
   requestClient.put(`/product/update`, data);
+
+/**
+ * 获取分类列表
+ */
+export const getCategoryList = () => requestClient.get(`/product/categoryList`);

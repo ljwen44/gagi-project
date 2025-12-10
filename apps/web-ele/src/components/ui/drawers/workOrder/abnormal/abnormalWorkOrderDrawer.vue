@@ -6,6 +6,7 @@ import { useDrawerForm } from '@vben/hooks';
 import { getWorkOrderById } from '#/api/core/workOrder';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
 
+import EditWorkOrder from '../../common/EditWorkOrder.vue';
 import OrderArea from '../../common/OrderArea.vue';
 import {
   AbnormalWorkOrderEnum,
@@ -16,14 +17,14 @@ import {
 
 interface IProps {
   show: boolean;
-  id: number;
+  id?: number;
 }
 
 const props = defineProps<IProps>();
 
 const emits = defineEmits(['closed']);
 
-const { form } = useDrawerForm(props, getWorkOrderById);
+const { form, updateForm } = useDrawerForm(props, getWorkOrderById);
 
 const activeTab = ref<AbnormalWorkOrderEnum>(AbnormalWorkOrderEnum.detail);
 
@@ -45,19 +46,15 @@ const handleTabChange = (activeName: AbnormalWorkOrderEnum) => {
     title="查看异常单详情"
     @closed="handleClosed"
   >
-    <!-- <template #pre-content>
-      <div class="flex flex-col gap-2">
-        <el-alert title="xxx 通过了" type="success" />
+    <template #pre-content>
+      <EditWorkOrder
+        v-if="form.status !== '审核通过'"
+        :id
+        :form
+        @confirm="updateForm"
+      />
+    </template>
 
-        <div class="flex items-center gap-2">
-          <el-tooltip content="提醒" placement="top">
-            <div class="cursor-pointer rounded-md bg-lime-200 p-2">
-              <Bell class="size-3 text-lime-600" />
-            </div>
-          </el-tooltip>
-        </div>
-      </div>
-    </template> -->
     <OrderArea />
     <div class="flex flex-col gap-2 py-4">
       <el-tabs v-model="activeTab" @tab-change="handleTabChange">
