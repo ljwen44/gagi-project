@@ -2,15 +2,19 @@ import type { FormItemType } from '@vben/types';
 
 import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
+import { countries } from '#/assets/constant/countries';
+import ASelect from '#/components/common/select/index.vue';
+
 export const formItems: FormItemType[] = [
   {
     label: '国家',
     key: 'country',
-    width: 36,
-    // component: VbenSelect,
+    // width: 36,
+    component: ASelect,
     props: {
-      placeholder: '请输入',
-      // options: [],
+      placeholder: '请选择',
+      options: countries,
+      filterable: true,
     },
   },
   {

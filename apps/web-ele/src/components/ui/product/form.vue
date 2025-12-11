@@ -3,7 +3,7 @@ import { ref, useTemplateRef } from 'vue';
 
 import { ElMessage } from 'element-plus';
 
-import { addProduct, updateProduct } from '#/api/core/product';
+import { addProduct, genProductNo, updateProduct } from '#/api/core/product';
 import AForm from '#/components/common/form/index.vue';
 import AModal from '#/components/common/modal/index.vue';
 
@@ -39,11 +39,17 @@ const modalTitle = ref('新增产品');
 const form = ref<FormRefProps>(props.defaultForm || { ...initForm });
 const formRef = useTemplateRef('formRef');
 
-const openModal = (params?: { target?: any; title?: string }) => {
+const openModal = async (params?: { target?: any; title?: string }) => {
   const { target, title } = params || {};
   if (target) {
     form.value = { ...form.value, ...target };
   }
+
+  if (!form.value.productNo) {
+    const id = await genProductNo();
+    form.value.productNo = id;
+  }
+
   if (title) {
     modalTitle.value = title;
   }

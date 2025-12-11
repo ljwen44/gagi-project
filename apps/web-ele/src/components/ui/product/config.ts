@@ -1,6 +1,7 @@
 import type { IFormItem } from '#/components/common/form/index.vue';
 
 import { getCategoryList } from '#/api/core/product';
+import { countries } from '#/assets/constant/countries';
 import ARadio from '#/components/common/radio/index.vue';
 import ASelect from '#/components/common/select/index.vue';
 
@@ -10,6 +11,7 @@ export const modalFormItems: IFormItem[] = [
     prop: 'productNo',
     componentProps: {
       placeholder: '请输入产品编号',
+      disabled: true,
     },
   },
   {
@@ -22,8 +24,14 @@ export const modalFormItems: IFormItem[] = [
   {
     label: '国家',
     prop: 'country',
+    component: ASelect,
     componentProps: {
       placeholder: '请输入国家',
+      options: countries,
+      filterable: true,
+      style: {
+        width: '100%',
+      },
     },
   },
   {

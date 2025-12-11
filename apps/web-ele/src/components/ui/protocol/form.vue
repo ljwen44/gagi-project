@@ -11,7 +11,7 @@ import AModal from '#/components/common/modal/index.vue';
 import ASelect from '#/components/common/select/index.vue';
 import ATable from '#/components/common/table/index.vue';
 
-import { agreementTypeOptions, protocolProductColumns, rules } from './config';
+import { protocolProductColumns, rules } from './config';
 import ProductTable from './productTable.vue';
 
 export interface AgreementFormProps {
@@ -44,6 +44,7 @@ const props = defineProps<IProps>();
 const emits = defineEmits(['confirm']);
 const initForm = {
   hasProduct: true,
+  agreementType: 'normal',
 };
 
 const showModal = ref(false);
@@ -123,8 +124,12 @@ const deleteProduct = (index: number) => {
 
 const handleSubmitProduct = async (submit: boolean = false) => {
   try {
-    await formRef.value?.validate();
-    if (form.value.hasProduct && productSelection.value.length === 0) {
+    submit && (await formRef.value?.validate());
+    if (
+      submit &&
+      form.value.hasProduct &&
+      productSelection.value.length === 0
+    ) {
       ElMessage.error('请选择产品');
       return;
     }
@@ -241,7 +246,7 @@ defineExpose({
             />
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <!-- <el-col :span="12">
           <el-form-item label="协议类型" prop="agreementType">
             <ASelect
               v-model="form.agreementType"
@@ -250,7 +255,7 @@ defineExpose({
               style="width: 100%"
             />
           </el-form-item>
-        </el-col>
+        </el-col> -->
       </el-row>
       <div class="split-line relative mb-4 w-full text-center">
         甲方(委托方)信息

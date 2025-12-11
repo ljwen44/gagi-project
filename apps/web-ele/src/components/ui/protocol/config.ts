@@ -2,6 +2,9 @@ import type { FormItemType } from '@vben/types';
 
 import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
+import { countries } from '#/assets/constant/countries';
+import ASelect from '#/components/common/select/index.vue';
+
 export const rules = {
   agreementTitle: [
     { required: true, message: '请选择协议抬头', trigger: 'change' },
@@ -32,7 +35,7 @@ export const rules = {
 
 export const protocolProductColumns: ITableColumnProps[] = [
   { label: '产品名称', prop: 'productName' },
-  { label: '服务分类', prop: 'categoryId' },
+  { label: '服务分类', prop: 'categoryName' },
   { label: '国家', prop: 'country' },
   {
     label: '官费(元)',
@@ -71,7 +74,7 @@ export const productColumns: ITableColumnProps[] = [
   },
   {
     label: '服务分类',
-    prop: 'categoryId',
+    prop: 'categoryName',
     sortable: true,
   },
   {
@@ -117,8 +120,11 @@ export const formItems: FormItemType[] = [
     label: '国家',
     key: 'country',
     width: 36,
+    component: ASelect,
     props: {
       placeholder: '请输入',
+      options: countries,
+      filterable: true,
     },
   },
   {

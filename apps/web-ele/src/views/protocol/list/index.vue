@@ -208,7 +208,10 @@ onMounted(() => {
     </template> -->
 
     <template #operator="{ row }">
-      <div class="flex items-center justify-center gap-1">
+      <div
+        v-if="row.status === '暂存'"
+        class="flex items-center justify-center gap-1"
+      >
         <Edit
           class="size-4 cursor-pointer text-[var(--el-color-primary)]"
           @click="

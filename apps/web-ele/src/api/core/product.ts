@@ -57,3 +57,8 @@ export const updateProduct = (data: any) =>
  * 获取分类列表
  */
 export const getCategoryList = () => requestClient.get(`/product/categoryList`);
+
+/**
+ * 生成产品编号
+ */
+export const genProductNo = () => requestClient.get(`/product/geneProductNo`);

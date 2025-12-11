@@ -2,7 +2,8 @@ import type { FormItemType, TabbarProps } from '@vben/types';
 
 import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
-import { VbenSelect } from '@vben-core/shadcn-ui';
+import { countries } from '#/assets/constant/countries';
+import ASelect from '#/components/common/select/index.vue';
 
 export enum MODAL_TYPE {
   CUSTOMER = 'customer',
@@ -16,10 +17,11 @@ export const formItems: FormItemType[] = [
     label: '国家',
     key: 'keyword',
     width: 36,
-    component: VbenSelect,
+    component: ASelect,
     props: {
-      placeholder: '请选择国家',
-      options: [],
+      placeholder: '请选择',
+      options: countries,
+      filterable: true,
     },
   },
   {

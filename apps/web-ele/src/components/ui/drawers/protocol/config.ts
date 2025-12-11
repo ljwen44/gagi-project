@@ -215,8 +215,8 @@ export const fileColumns: ITableColumnProps[] = [
     width: 60,
   },
   {
-    label: '协议名称',
-    prop: 'name',
+    label: '文件名称',
+    prop: 'fileName',
   },
   {
     label: '协议阶段',
