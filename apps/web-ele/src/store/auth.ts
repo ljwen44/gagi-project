@@ -1,4 +1,4 @@
-import type { Recordable, UserInfo } from '@vben/types';
+import type { BasicUserInfo, Recordable, UserInfo } from '@vben/types';
 
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -16,6 +16,7 @@ import {
   getUserInfoApi,
   loginApi,
   logoutApi,
+  userUpdateInfo,
   userUpdatePwd,
 } from '#/api';
 
@@ -136,6 +137,26 @@ export const useAuthStore = defineStore('auth', () => {
       ElMessage.error('更新失败');
     }
   }
+  async function updateInfo(values: any) {
+    if (!userStore.userInfo?.userId) {
+      return ElMessage.error('请登录');
+    }
+    try {
+      await userUpdateInfo({
+        userId: userStore.userInfo?.userId,
+        username: values.username,
+        realName: values.realName,
+        email: values.email,
+        phone: values.phone,
+      });
+      const user = await getUserInfoApi();
+      userStore.setUserInfo(user as BasicUserInfo);
+      ElMessage.success('更新成功');
+      values.closeModal?.();
+    } catch {
+      ElMessage.error('更新失败');
+    }
+  }
 
   async function getUserPermissions() {
     try {
@@ -165,5 +186,6 @@ export const useAuthStore = defineStore('auth', () => {
     loginLoading,
     logout,
     updatePwd,
+    updateInfo,
   };
 });

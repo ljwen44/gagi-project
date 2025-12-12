@@ -99,11 +99,11 @@ export const columns: ITableColumnProps[] = [
     prop: 'agreementNo',
     sortable: true,
   },
-  {
-    label: '关联工单',
-    prop: 'workOrderCode',
-    sortable: true,
-  },
+  // {
+  //   label: '关联工单',
+  //   prop: 'workOrderCode',
+  //   sortable: true,
+  // },
   {
     label: '审核状态',
     prop: 'auditStatus',

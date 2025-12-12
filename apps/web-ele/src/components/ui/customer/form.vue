@@ -85,9 +85,13 @@ const onConfirm = async () => {
   try {
     await formRef.value?.instance.validate();
     const api = form.value.id ? updateCustomer : addCustomer;
+    const [province, city, district] = form.value.area || [];
     const requestParams = {
       ...form.value,
       tags: form.value?.tags?.join(','),
+      province,
+      city,
+      district,
     };
     await api(requestParams);
     ElMessage.success('操作成功');

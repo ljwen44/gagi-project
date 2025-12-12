@@ -27,6 +27,10 @@ async function handleUpdatePwd(values: any) {
   await authStore.updatePwd(values);
 }
 
+async function handleUpdateInfo(values: any) {
+  await authStore.updateInfo(values);
+}
+
 watch(
   () => preferences.app.watermark,
   async (enable) => {
@@ -51,6 +55,7 @@ watch(
         :avatar
         :text="userStore.userInfo?.realName"
         @logout="handleLogout"
+        @update-info="handleUpdateInfo"
         @update-pwd="handleUpdatePwd"
       />
     </template>

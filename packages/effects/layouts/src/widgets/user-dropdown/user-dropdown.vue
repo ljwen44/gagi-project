@@ -5,7 +5,7 @@ import type { Component } from 'vue';
 import { computed, useTemplateRef, watch } from 'vue';
 
 import { useHoverToggle } from '@vben/hooks';
-import { LockKeyhole, LogOut, User } from '@vben/icons';
+import { Info, LockKeyhole, LogOut, User } from '@vben/icons';
 import { $t } from '@vben/locales';
 import { preferences, usePreferences } from '@vben/preferences';
 import { useLockStore } from '@vben/stores';
@@ -27,6 +27,7 @@ import {
 import { useMagicKeys, whenever } from '@vueuse/core';
 
 import { LockScreenModal } from '../lock-screen';
+import UserUpdateInfo from '../user-updateInfo/UserUpdateInfo.vue';
 import UserUpdatePwd from '../user-updatePwd/UserUpdatePwd.vue';
 
 interface Props {
@@ -77,7 +78,11 @@ const props = withDefaults(defineProps<Props>(), {
   hoverDelay: 500,
 });
 
-const emit = defineEmits<{ logout: []; updatePwd: [Recordable<any>] }>();
+const emit = defineEmits<{
+  logout: [];
+  updateInfo: [Recordable<any>];
+  updatePwd: [Recordable<any>];
+}>();
 
 const { globalLockScreenShortcutKey, globalLogoutShortcutKey } =
   usePreferences();
@@ -87,6 +92,9 @@ const [LockModal, lockModalApi] = useVbenModal({
 });
 const [UpdatePwdModal, pwdModalApi] = useVbenModal({
   connectedComponent: UserUpdatePwd,
+});
+const [UpdateInfoModal, infoModalApi] = useVbenModal({
+  connectedComponent: UserUpdateInfo,
 });
 const [LogoutModal, logoutModalApi] = useVbenModal({
   onConfirm() {
@@ -135,6 +143,9 @@ function handleOpenLock() {
 function handleOpenUpdatePwd() {
   pwdModalApi.open();
 }
+function handleOpenUpdateInfo() {
+  infoModalApi.open();
+}
 
 function handleSubmitLock(lockScreenPassword: string) {
   lockModalApi.close();
@@ -154,6 +165,12 @@ function handleSubmitLogout() {
 
 function handleSubmitUpdatePwd(values: any) {
   emit('updatePwd', values);
+}
+function handleSubmitUpdateInfo(values: any) {
+  emit('updateInfo', {
+    ...values,
+    closeModal: infoModalApi.close,
+  });
 }
 
 if (enableShortcutKey.value) {
@@ -194,6 +211,8 @@ if (enableShortcutKey.value) {
   </LogoutModal>
 
   <UpdatePwdModal @submit="handleSubmitUpdatePwd" />
+
+  <UpdateInfoModal @submit="handleSubmitUpdateInfo" />
 
   <DropdownMenu v-model:open="openPopover">
     <DropdownMenuTrigger ref="refTrigger" :disabled="props.trigger === 'hover'">
@@ -241,6 +260,13 @@ if (enableShortcutKey.value) {
           {{ menu.text }}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+        <DropdownMenuItem
+          class="mx-1 flex cursor-pointer items-center rounded-sm py-1 leading-8"
+          @click="handleOpenUpdateInfo"
+        >
+          <Info class="mr-2 size-4" />
+          {{ $t('ui.widgets.updateInfo') }}
+        </DropdownMenuItem>
         <DropdownMenuItem
           class="mx-1 flex cursor-pointer items-center rounded-sm py-1 leading-8"
           @click="handleOpenUpdatePwd"

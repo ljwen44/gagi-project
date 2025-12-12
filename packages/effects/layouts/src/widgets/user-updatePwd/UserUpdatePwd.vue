@@ -19,8 +19,8 @@ const emit = defineEmits<{
 const [Form, { resetForm, validate, getValues }] = useVbenForm(
   reactive({
     commonConfig: {
-      hideLabel: true,
-      hideRequiredMark: true,
+      hideLabel: false,
+      hideRequiredMark: false,
     },
     schema: computed(() => [
       {

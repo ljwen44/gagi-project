@@ -297,7 +297,7 @@ defineExpose({
               >
                 <ASelect
                   v-model="form.taxRate"
-                  :options="[{ label: '30%', value: 0.3 }]"
+                  :options="[{ label: '3%', value: 0.03 }]"
                   @change="handleTaxChange"
                 />
               </el-form-item>

@@ -40,7 +40,7 @@ const formItems = computed<IFormItem[]>(() => {
       label: item.fieldName,
       prop: item.fieldKey,
       componentProps: {
-        options: item.options,
+        options: JSON.parse(item.options),
         placeholder: item.placeholder,
         required: true,
         style: {
@@ -130,9 +130,9 @@ const handleConfirm = async () => {
       v-model="selfForm"
       :items="formItems"
       :rules
-      class="grid grid-cols-2 gap-2"
+      class="grid grid-cols-2 items-start gap-2"
       label-position="right"
-      label-width="120"
+      label-width="150"
     />
   </AModal>
 </template>

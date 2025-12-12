@@ -8,10 +8,17 @@ interface IProps {
 const props = defineProps<IProps>();
 
 const detail = computed<Record<string, any>[]>(() =>
-  (props.form?.fieldConfigs || []).map((item: any) => ({
-    ...item,
-    value: props.form.dynamicFieldValues[item.fieldKey],
-  })),
+  (props.form?.fieldConfigs || []).map((item: any) => {
+    let value = props.form.dynamicFieldValues[item.fieldKey];
+    if (item.fieldType === 'select') {
+      const options = JSON.parse(item.options);
+      value = options.find((option: any) => option.value === value)?.label;
+    }
+    return {
+      ...item,
+      value,
+    };
+  }),
 );
 </script>
 
