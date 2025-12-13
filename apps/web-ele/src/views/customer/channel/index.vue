@@ -21,8 +21,8 @@ const customerFormRef = useTemplateRef('customerFormRef');
       </el-button>
     </template>
 
-    <template #customerCode="{ row }">
-      <el-link type="primary">{{ row.customerCode }}</el-link>
+    <template #customerNo="{ row }">
+      <el-link type="primary">{{ row.customerNo }}</el-link>
     </template>
 
     <template #operator>

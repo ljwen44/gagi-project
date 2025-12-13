@@ -35,9 +35,9 @@ const modalType = ref(MODAL_TYPE.INIT);
         {{ row.protocol }}
       </el-link>
     </template>
-    <template #customerCode="{ row }">
+    <template #customerNo="{ row }">
       <el-link type="primary" @click="modalType = MODAL_TYPE.CUSTOMER">
-        {{ row.customerCode }}
+        {{ row.customerNo }}
       </el-link>
     </template>
 

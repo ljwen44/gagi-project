@@ -38,7 +38,7 @@ export const columns: ITableColumnProps[] = [
   },
   {
     label: '工单编号',
-    prop: 'number',
+    prop: 'orderNo',
     sortable: true,
   },
   {

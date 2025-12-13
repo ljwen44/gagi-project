@@ -285,7 +285,7 @@ export const customerFlagMap = {
 export const modalFormItems: IFormItem[] = [
   {
     label: '客户编号',
-    prop: 'customerCode',
+    prop: 'customerNo',
     componentProps: {
       placeholder: '请输入客户编号',
     },

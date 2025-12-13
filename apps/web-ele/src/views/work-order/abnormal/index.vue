@@ -77,7 +77,7 @@ const openDrawer = (type: MODAL_TYPE, row: any, index: number) => {
     previewOrderId.value = row.orderId;
     return;
   }
-  previewId.value = row.id;
+  previewId.value = row.workOrderId;
 };
 </script>
 

@@ -17,13 +17,13 @@ export enum ReviewCommentTabEnum {
 }
 
 export const drawerFormItems: IFormItem[] = [
-  { label: '异常单号', prop: 'number' },
-  { label: '工单状态', prop: 'status' },
-  { label: '客户编号', prop: 'customerCode' },
-  { label: '协议编号', prop: 'protocolCode' },
+  { label: '异常单号', prop: 'orderNo' },
+  { label: '工单状态', prop: 'workStatus' },
+  { label: '客户编号', prop: 'customerNo' },
+  { label: '协议编号', prop: 'agreementNo' },
   { label: '国家', prop: 'country' },
   { label: '产品名称', prop: 'productName' },
-  { label: '所属人', prop: 'owner' },
+  { label: '所属人', prop: 'username' },
   // { label: '', prop: 'finalStatus', class: 'col-span-4' },
   // { label: '状态', prop: 'status' },
   // { label: '是否完结', prop: 'finished' },

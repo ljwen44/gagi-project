@@ -245,7 +245,7 @@ export const refundFormItems: IFormItem[] = [
   },
   {
     label: '协议编号',
-    prop: 'protocolCode',
+    prop: 'agreementNo',
   },
   {
     label: '退款金额',
