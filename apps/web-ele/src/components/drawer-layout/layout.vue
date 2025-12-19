@@ -7,7 +7,9 @@ import { useAttrs, watch } from 'vue';
 
 import { ArrowLeft, ArrowRight } from '@vben/icons';
 
-// import { ArrowLeft, ArrowRight, Check, CircleX, Users } from '@vben/icons';
+import ATable, {
+  type ITableColumnProps,
+} from '#/components/common/table/index.vue';
 
 interface IProps extends Partial<DrawerProps> {
   confirmText?: string;
@@ -29,6 +31,13 @@ const props = withDefaults(defineProps<IProps>(), {
 });
 
 const emits = defineEmits(['open', 'closed', 'prev', 'next']);
+
+const appendColumns: ITableColumnProps[] = [
+  { label: '服务项', prop: 'itemName' },
+  { label: '成本', prop: 'itemCost' },
+  { label: '价格', prop: 'itemPrice' },
+  { label: '备注', prop: 'remark' },
+];
 
 const showModal = defineModel({
   default: false,
@@ -147,6 +156,16 @@ const handleNext = () => {
             </slot>
           </el-form-item>
         </el-form>
+        <template v-if="form.serviceItems?.length > 0">
+          <ATable
+            :columns="appendColumns"
+            :data="form.serviceItems"
+            :table-config="{
+              data: form.serviceItems,
+              size: 'small',
+            }"
+          />
+        </template>
       </slot>
       <slot></slot>
       <slot name="content-footer"></slot>

@@ -52,5 +52,6 @@ defineExpose({
         />
       </slot>
     </el-form-item>
+    <slot :form></slot>
   </el-form>
 </template>

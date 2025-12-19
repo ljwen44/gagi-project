@@ -45,6 +45,7 @@ const emits = defineEmits(['confirm']);
 const initForm = {
   hasProduct: true,
   agreementType: 'normal',
+  serviceItems: [],
 };
 
 const showModal = ref(false);
@@ -171,10 +172,28 @@ watch(
   (nv) => {
     form.value.productIds = nv.map((item: any) => item.id).join(',');
     form.value.agreementAmount = +nv
-      .reduce((acc: number, cur: any) => acc + cur.standardPrice, 0)
+      .reduce(
+        (acc: number, cur: any) =>
+          acc +
+          cur.standardPrice +
+          cur.serviceItems.reduce(
+            (acc: number, cur: any) => acc + cur.itemPrice,
+            0,
+          ),
+        0,
+      )
       .toFixed(2);
     form.value.salesCost = form.value.agreementCost = +nv
-      .reduce((acc: number, cur: any) => acc + cur.officialFee, 0)
+      .reduce(
+        (acc: number, cur: any) =>
+          acc +
+          cur.officialFee +
+          cur.serviceItems.reduce(
+            (acc: number, cur: any) => acc + cur.itemCost,
+            0,
+          ),
+        0,
+      )
       .toFixed(2);
     form.value.budgetPerformance = +(
       form.value.agreementAmount - form.value.salesCost
@@ -188,6 +207,8 @@ watch(
     form.value.agreementTax = form.value.taxRate
       ? +(form.value.receivedAmount * form.value.taxRate).toFixed(2)
       : 0;
+
+    form.value.serviceItems = nv.flatMap((item: any) => item.serviceItems);
   },
   {
     deep: true,

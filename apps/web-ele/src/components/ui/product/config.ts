@@ -1,4 +1,5 @@
 import type { IFormItem } from '#/components/common/form/index.vue';
+import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
 import { getCategoryList } from '#/api/core/product';
 import { countries } from '#/assets/constant/countries';
@@ -75,7 +76,6 @@ export const modalFormItems: IFormItem[] = [
   {
     label: '是否认证',
     prop: 'isCertified',
-    class: 'col-span-2',
     component: ARadio,
     componentProps: {
       options: [
@@ -107,3 +107,60 @@ export const rules = {
     { required: true, message: '请输入标准售价', trigger: 'blur' },
   ],
 };
+
+export const appenddModalFormItems: IFormItem[] = [
+  {
+    label: '服务项目名',
+    prop: 'itemName',
+    componentProps: {
+      placeholder: '请输入服务项目名',
+    },
+  },
+  {
+    label: '成本',
+    prop: 'itemCost',
+    component: 'el-input-number',
+    componentProps: {
+      placeholder: '请输入成本',
+      'controls-position': 'right',
+      style: {
+        width: '100%',
+      },
+    },
+  },
+  {
+    label: '价格',
+    prop: 'itemPrice',
+    component: 'el-input-number',
+    componentProps: {
+      placeholder: '请输入价格',
+      'controls-position': 'right',
+      style: {
+        width: '100%',
+      },
+    },
+  },
+  {
+    label: '备注',
+    prop: 'remark',
+    componentProps: {
+      placeholder: '请输入备注',
+    },
+  },
+];
+
+export const appendFormRules = {
+  itemName: [
+    { required: true, message: '请输入服务项目名称', trigger: 'blur' },
+  ],
+  itemPrice: [{ required: true, message: '请输入价格', trigger: 'blur' }],
+  itemCost: [{ required: true, message: '请输入成本', trigger: 'blur' }],
+};
+
+export const appendColumns: ITableColumnProps[] = [
+  { label: '服务项', prop: 'itemName' },
+  { label: '成本', prop: 'itemCost' },
+  { label: '价格', prop: 'itemPrice' },
+  { label: '备注', prop: 'remark' },
+  { label: '操作', prop: 'operator' },
+];
