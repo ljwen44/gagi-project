@@ -62,3 +62,13 @@ export const getCategoryList = () => requestClient.get(`/product/categoryList`);
  * 生成产品编号
  */
 export const genProductNo = () => requestClient.get(`/product/geneProductNo`);
+
+/**
+ * 上传文件
+ */
+export const postPorductUpload = (data: any) =>
+  requestClient.post(`/template/upload`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });

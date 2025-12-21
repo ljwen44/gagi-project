@@ -1,3 +1,4 @@
+<!-- eslint-disable unicorn/no-array-reduce -->
 <script lang="ts" setup>
 import { computed, ref, useTemplateRef, watch } from 'vue';
 
@@ -177,7 +178,9 @@ watch(
           acc +
           cur.standardPrice +
           cur.serviceItems.reduce(
-            (acc: number, cur: any) => acc + cur.itemPrice,
+            (a: number, c: any) =>
+              a +
+              (cur.selectServiceItems.includes(c.itemName) ? c.itemPrice : 0),
             0,
           ),
         0,
@@ -189,7 +192,9 @@ watch(
           acc +
           cur.officialFee +
           cur.serviceItems.reduce(
-            (acc: number, cur: any) => acc + cur.itemCost,
+            (a: number, c: any) =>
+              a +
+              (cur.selectServiceItems.includes(c.itemName) ? c.itemCost : 0),
             0,
           ),
         0,
@@ -208,7 +213,11 @@ watch(
       ? +(form.value.receivedAmount * form.value.taxRate).toFixed(2)
       : 0;
 
-    form.value.serviceItems = nv.flatMap((item: any) => item.serviceItems);
+    form.value.serviceItems = nv.flatMap((item: any) =>
+      item.serviceItems.filter((i: any) =>
+        item.selectServiceItems.includes(i.itemName),
+      ),
+    );
   },
   {
     deep: true,
@@ -263,6 +272,8 @@ defineExpose({
                   value: '深圳市驰威知识产权服务有限公司',
                 },
               ]"
+              allow-create
+              filterable
               style="width: 100%"
             />
           </el-form-item>
@@ -461,7 +472,7 @@ defineExpose({
   <AModal
     v-model="showProductModal"
     title="选择产品"
-    width="850px"
+    width="900px"
     @close="tempProductSelection = []"
     @confirm="handleSelectProduct"
   >

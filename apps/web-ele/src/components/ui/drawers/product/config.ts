@@ -40,6 +40,11 @@ export const drawerFormItems: IFormItem[] = [
     class: 'col-span-2',
     format: (value: number) => value?.toFixed(2),
   },
+  {
+    label: '模板文件',
+    prop: 'templateCode',
+    class: 'col-span-3',
+  },
   // { label: '备注', prop: 'remark', class: 'col-span-3' },
 ];
 

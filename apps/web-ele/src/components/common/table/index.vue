@@ -17,7 +17,7 @@ export type ITableColumnProps = {
   disabledFilter?: boolean;
   filterFormat?: (val: any) => any;
   filterProp?: string;
-  format?: (val: any) => any;
+  format?: (val: any, data: any) => any;
 } & Partial<TableColumnInstance>;
 
 export type ITableEvent = {
@@ -109,7 +109,8 @@ const restColumns = computed(() =>
         <template #default="scope">
           <slot :name="column.prop" v-bind="scope">
             {{
-              (column.format && column.format(scope.row[column.prop!])) ||
+              (column.format &&
+                column.format(scope.row[column.prop!], scope.row)) ||
               scope.row[column.prop!]
             }}
           </slot>

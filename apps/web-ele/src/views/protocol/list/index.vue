@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, ref, useTemplateRef } from 'vue';
 
-import { AlertCircle, Edit } from '@vben/icons';
+import { Edit } from '@vben/icons';
 
 import { ElMessage } from 'element-plus';
 
@@ -130,7 +130,7 @@ onMounted(() => {
         新增
       </el-button>
     </template>
-    <template #agreementNoHeader>
+    <!-- <template #agreementNoHeader>
       <el-tooltip placement="top">
         <template #content>
           <div class="flex flex-col gap-2">111</div>
@@ -140,7 +140,7 @@ onMounted(() => {
           <AlertCircle class="ml-1 inline-block size-4 text-[#f00]" />
         </div>
       </el-tooltip>
-    </template>
+    </template> -->
     <template #agreementNo="{ row, $index }">
       <el-text
         class="cursor-pointer"

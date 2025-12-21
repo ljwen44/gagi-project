@@ -95,6 +95,11 @@ export const modalFormItems: IFormItem[] = [
       ],
     },
   },
+  {
+    label: '模板文件',
+    prop: 'templateCode',
+    class: 'col-span-2',
+  },
 ];
 
 export const rules = {

@@ -1,11 +1,16 @@
 <script lang="ts" setup>
 import { ref, useTemplateRef } from 'vue';
 
-import { Edit, Trash2 } from '@vben/icons';
+import { Edit, Trash2, Upload } from '@vben/icons';
 
-import { ElMessage } from 'element-plus';
+import { ElMessage, type UploadRequestOptions } from 'element-plus';
 
-import { addProduct, genProductNo, updateProduct } from '#/api/core/product';
+import {
+  addProduct,
+  genProductNo,
+  postPorductUpload,
+  updateProduct,
+} from '#/api/core/product';
 import AForm from '#/components/common/form/index.vue';
 import AModal from '#/components/common/modal/index.vue';
 import ATable from '#/components/common/table/index.vue';
@@ -37,6 +42,9 @@ interface FormRefProps {
   isCertified?: number;
   isNotarized?: number;
   serviceItems: AppendFormRefProps[];
+  templateCode?: string;
+  templateName?: string;
+  templateDownloadUrl?: string;
 }
 
 interface IProps {
@@ -57,6 +65,7 @@ const showModal = ref(false);
 const showAppendModal = ref(false);
 const modalTitle = ref('新增产品');
 const form = ref<FormRefProps>(props.defaultForm || { ...initForm });
+const uploadFiles = ref<any[]>([]);
 const appendForm = ref<AppendFormRefProps>({});
 const formRef = useTemplateRef('formRef');
 const appendFormRef = useTemplateRef('appendFormRef');
@@ -65,6 +74,12 @@ const openModal = async (params?: { target?: any; title?: string }) => {
   const { target, title } = params || {};
   if (target) {
     form.value = { ...form.value, ...target };
+    if (target.templateCode) {
+      uploadFiles.value.push({
+        url: target.templateDownloadUrl,
+        name: target.templateName,
+      });
+    }
   }
 
   if (!form.value.productNo) {
@@ -133,6 +148,23 @@ const handleConfirmAppend = async () => {
   } catch {}
 };
 
+const handleUpload = async (options: UploadRequestOptions) => {
+  try {
+    const file = new File([options.file], options.file.name, {
+      type: options.file.type,
+    });
+    const formData = new FormData();
+    formData.append('file', file);
+    const data = await postPorductUpload(formData);
+    form.value.templateCode = data.templateCode;
+    form.value.templateName = data.templateName;
+    form.value.templateDownloadUrl = data.templateDownloadUrl;
+    uploadFiles.value = [{ ...data, name: data.templateName }];
+  } catch {
+    ElMessage.error('上传失败');
+  }
+};
+
 defineExpose({
   openModal,
   closeModal,
@@ -147,43 +179,61 @@ defineExpose({
     @close="closeModal"
     @confirm="handleConfirm"
   >
-    <AForm
-      ref="formRef"
-      v-model="form"
-      :items="modalFormItems"
-      :rules
-      class="grid grid-cols-2 gap-2"
-      label-position="right"
-      label-width="120"
-    >
-      <el-button
-        class="col-span-2 mb-2 w-full !border-dashed"
-        @click="openAppendModal"
-      >
+    <div class="flex flex-col items-end gap-2">
+      <el-button class="w-[100px]" type="primary" @click="openAppendModal">
         添加服务项
       </el-button>
 
-      <template v-if="form.serviceItems?.length > 0">
-        <ATable
-          :columns="appendColumns"
-          :data="form.serviceItems"
-          class="col-span-2"
-        >
-          <template #operator="{ row, $index }">
-            <div class="flex items-center gap-2">
-              <Edit
-                class="size-4 cursor-pointer text-[var(--el-color-primary)]"
-                @click="openAppendModal(row)"
-              />
-              <Trash2
-                class="size-4 cursor-pointer text-[var(--el-color-danger)]"
-                @click="form.serviceItems.splice($index, 1)"
-              />
-            </div>
-          </template>
-        </ATable>
-      </template>
-    </AForm>
+      <AForm
+        ref="formRef"
+        v-model="form"
+        :items="modalFormItems"
+        :rules
+        class="grid w-full grid-cols-2 gap-2"
+        label-position="right"
+        label-width="120"
+      >
+        <template #templateCode>
+          <el-upload
+            v-model:file-list="uploadFiles"
+            :http-request="handleUpload"
+            :limit="1"
+            auto-upload
+            class="w-full"
+            drag
+            show-file-list
+          >
+            <slot>
+              <div class="flex items-center justify-center gap-2">
+                <Upload class="size-4" />
+                <span>上传文件</span>
+              </div>
+            </slot>
+          </el-upload>
+        </template>
+
+        <template v-if="form.serviceItems?.length > 0">
+          <ATable
+            :columns="appendColumns"
+            :data="form.serviceItems"
+            class="col-span-2"
+          >
+            <template #operator="{ row, $index }">
+              <div class="flex items-center gap-2">
+                <Edit
+                  class="size-4 cursor-pointer text-[var(--el-color-primary)]"
+                  @click="openAppendModal(row)"
+                />
+                <Trash2
+                  class="size-4 cursor-pointer text-[var(--el-color-danger)]"
+                  @click="form.serviceItems.splice($index, 1)"
+                />
+              </div>
+            </template>
+          </ATable>
+        </template>
+      </AForm>
+    </div>
   </AModal>
 
   <AModal

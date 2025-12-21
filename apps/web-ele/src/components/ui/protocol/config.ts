@@ -47,6 +47,28 @@ export const protocolProductColumns: ITableColumnProps[] = [
     prop: 'standardPrice',
     format: (value) => value?.toFixed(2),
   },
+  {
+    label: '服务价格',
+    prop: 'serviceItems',
+    format: (_, data) =>
+      (
+        data.selectServiceItems?.reduce((acc: number, cur: string) => {
+          const item = data.serviceItems?.find((i: any) => i.itemName === cur);
+          return acc + (item?.itemPrice || 0);
+        }, 0) || 0
+      ).toFixed(2),
+  },
+  {
+    label: '服务费用',
+    prop: 'serviceCost',
+    format: (_, data) =>
+      (
+        data.selectServiceItems?.reduce((acc: number, cur: string) => {
+          const item = data.serviceItems?.find((i: any) => i.itemName === cur);
+          return acc + (item?.itemCost || 0);
+        }, 0) || 0
+      ).toFixed(2),
+  },
   // { label: '数量(标)', prop: 'number' },
   // { label: '附加项', prop: 'extra' },
   { label: '操作', prop: 'operator', fixed: 'right', align: 'center' },
@@ -112,6 +134,12 @@ export const productColumns: ITableColumnProps[] = [
     prop: 'officialFee',
     sortable: true,
     format: (value: number) => value?.toFixed(2),
+  },
+  {
+    label: '额外服务项',
+    prop: 'serviceItems',
+    fixed: 'right',
+    width: 240,
   },
 ];
 

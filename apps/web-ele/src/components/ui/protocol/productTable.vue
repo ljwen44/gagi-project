@@ -34,5 +34,21 @@ const handleSelectionChange = (val: any) => {
         {{ row.isNotarized ? '是' : '否' }}
       </el-tag>
     </template>
+    <template #serviceItems="{ row }">
+      <el-select
+        v-if="row.serviceItems.length > 0"
+        v-model="row.selectServiceItems"
+        collapse-tags
+        multiple
+      >
+        <el-option
+          v-for="item in row.serviceItems"
+          :key="item.itemName"
+          :label="item.itemName"
+          :value="item.itemName"
+        />
+      </el-select>
+      <el-text v-else />
+    </template>
   </TableLayout>
 </template>

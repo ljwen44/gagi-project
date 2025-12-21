@@ -43,6 +43,15 @@ const handleTabChange = (activeName: ProductTabEnum) => {
     title="查看产品详情"
     @closed="handleClosed"
   >
+    <template #templateCode="{ originData }">
+      <a
+        :href="originData.templateDownloadUrl"
+        class="text-[var(--el-color-primary)]"
+        download
+        >{{ originData.templateName }}
+      </a>
+    </template>
+
     <div class="flex flex-col gap-2 py-4">
       <el-tabs v-model="activeTab" @tab-change="handleTabChange">
         <el-tab-pane
