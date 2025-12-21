@@ -180,7 +180,7 @@ watch(
           cur.serviceItems.reduce(
             (a: number, c: any) =>
               a +
-              (cur.selectServiceItems.includes(c.itemName) ? c.itemPrice : 0),
+              (cur.selectServiceItems?.includes(c.itemName) ? c.itemPrice : 0),
             0,
           ),
         0,
@@ -194,7 +194,7 @@ watch(
           cur.serviceItems.reduce(
             (a: number, c: any) =>
               a +
-              (cur.selectServiceItems.includes(c.itemName) ? c.itemCost : 0),
+              (cur.selectServiceItems?.includes(c.itemName) ? c.itemCost : 0),
             0,
           ),
         0,
@@ -215,7 +215,7 @@ watch(
 
     form.value.serviceItems = nv.flatMap((item: any) =>
       item.serviceItems.filter((i: any) =>
-        item.selectServiceItems.includes(i.itemName),
+        item.selectServiceItems?.includes(i.itemName),
       ),
     );
   },

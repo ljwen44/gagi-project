@@ -75,10 +75,12 @@ const openModal = async (params?: { target?: any; title?: string }) => {
   if (target) {
     form.value = { ...form.value, ...target };
     if (target.templateCode) {
-      uploadFiles.value.push({
-        url: target.templateDownloadUrl,
-        name: target.templateName,
-      });
+      uploadFiles.value = [
+        {
+          url: target.templateDownloadUrl,
+          name: target.templateName,
+        },
+      ];
     }
   }
 
@@ -97,6 +99,7 @@ const closeModal = () => {
   showModal.value = false;
   form.value = { ...initForm };
   formRef.value?.instance.resetFields();
+  uploadFiles.value = [];
 };
 
 const handleConfirm = async () => {
