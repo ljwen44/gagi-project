@@ -209,7 +209,7 @@ onMounted(() => {
 
     <template #operator="{ row }">
       <div
-        v-if="row.status === '暂存'"
+        v-if="['已驳回', '暂存'].includes(row.status)"
         class="flex items-center justify-center gap-1"
       >
         <Edit

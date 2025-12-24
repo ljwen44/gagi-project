@@ -114,6 +114,8 @@ const handleConfirm = async () => {
         itemCost: item.itemCost,
         itemPrice: item.itemPrice,
       })),
+      officialFee: form.value.officialFee || 0,
+      standardPrice: form.value.standardPrice || 0,
     });
     ElMessage.success('操作成功');
     closeModal();
@@ -168,6 +170,15 @@ const handleUpload = async (options: UploadRequestOptions) => {
   }
 };
 
+const handlePreview = (file: any) => {
+  if (file.url) {
+    const a = document.createElement('a');
+    a.href = file.url;
+    a.download = file.name;
+    a.click();
+  }
+};
+
 defineExpose({
   openModal,
   closeModal,
@@ -201,6 +212,7 @@ defineExpose({
             v-model:file-list="uploadFiles"
             :http-request="handleUpload"
             :limit="1"
+            :on-preview="handlePreview"
             auto-upload
             class="w-full"
             drag

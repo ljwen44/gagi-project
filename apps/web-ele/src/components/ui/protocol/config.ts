@@ -37,16 +37,16 @@ export const protocolProductColumns: ITableColumnProps[] = [
   { label: '产品名称', prop: 'productName' },
   { label: '服务分类', prop: 'categoryName' },
   { label: '国家', prop: 'country' },
-  {
-    label: '官费(元)',
-    prop: 'officialFee',
-    format: (value) => value?.toFixed(2),
-  },
-  {
-    label: '售价(元)',
-    prop: 'standardPrice',
-    format: (value) => value?.toFixed(2),
-  },
+  // {
+  //   label: '官费(元)',
+  //   prop: 'officialFee',
+  //   format: (value) => value?.toFixed(2),
+  // },
+  // {
+  //   label: '售价(元)',
+  //   prop: 'standardPrice',
+  //   format: (value) => value?.toFixed(2),
+  // },
   {
     label: '服务价格',
     prop: 'serviceItems',
@@ -123,20 +123,20 @@ export const productColumns: ITableColumnProps[] = [
     sortable: true,
     format: (value: number) => (value ? '是' : '否'),
   },
+  // {
+  //   label: '标准售价(元)',
+  //   prop: 'standardPrice',
+  //   sortable: true,
+  //   format: (value: number) => value?.toFixed(2),
+  // },
+  // {
+  //   label: '官费(元)',
+  //   prop: 'officialFee',
+  //   sortable: true,
+  //   format: (value: number) => value?.toFixed(2),
+  // },
   {
-    label: '标准售价(元)',
-    prop: 'standardPrice',
-    sortable: true,
-    format: (value: number) => value?.toFixed(2),
-  },
-  {
-    label: '官费(元)',
-    prop: 'officialFee',
-    sortable: true,
-    format: (value: number) => value?.toFixed(2),
-  },
-  {
-    label: '额外服务项',
+    label: '服务项目',
     prop: 'serviceItems',
     fixed: 'right',
     width: 240,

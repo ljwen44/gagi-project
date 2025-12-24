@@ -33,6 +33,11 @@ const form = ref({ ...initForm });
 const formRef = useTemplateRef('formRef');
 const isPass = ref(true);
 
+const handleModal = (pass: boolean) => {
+  isPass.value = pass;
+  showModal.value = true;
+};
+
 const closeModal = () => {
   showModal.value = false;
   form.value = { ...initForm };
@@ -45,7 +50,7 @@ const onConfirm = async () => {
       ...form.value,
       fileIds: form.value.fileIds.map((item: any) => item.result.id),
       instanceId: props.instanceId,
-      approvalType: +isPass.value,
+      approvalType: isPass.value ? 1 : 2,
     };
     await approveWorkflow(requestParams);
     await refreshWorkflow();
@@ -78,10 +83,12 @@ watch(
         <span>审批流信息</span>
       </div>
       <div v-if="showAudit">
-        <el-button :icon="Check" type="success" @click="showModal = true">
+        <el-button :icon="Check" type="success" @click="handleModal(true)">
           通过
         </el-button>
-        <el-button :icon="CircleX" type="danger">拒绝</el-button>
+        <el-button :icon="CircleX" type="danger" @click="handleModal(false)">
+          拒绝
+        </el-button>
       </div>
     </div>
     <el-steps

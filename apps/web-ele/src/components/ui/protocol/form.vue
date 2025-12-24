@@ -57,6 +57,7 @@ const form = ref<Record<string, any>>({ ...initForm });
 const productSelection = ref<any>([]);
 let tempProductSelection: any = [];
 const formRef = useTemplateRef('formRef');
+const submitLoading = ref(false);
 
 const customerOptionsMap = computed(
   () =>
@@ -126,6 +127,7 @@ const deleteProduct = (index: number) => {
 
 const handleSubmitProduct = async (submit: boolean = false) => {
   try {
+    submitLoading.value = true;
     submit && (await formRef.value?.validate());
     if (
       submit &&
@@ -148,6 +150,8 @@ const handleSubmitProduct = async (submit: boolean = false) => {
     if (error instanceof Error) {
       ElMessage.error('操作失败');
     }
+  } finally {
+    submitLoading.value = false;
   }
 };
 
@@ -462,7 +466,11 @@ defineExpose({
         <el-button plain type="primary" @click="handleSubmitProduct()">
           暂存
         </el-button>
-        <el-button type="primary" @click="handleSubmitProduct(true)">
+        <el-button
+          :loading="submitLoading"
+          type="primary"
+          @click="handleSubmitProduct(true)"
+        >
           确定
         </el-button>
       </div>
