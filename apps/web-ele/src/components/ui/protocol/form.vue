@@ -34,6 +34,7 @@ export interface AgreementFormProps {
   signTitle?: string;
   agreementNo?: string;
   updateBy?: number;
+  serviceItems?: any;
 }
 
 interface IProps {
@@ -76,8 +77,25 @@ const openModal = async (params?: {
 
     if (target.productIds) {
       const productIds = target.productIds.split(',');
+      const serviceItemsMap = new Map(
+        target.serviceItems.map((item: any) => [
+          `${item.itemNmae}-${item.itemCost}-${item.itemPrice}`,
+          item.itemName,
+        ]),
+      );
       const dataList = await Promise.all(
-        productIds.map(async (id) => await getProductById(+id)),
+        productIds.map(async (id) => {
+          const product = await getProductById(+id);
+          const selectServiceItems = product.serviceItems.map((item: any) =>
+            serviceItemsMap.get(
+              `${item.itemNmae}-${item.itemCost}-${item.itemPrice}`,
+            ),
+          );
+          return {
+            ...product,
+            selectServiceItems,
+          };
+        }),
       );
       productSelection.value = dataList;
     }

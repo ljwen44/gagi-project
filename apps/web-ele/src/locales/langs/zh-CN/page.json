@@ -59,5 +59,10 @@
   "activity": {
     "title": "活动管理",
     "list": "活动列表"
+  },
+  "setting": {
+    "title": "系统设置",
+    "userList": "用户管理",
+    "roleList": "角色管理"
   }
 }

@@ -26,6 +26,10 @@ interface BasicUserInfo {
 
 interface AccessState {
   /**
+   * 权限
+   */
+  permissions?: any;
+  /**
    * 用户信息
    */
   userInfo: BasicUserInfo | null;
@@ -42,10 +46,13 @@ export const useUserStore = defineStore('core-user', {
   actions: {
     hasRole(role: string | string[]) {
       if (Array.isArray(role)) {
-        role.every((r) => this.userRoles.includes(r));
+        role.every((r) => this.userRoles?.includes(r));
       }
-      return this.userRoles.includes(role as string);
+      return this.userRoles?.includes(role as string);
     },
+    // setPermissions(data: any) {
+    //   this.permissions = data;
+    // },
     setUserInfo(userInfo: BasicUserInfo | null) {
       // 设置用户信息
       this.userInfo = userInfo;
@@ -58,6 +65,7 @@ export const useUserStore = defineStore('core-user', {
     },
   },
   state: (): AccessState => ({
+    // permissions: [],
     userInfo: null,
     userRoles: [],
   }),

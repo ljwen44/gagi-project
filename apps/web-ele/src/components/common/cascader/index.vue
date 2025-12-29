@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import type { SelectProps } from 'element-plus';
+import type { CascaderProps } from 'element-plus';
 
 import { onMounted, ref } from 'vue';
 
-// type IProps = {
-//   options: Array<{ disabled?: boolean; label: string; value: any }>;
-//   placeholder?: string;
-// } & SelectProps;
-
-interface IProps extends Partial<SelectProps> {
+interface IProps extends Partial<CascaderProps> {
   options?: Array<{ disabled?: boolean; label: string; value: any }>;
   placeholder?: string;
   width?: number | string;
@@ -21,6 +16,12 @@ interface IProps extends Partial<SelectProps> {
 const props = defineProps<IProps>();
 
 const value = defineModel();
+
+const prop = {
+  multiple: true,
+  value: 'id',
+  label: 'permissionName',
+};
 
 const selfOptions = ref<any>([]);
 
@@ -39,19 +40,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <el-select
+  <el-cascader
     v-model="value"
     :style="{ width: width || '200px' }"
     v-bind="$props"
+    :options="selfOptions"
     :placeholder
+    :props="prop"
     clearable
-  >
-    <el-option
-      v-for="item in options || selfOptions"
-      :key="item.value"
-      :disabled="item.disabled"
-      :label="item[labelKey || 'label']"
-      :value="item[valueKey || 'value']"
-    />
-  </el-select>
+  />
 </template>

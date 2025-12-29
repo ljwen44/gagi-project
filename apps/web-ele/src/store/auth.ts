@@ -43,10 +43,11 @@ export const useAuthStore = defineStore('auth', () => {
       await loginApi(params);
       const user = await getUserInfoApi();
       // const data = await getAccessCodesApi();
-      // const roles = extractPermissionCodes(data);
+      // const roles = getUserPermissions();
       userInfo = user;
       accessStore.setAccessToken(params.password);
       userStore.setUserInfo(userInfo);
+      // userStore.setPermissions(data);
       accessStore.setAccessCodes(user.permissions as string[]);
       onSuccess ? await onSuccess?.() : await toHomePage();
       // const { accessToken } = await loginApi(params);
@@ -171,6 +172,8 @@ export const useAuthStore = defineStore('auth', () => {
     let userInfo: any | UserInfo = null;
     userInfo = await getUserInfoApi();
     userStore.setUserInfo(userInfo);
+    // const data = await getAccessCodesApi();
+    // userStore.setPermissions(data);
     return userInfo.permissions;
   }
 

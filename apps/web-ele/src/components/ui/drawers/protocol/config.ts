@@ -17,6 +17,11 @@ export enum ProtocolTabEnum {
   workOrderRecord = 'workOrderRecord',
 }
 
+const agreementTypeMap: Record<string, string> = {
+  normal: '普通协议',
+  abnormal: '异常协议',
+};
+
 export const protocolFormItems: IFormItem[] = [
   {
     label: '协议编号',
@@ -29,6 +34,7 @@ export const protocolFormItems: IFormItem[] = [
   {
     label: '协议类型',
     prop: 'agreementType',
+    format: (value) => agreementTypeMap[value] ?? value,
   },
   {
     label: '客户编号',
