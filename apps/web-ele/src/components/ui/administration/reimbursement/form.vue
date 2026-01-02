@@ -3,61 +3,77 @@ import type { Attachment } from '@vben/types';
 
 import { ref, useTemplateRef } from 'vue';
 
-import { useVbenModal } from '@vben-core/popup-ui';
+import { ElMessage } from 'element-plus';
 
+import { addInfo, genReimbursementNo, Type } from '#/api/core/administration';
 import AForm from '#/components/common/form/index.vue';
-import ATable from '#/components/common/table/index.vue';
+import AModal from '#/components/common/modal/index.vue';
 
-import { detailColumns, modalFormItems, rules } from './config';
+import { modalFormItems, rules } from './config';
 
-interface DetailProp {
-  number?: string;
-  type?: string;
-  amount?: number;
-  desc?: string;
-  time?: string;
-}
+// interface DetailProp {
+//   number?: string;
+//   type?: string;
+//   amount?: number;
+//   desc?: string;
+//   time?: string;
+// }
 
 interface FormRefProps {
-  number?: string;
+  reimbursementNo?: string;
   account?: string;
   accountName?: string;
-  type?: string;
-  details: DetailProp[];
-  total?: number;
+  bankName?: string;
+  amount?: number;
+  // details: DetailProp[];
   attachments?: Attachment[];
   remark?: string;
+  id?: number;
 }
 
-const form = ref<FormRefProps>({
-  details: [],
-});
+const emits = defineEmits(['confirm']);
+
+const modalTitle = ref('');
+const showModal = ref(false);
+const form = ref<FormRefProps>({});
 const formRef = useTemplateRef('formRef');
 
-const [Modal, ModalApi] = useVbenModal({
-  closeOnClickModal: false,
-  fullscreenButton: false,
-  draggable: true,
-  class: 'w-[750px]',
-  onConfirm: () => {
-    formRef.value?.instance.validate((valid: boolean) => {
-      if (valid) {
-        // TODO 提交表单
-        ModalApi.close();
-      }
-    });
-  },
-});
-
-const openModal = (title: string = '新增报销申请') => {
-  ModalApi.setState({
-    isOpen: true,
-    title,
-  });
+const openModal = async (params?: {
+  target?: FormRefProps;
+  title?: string;
+}) => {
+  const { target, title } = params || {};
+  if (target) {
+    form.value = { ...form.value, ...target };
+  } else {
+    const id = await genReimbursementNo();
+    form.value.reimbursementNo = id;
+  }
+  if (title) {
+    modalTitle.value = title;
+  }
+  showModal.value = true;
 };
 
 const closeModal = () => {
-  ModalApi.close();
+  showModal.value = false;
+  form.value = {};
+  formRef.value?.instance?.resetFields();
+};
+
+const onConfirm = async (submit: boolean = true) => {
+  try {
+    await formRef.value?.instance.validate();
+    const api = form.value.id ? addInfo : addInfo;
+    const requestParams = {
+      ...form.value,
+      submit: +submit,
+    };
+    await api(Type.reimbursement, requestParams);
+    ElMessage.success('操作成功');
+    closeModal();
+    emits('confirm', requestParams);
+  } catch {}
 };
 
 defineExpose({
@@ -67,7 +83,7 @@ defineExpose({
 </script>
 
 <template>
-  <Modal>
+  <AModal v-model="showModal" :title="modalTitle" width="750px">
     <AForm
       ref="formRef"
       v-model="form"
@@ -77,7 +93,7 @@ defineExpose({
       label-position="top"
       label-width="100"
     >
-      <template #details>
+      <!-- <template #details>
         <div class="flex w-full flex-col items-end gap-2">
           <el-button type="primary"> 添加明细 </el-button>
 
@@ -87,10 +103,14 @@ defineExpose({
             :data="form.details"
           />
         </div>
-      </template>
+      </template> -->
     </AForm>
-    <template #center-footer>
-      <el-button plain type="success">暂存</el-button>
+    <template #footer>
+      <div class="flex items-center justify-end gap-2">
+        <el-button @click="closeModal">取消</el-button>
+        <el-button plain type="primary" @click="onConfirm()"> 暂存 </el-button>
+        <el-button type="primary" @click="onConfirm(true)"> 确定 </el-button>
+      </div>
     </template>
-  </Modal>
+  </AModal>
 </template>

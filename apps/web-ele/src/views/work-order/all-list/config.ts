@@ -44,23 +44,23 @@ export const formItems: FormItemType[] = [
 ];
 
 export const tabbar: TabbarProps[] = [
-  {
-    label: '待办工单',
-    key: 'pending',
-    tooltip: '未结单确认的工单,包含未完结及后端驳回',
-    permissionCode: 'workorder:all:pending',
-  },
-  {
-    label: '已完结',
-    key: 'completed',
-    tooltip: '已结单确认的工单',
-    permissionCode: 'workorder:all:completed',
-  },
-  {
-    label: '全部工单',
-    key: 'all',
-    permissionCode: 'workorder:all:all',
-  },
+  // {
+  //   label: '待办工单',
+  //   key: 'pending',
+  //   tooltip: '未结单确认的工单,包含未完结及后端驳回',
+  //   permissionCode: 'workorder:all:pending',
+  // },
+  // {
+  //   label: '已完结',
+  //   key: 'completed',
+  //   tooltip: '已结单确认的工单',
+  //   permissionCode: 'workorder:all:completed',
+  // },
+  // {
+  //   label: '全部工单',
+  //   key: 'all',
+  //   permissionCode: 'workorder:all:all',
+  // },
 ];
 
 export const columns: ITableColumnProps[] = [
@@ -243,14 +243,14 @@ export const columns: ITableColumnProps[] = [
   //   sortable: true,
   //   width: 160,
   // },
-  {
-    label: '操作',
-    prop: 'operator',
-    fixed: 'right',
-    disabledFilter: true,
-    align: 'center',
-    width: 140,
-  },
+  // {
+  //   label: '操作',
+  //   prop: 'operator',
+  //   fixed: 'right',
+  //   disabledFilter: true,
+  //   align: 'center',
+  //   width: 140,
+  // },
 ];
 
 export const TagTypeMap: Record<number, string> = {

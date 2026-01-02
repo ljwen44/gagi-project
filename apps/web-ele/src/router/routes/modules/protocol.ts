@@ -10,7 +10,7 @@ const routes: RouteRecordRaw[] = [
       icon: 'lucide:file-text',
       order: 3,
       title: $t('page.protocol.title'),
-      // permissionCode: 'agreement:view',
+      permissionCode: 'agreement:view',
     },
     name: 'Protocol',
     path: '/agreement',
@@ -22,7 +22,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
           icon: 'lucide:file-stack',
           title: $t('page.protocol.list'),
-          // permissionCode: 'agreement:list:view',
+          permissionCode: 'agreement:list:view',
         },
       },
     ],

@@ -86,10 +86,10 @@ export const columns: ITableColumnProps[] = [
     prop: 'country',
     sortable: true,
   },
-  {
-    label: '操作',
-    prop: 'operator',
-    fixed: 'right',
-    disabledFilter: true,
-  },
+  // {
+  //   label: '操作',
+  //   prop: 'operator',
+  //   fixed: 'right',
+  //   disabledFilter: true,
+  // },
 ];

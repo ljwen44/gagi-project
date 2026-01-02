@@ -1,15 +1,18 @@
 import { ref, watch } from 'vue';
 
 export interface Props {
-  id?: number;
+  id?: number | string;
   show: boolean;
 }
 
-export const useDrawerForm = (props: Props, api: (id: number) => any) => {
+export const useDrawerForm = (
+  props: Props,
+  api: (id: number | string) => any,
+) => {
   const form = ref<Record<string, any>>({});
 
   const getDetail = async () => {
-    if (typeof props.id !== 'number') {
+    if (!props.id || !props.show) {
       form.value = {};
       return;
     }

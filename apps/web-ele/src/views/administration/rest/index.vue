@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import { ref, useTemplateRef } from 'vue';
 
-import { Edit, Trash2 } from '@vben/icons';
-import { mockApi } from '@vben/utils';
+import { Edit } from '@vben/icons';
 
+import { ElMessage } from 'element-plus';
+
+import { getInfoList, Type } from '#/api/core/administration';
 import TableLayout from '#/components/table-layout/index.vue';
 import RestForm from '#/components/ui/administration/rest/form.vue';
 import RestDrawer from '#/components/ui/drawers/administration/restDrawer.vue';
@@ -13,51 +15,111 @@ import { columns, formItems } from './config';
 const restFormRef = useTemplateRef('restFormRef');
 
 const show = ref(false);
+const previewId = ref();
+const currentPreviewIndex = ref(0);
+const tableLayoutRef = useTemplateRef('tableLayoutRef');
+
+const refreshData = () => {
+  tableLayoutRef.value?.query();
+};
+
+const openDrawer = (row: any, index: number) => {
+  currentPreviewIndex.value = index;
+  previewId.value = row.id;
+  show.value = true;
+};
+
+const handleCloseDrawer = () => {
+  show.value = false;
+  tableLayoutRef.value?.query();
+  previewId.value = void 0;
+};
+
+const handleNextPreview = (list: any, symbol: number) => {
+  currentPreviewIndex.value += symbol;
+  if (currentPreviewIndex.value === list.length) {
+    currentPreviewIndex.value--;
+    ElMessage.info('已是最后一页');
+    return;
+  }
+
+  if (currentPreviewIndex.value < 0) {
+    currentPreviewIndex.value = 0;
+    ElMessage.info('已是第一页');
+    return;
+  }
+
+  previewId.value = list[currentPreviewIndex.value].id;
+};
 </script>
 
 <template>
-  <TableLayout :api="() => mockApi(columns)" :columns :form-items="formItems">
+  <TableLayout
+    ref="tableLayoutRef"
+    :api="(args: any) => getInfoList(Type.leaveApply, args)"
+    :columns
+    :form-items="formItems"
+  >
     <template #action>
-      <el-button type="primary" @click="restFormRef?.openModal()">
+      <el-button
+        type="primary"
+        @click="
+          restFormRef?.openModal({
+            title: '新增请假申请',
+          })
+        "
+      >
         添加
       </el-button>
     </template>
 
-    <template #number="{ row }">
-      <el-link type="primary" @click="show = true">
-        {{ row.number }}
-      </el-link>
-    </template>
-
-    <template #type="{ row }">
-      <el-tag type="primary" @click="show = true">
-        {{ row.number }}
-      </el-tag>
+    <template #leaveNo="{ row, $index }">
+      <el-text
+        class="cursor-pointer"
+        type="primary"
+        @click="openDrawer(row, $index)"
+      >
+        {{ row.leaveNo }}
+      </el-text>
     </template>
 
     <template #status="{ row }">
-      <el-tag effect="dark" type="success">{{ row.status }}</el-tag>
+      <el-tag effect="dark">{{ row.status }}</el-tag>
     </template>
 
-    <template #operator>
+    <template #operator="{ row }">
       <div class="flex items-center justify-center gap-2">
         <Edit
           class="size-4 cursor-pointer text-[var(--el-color-primary)]"
-          @click="restFormRef?.openModal('编辑请假申请')"
+          @click="
+            restFormRef?.openModal({
+              title: '编辑请假申请',
+              target: row,
+            })
+          "
         />
-        <el-popconfirm placement="bottom" title="确定删除该数据吗?" width="180">
+        <!-- <el-popconfirm placement="bottom" title="确定删除该数据吗?" width="180">
           <template #reference>
             <Trash2
               class="size-4 cursor-pointer text-[var(--el-color-danger)]"
             />
           </template>
-        </el-popconfirm>
+        </el-popconfirm> -->
       </div>
     </template>
 
-    <RestForm ref="restFormRef" />
+    <template #default="{ tableData }">
+      <RestForm ref="restFormRef" @confirm="refreshData" />
 
-    <RestDrawer :show @closed="show = false" />
+      <RestDrawer
+        :id="previewId"
+        :show
+        :type="Type.leaveApply"
+        @closed="handleCloseDrawer"
+        @next="handleNextPreview(tableData, 1)"
+        @prev="handleNextPreview(tableData, -1)"
+      />
+    </template>
   </TableLayout>
 </template>
 

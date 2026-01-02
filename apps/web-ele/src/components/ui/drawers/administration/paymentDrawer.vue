@@ -1,16 +1,19 @@
 <script lang="ts" setup>
-import { Paperclip, SquarePen, Trash2 } from '@vben/icons';
+import { useDrawerForm } from '@vben/hooks';
 
-import Atable from '#/components/common/table/index.vue';
+import { getInfoById, type Type } from '#/api/core/administration';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
 
-import { paymentDetailColumns, paymentFormItems } from './config';
+import AuditProgress from '../common/AuditProgress.vue';
+import { paymentFormItems } from './config';
 
 interface IProps {
   show: boolean;
+  id?: number;
+  type: Type;
 }
 
-defineProps<IProps>();
+const props = defineProps<IProps>();
 
 const emits = defineEmits(['closed']);
 
@@ -18,13 +21,7 @@ const handleClosed = () => {
   emits('closed');
 };
 
-const form: Record<string, any> = {};
-for (const item of paymentFormItems) {
-  if (!item.prop) {
-    continue;
-  }
-  form[item.prop] = 'mock data';
-}
+const { form } = useDrawerForm(props, () => getInfoById(props.type, props.id));
 </script>
 
 <template>
@@ -35,7 +32,7 @@ for (const item of paymentFormItems) {
     title="查看报销申请详情"
     @closed="handleClosed"
   >
-    <template #pre-content>
+    <!-- <template #pre-content>
       <div class="flex flex-col gap-2">
         <el-alert title="xxx 拒绝了审核，拒绝理由" type="error" />
         <div class="flex items-center gap-2">
@@ -51,9 +48,11 @@ for (const item of paymentFormItems) {
           </el-tooltip>
         </div>
       </div>
-    </template>
+    </template> -->
 
-    <template #content-footer>
+    <AuditProgress />
+
+    <!-- <template #content-footer>
       <div class="flex flex-col gap-2 py-4">
         <div class="flex items-center gap-2">
           <div class="rounded-md bg-sky-700 p-2">
@@ -67,6 +66,6 @@ for (const item of paymentFormItems) {
           :show-pagination="false"
         />
       </div>
-    </template>
+    </template> -->
   </DrawerLayout>
 </template>

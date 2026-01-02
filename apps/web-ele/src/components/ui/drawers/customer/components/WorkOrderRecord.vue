@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { FormItemType } from '@vben/types';
 
+import { useTemplateRef, watch } from 'vue';
+
 import {
   AuditStatusMap,
   ConfirmMap,
@@ -31,14 +33,24 @@ const formItems: FormItemType[] = [
   },
 ];
 
+const tableLayoutRef = useTemplateRef('tableLayoutRef');
+
 const beforeQuery = (queryParams: any) => {
   queryParams.pageSize = 999;
   queryParams.customerId = props.form.id;
 };
+
+watch(
+  () => props.form.id,
+  () => {
+    tableLayoutRef.value?.query();
+  },
+);
 </script>
 
 <template>
   <TableLayout
+    ref="tableLayoutRef"
     :api="getWorkOrderList"
     :before-query
     :columns="workOrderRecordColumns"

@@ -24,7 +24,7 @@ export interface CustomerDto {
 /**
  * 根据ID查询客户详情
  */
-export const getCustomerById = (id: number) =>
+export const getCustomerById = (id: number | string) =>
   requestClient.get(`/customer/${id}`);
 
 /**

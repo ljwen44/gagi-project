@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { FormItemType } from '@vben/types';
 
-import { useTemplateRef } from 'vue';
+import { useTemplateRef, watch } from 'vue';
 
 import { getAgreementList } from '#/api/core/protocol';
 import TableLayout from '#/components/table-layout/index.vue';
@@ -25,16 +25,25 @@ const formItems: FormItemType[] = [
   },
 ];
 
+const tableLayoutRef = useTemplateRef('tableLayoutRef');
 const protocolFormRef = useTemplateRef('protocolFormRef');
 
 const beforeQuery = (queryParams: any) => {
   queryParams.pageSize = 999;
   queryParams.customerId = props.form.id;
 };
+
+watch(
+  () => props.form.id,
+  () => {
+    tableLayoutRef.value?.query();
+  },
+);
 </script>
 
 <template>
   <TableLayout
+    ref="tableLayoutRef"
     :api="getAgreementList"
     :before-query
     :columns="orderRecordColumns"

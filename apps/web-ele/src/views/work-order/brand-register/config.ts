@@ -65,10 +65,10 @@ export const columns: ITableColumnProps[] = [
     prop: 'confirm',
     sortable: true,
   },
-  {
-    label: '操作',
-    prop: 'operator',
-    fixed: 'right',
-    disabledFilter: true,
-  },
+  // {
+  //   label: '操作',
+  //   prop: 'operator',
+  //   fixed: 'right',
+  //   disabledFilter: true,
+  // },
 ];

@@ -93,9 +93,9 @@ const handleUpload = async (options: UploadRequestOptions) => {
   flex-direction: column;
 
   :deep(.el-upload) {
-    padding: 8px;
-    border: 1px dashed;
-    border-radius: 8px;
+    // padding: 8px;
+    // border: 1px dashed;
+    // border-radius: 8px;
 
     &:hover {
       color: var(--el-color-primary);

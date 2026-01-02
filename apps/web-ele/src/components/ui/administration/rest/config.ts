@@ -5,11 +5,11 @@ import ARadioGroup from '#/components/common/radio/index.vue';
 export const modalFormItems: IFormItem[] = [
   {
     label: '请假单号',
-    prop: 'number',
+    prop: 'leaveNo',
     class: 'col-span-2',
     componentProps: {
       placeholder: '请输入请假单号',
-      disabled: (form: any) => !!form.id,
+      disabled: true,
       style: {
         width: '50%',
       },
@@ -17,15 +17,16 @@ export const modalFormItems: IFormItem[] = [
   },
   {
     label: '请假类型',
-    prop: 'type',
+    prop: 'leaveNature',
     class: 'col-span-2',
     component: ARadioGroup,
     componentProps: {
       options: [
-        { label: '病假(能提供正规医院出具的病例证明才能选择)', value: '1' },
-        { label: '事假', value: '2' },
-        { label: '年假', value: '3' },
-        { label: '产假', value: '4' },
+        { label: '病假(能提供正规医院出具的病例证明才能选择)', value: '病假' },
+        { label: '事假', value: '事假' },
+        { label: '年假', value: '年假' },
+        { label: '产假', value: '产假' },
+        { label: '婚假', value: '婚假' },
       ],
     },
   },
@@ -38,38 +39,41 @@ export const modalFormItems: IFormItem[] = [
       'range-separator': '至',
       'start-placeholder': '开始时间',
       'end-placeholder': '结束时间',
+      'value-format': 'YYYY-MM-DD HH:mm:ss',
     },
   },
   {
     label: '请假天数',
-    prop: 'days',
+    prop: 'leaveDays',
     component: 'el-input-number',
     componentProps: {
       'controls-position': 'right',
-      precision: 2,
+      precision: 0,
       style: {
         width: '100%',
       },
     },
   },
-  {
-    label: '请假原因',
-    prop: 'reason',
-    class: 'col-span-2',
-    component: 'el-input',
-    componentProps: {
-      placeholder: '请输入请假原因',
-      maxlength: 500,
-      'show-word-limit': true,
-      type: 'textarea',
-    },
-  },
+  // {
+  //   label: '请假原因',
+  //   prop: 'reason',
+  //   class: 'col-span-2',
+  //   component: 'el-input',
+  //   componentProps: {
+  //     placeholder: '请输入请假原因',
+  //     maxlength: 500,
+  //     'show-word-limit': true,
+  //     type: 'textarea',
+  //   },
+  // },
 ];
 
 export const rules = {
-  number: [{ required: true, message: '请输入请假单号', trigger: 'blur' }],
-  type: [{ required: true, message: '请选择请假类型', trigger: 'change' }],
+  leaveNo: [{ required: true, message: '请输入请假单号', trigger: 'blur' }],
+  leaveNature: [
+    { required: true, message: '请选择请假类型', trigger: 'change' },
+  ],
   time: [{ required: true, message: '请选择请假时间', trigger: 'change' }],
-  days: [{ required: true, message: '请输入请假天数', trigger: 'blur' }],
-  reason: [{ required: true, message: '请输入请假原因', trigger: 'blur' }],
+  leaveDays: [{ required: true, message: '请输入请假天数', trigger: 'blur' }],
+  // reason: [{ required: true, message: '请输入请假原因', trigger: 'blur' }],
 };

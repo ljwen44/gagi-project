@@ -102,18 +102,18 @@ export const drawerFormItems: IFormItem[] = [
 ];
 
 export const customerTabs = [
-  { label: '跟进记录', key: CustomerTabEnum.followRecord },
-  { label: '商机记录', key: CustomerTabEnum.businessRecord },
+  // { label: '跟进记录', key: CustomerTabEnum.followRecord },
+  // { label: '商机记录', key: CustomerTabEnum.businessRecord },
   { label: '订单记录', key: CustomerTabEnum.orderRecord },
   { label: '工单记录', key: CustomerTabEnum.workOrderRecord },
-  { label: '知产清单', key: CustomerTabEnum.intellectualProperty },
-  { label: '发票抬头', key: CustomerTabEnum.invoiceTitle },
-  { label: '共享人员', key: CustomerTabEnum.share },
-  { label: '检索记录', key: CustomerTabEnum.searchRecord },
-  { label: '检索统计', key: CustomerTabEnum.searchStatistics },
-  { label: '活动记录', key: CustomerTabEnum.activityRecord },
-  { label: '活动效果', key: CustomerTabEnum.activityResult },
-  { label: '操作记录', key: CustomerTabEnum.operatorRecord },
+  // { label: '知产清单', key: CustomerTabEnum.intellectualProperty },
+  // { label: '发票抬头', key: CustomerTabEnum.invoiceTitle },
+  // { label: '共享人员', key: CustomerTabEnum.share },
+  // { label: '检索记录', key: CustomerTabEnum.searchRecord },
+  // { label: '检索统计', key: CustomerTabEnum.searchStatistics },
+  // { label: '活动记录', key: CustomerTabEnum.activityRecord },
+  // { label: '活动效果', key: CustomerTabEnum.activityResult },
+  // { label: '操作记录', key: CustomerTabEnum.operatorRecord },
 ];
 
 export const componentsMap: Record<any, IComponent> = {

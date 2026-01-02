@@ -1,52 +1,69 @@
 <script lang="ts" setup>
-import type { Attachment } from '@vben/types';
-
 import { ref, useTemplateRef } from 'vue';
 
-import { useVbenModal } from '@vben-core/popup-ui';
+import { ElMessage } from 'element-plus';
 
+import { addInfo, genPaymentApplyNo, Type } from '#/api/core/administration';
 import AForm from '#/components/common/form/index.vue';
+import AModal from '#/components/common/modal/index.vue';
 
 import { modalFormItems, rules } from './config';
 
 interface FormRefProps {
-  number?: string;
+  paymentNo?: string;
   projectName?: string;
   amount?: number;
-  account?: string;
-  accountName?: string;
-  type?: string;
-  attachments?: Attachment[];
-  remark?: string;
+  receiptAccount?: string;
+  receiptAccountName?: string;
+  bankName?: string;
+  id?: number;
+  // attachments?: Attachment[];
+  // remark?: string;
 }
 
+const emits = defineEmits(['confirm']);
+
+const modalTitle = ref('');
+const showModal = ref(false);
 const form = ref<FormRefProps>({});
 const formRef = useTemplateRef('formRef');
 
-const [Modal, ModalApi] = useVbenModal({
-  closeOnClickModal: false,
-  fullscreenButton: false,
-  draggable: true,
-  class: 'w-[750px]',
-  onConfirm: () => {
-    formRef.value?.instance.validate((valid: boolean) => {
-      if (valid) {
-        // TODO 提交表单
-        ModalApi.close();
-      }
-    });
-  },
-});
-
-const openModal = (title: string = '新增付款申请') => {
-  ModalApi.setState({
-    isOpen: true,
-    title,
-  });
+const openModal = async (params?: {
+  target?: FormRefProps;
+  title?: string;
+}) => {
+  const { target, title } = params || {};
+  if (target) {
+    form.value = { ...form.value, ...target };
+  } else {
+    const id = await genPaymentApplyNo();
+    form.value.paymentNo = id;
+  }
+  if (title) {
+    modalTitle.value = title;
+  }
+  showModal.value = true;
 };
 
 const closeModal = () => {
-  ModalApi.close();
+  showModal.value = false;
+  form.value = {};
+  formRef.value?.instance?.resetFields();
+};
+
+const onConfirm = async (submit: boolean = true) => {
+  try {
+    await formRef.value?.instance.validate();
+    const api = form.value.id ? addInfo : addInfo;
+    const requestParams = {
+      ...form.value,
+      submit: +submit,
+    };
+    await api(Type.paymentApply, requestParams);
+    ElMessage.success('操作成功');
+    closeModal();
+    emits('confirm', requestParams);
+  } catch {}
 };
 
 defineExpose({
@@ -56,7 +73,7 @@ defineExpose({
 </script>
 
 <template>
-  <Modal>
+  <AModal v-model="showModal" :title="modalTitle" width="750px">
     <AForm
       ref="formRef"
       v-model="form"
@@ -66,8 +83,12 @@ defineExpose({
       label-position="top"
       label-width="100"
     />
-    <template #center-footer>
-      <el-button plain type="success">暂存</el-button>
+    <template #footer>
+      <div class="flex items-center justify-end gap-2">
+        <el-button @click="closeModal">取消</el-button>
+        <el-button plain type="primary" @click="onConfirm()"> 暂存 </el-button>
+        <el-button type="primary" @click="onConfirm(true)"> 确定 </el-button>
+      </div>
     </template>
-  </Modal>
+  </AModal>
 </template>

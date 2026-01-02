@@ -1,17 +1,19 @@
 <script lang="ts" setup>
-import { BookMarked } from '@vben/icons';
+import { useDrawerForm } from '@vben/hooks';
 
-import Atable from '#/components/common/table/index.vue';
+import { getInfoById, type Type } from '#/api/core/administration';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
 
 import AuditProgress from '../common/AuditProgress.vue';
-import { reimbursementDetailColumns, reimbursementFormItems } from './config';
+import { reimbursementFormItems } from './config';
 
 interface IProps {
   show: boolean;
+  id?: number;
+  type: Type;
 }
 
-defineProps<IProps>();
+const props = defineProps<IProps>();
 
 const emits = defineEmits(['closed']);
 
@@ -19,13 +21,7 @@ const handleClosed = () => {
   emits('closed');
 };
 
-const form: Record<string, any> = {};
-for (const item of reimbursementFormItems) {
-  if (!item.prop) {
-    continue;
-  }
-  form[item.prop] = 'mock data';
-}
+const { form } = useDrawerForm(props, () => getInfoById(props.type, props.id));
 </script>
 
 <template>
@@ -33,22 +29,23 @@ for (const item of reimbursementFormItems) {
     :form
     :form-items="reimbursementFormItems"
     :show
+    title="查看报销申请详情"
     @closed="handleClosed"
   >
-    <template #title>
+    <!-- <template #title>
       <div class="flex items-center gap-2">
         <span>查看报销申请详情</span>
         <el-button size="small" type="primary">打印</el-button>
       </div>
-    </template>
+    </template> -->
 
-    <template #pre-content>
+    <!-- <template #pre-content>
       <el-alert class="!mt-4" title="xxx 通过了审核" type="success" />
-    </template>
+    </template> -->
 
     <AuditProgress />
 
-    <template #content-footer>
+    <!-- <template #content-footer>
       <div class="flex flex-col gap-2 py-4">
         <div class="flex items-center gap-2">
           <div class="rounded-md bg-sky-700 p-2">
@@ -62,6 +59,6 @@ for (const item of reimbursementFormItems) {
           :show-pagination="false"
         />
       </div>
-    </template>
+    </template> -->
   </DrawerLayout>
 </template>

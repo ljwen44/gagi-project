@@ -3,20 +3,22 @@ import { ref, useTemplateRef } from 'vue';
 
 import { ElMessage } from 'element-plus';
 
-import { addInfo, genLeaveApplyNo, Type } from '#/api/core/administration';
+import {
+  addInfo,
+  genRefundApplyApplyNo,
+  Type,
+} from '#/api/core/administration';
 import AForm from '#/components/common/form/index.vue';
 import AModal from '#/components/common/modal/index.vue';
 
 import { modalFormItems, rules } from './config';
 
 interface FormRefProps {
-  leaveNo?: string;
-  leaveNature?: string;
-  startTime?: string;
-  endTime?: string;
-  leaveDays?: number;
-  time?: string[];
-  // reason?: string;
+  refundNo?: string;
+  refundType?: string;
+  customerNo?: string;
+  agreementNo?: string;
+  refundAmount?: number;
   id?: number;
 }
 
@@ -36,11 +38,10 @@ const openModal = async (params?: {
     form.value = {
       ...form.value,
       ...target,
-      time: [target.startTime!, target.endTime!],
     };
   } else {
-    const id = await genLeaveApplyNo();
-    form.value.leaveNo = id;
+    const id = await genRefundApplyApplyNo();
+    form.value.refundNo = id;
   }
   if (title) {
     modalTitle.value = title;
@@ -58,18 +59,19 @@ const onConfirm = async (submit: boolean = true) => {
   try {
     await formRef.value?.instance.validate();
     const api = form.value.id ? addInfo : addInfo;
-    const [startTime, endTime] = form.value.time!;
     const requestParams = {
       ...form.value,
       submit: +submit,
-      startTime,
-      endTime,
     };
-    await api(Type.leaveApply, requestParams);
+    await api(Type.refundApply, requestParams);
     ElMessage.success('操作成功');
     closeModal();
     emits('confirm', requestParams);
-  } catch {}
+  } catch {
+    if (!form.value.id) {
+      form.value.refundNo = await genRefundApplyApplyNo();
+    }
+  }
 };
 
 defineExpose({

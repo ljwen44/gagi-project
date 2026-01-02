@@ -42,51 +42,51 @@ export const formItems: FormItemType[] = [
 ];
 
 export const tabbar: TabbarProps[] = [
-  {
-    label: '全部工单',
-    key: 'all',
-    permissionCode: 'workorder:query:productA:all',
-  },
-  {
-    label: '未备注',
-    key: 'unremark',
-    permissionCode: 'workorder:query:productA:unremark',
-  },
-  {
-    label: '审核中',
-    key: 'reviewing',
-    permissionCode: 'workorder:query:productA:reviewing',
-  },
-  {
-    label: '公示中',
-    key: 'publicing',
-    permissionCode: 'workorder:query:productA:publicing',
-  },
-  {
-    label: '异常',
-    key: 'abnormal',
-    permissionCode: 'workorder:query:productA:abnormal',
-  },
-  {
-    label: '暂停',
-    key: 'paused',
-    permissionCode: 'workorder:query:productA:paused',
-  },
-  {
-    label: '电子证书',
-    key: 'electronic',
-    permissionCode: 'workorder:query:productA:electronic',
-  },
-  {
-    label: '纸质证书',
-    key: 'paper',
-    permissionCode: 'workorder:query:productA:paper',
-  },
-  {
-    label: '失败',
-    key: 'failed',
-    permissionCode: 'workorder:query:productA:failed',
-  },
+  // {
+  //   label: '全部工单',
+  //   key: 'all',
+  //   permissionCode: 'workorder:query:productA:all',
+  // },
+  // {
+  //   label: '未备注',
+  //   key: 'unremark',
+  //   permissionCode: 'workorder:query:productA:unremark',
+  // },
+  // {
+  //   label: '审核中',
+  //   key: 'reviewing',
+  //   permissionCode: 'workorder:query:productA:reviewing',
+  // },
+  // {
+  //   label: '公示中',
+  //   key: 'publicing',
+  //   permissionCode: 'workorder:query:productA:publicing',
+  // },
+  // {
+  //   label: '异常',
+  //   key: 'abnormal',
+  //   permissionCode: 'workorder:query:productA:abnormal',
+  // },
+  // {
+  //   label: '暂停',
+  //   key: 'paused',
+  //   permissionCode: 'workorder:query:productA:paused',
+  // },
+  // {
+  //   label: '电子证书',
+  //   key: 'electronic',
+  //   permissionCode: 'workorder:query:productA:electronic',
+  // },
+  // {
+  //   label: '纸质证书',
+  //   key: 'paper',
+  //   permissionCode: 'workorder:query:productA:paper',
+  // },
+  // {
+  //   label: '失败',
+  //   key: 'failed',
+  //   permissionCode: 'workorder:query:productA:failed',
+  // },
 ];
 
 export const TagTypeMap: Record<number, string> = {

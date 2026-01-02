@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import { ref, useTemplateRef } from 'vue';
 
-import { Edit, Trash2 } from '@vben/icons';
-import { mockApi } from '@vben/utils';
+import { Edit } from '@vben/icons';
 
+import { ElMessage } from 'element-plus';
+
+import { getInfoList, Type } from '#/api/core/administration';
 import TableLayout from '#/components/table-layout/index.vue';
 import InvoiceForm from '#/components/ui/administration/invoice/form.vue';
 import InvoiceDrawer from '#/components/ui/drawers/administration/invoiceDrawer.vue';
@@ -14,70 +16,153 @@ import { columns, formItems, MODAL_TYPE } from './config';
 const invoiceFormRef = useTemplateRef('invoiceFormRef');
 
 const modalType = ref(MODAL_TYPE.INIT);
+
+const previewId = ref();
+const previewAgreementId = ref();
+const currentPreviewIndex = ref(0);
+const tableLayoutRef = useTemplateRef('tableLayoutRef');
+
+const refreshData = () => {
+  tableLayoutRef.value?.query();
+};
+
+const openDrawer = (row: any, index: number, type: MODAL_TYPE) => {
+  currentPreviewIndex.value = index;
+  modalType.value = type;
+  if (type === MODAL_TYPE.PROTOCOL) {
+    previewAgreementId.value = row.agreementNo;
+    return;
+  }
+  previewId.value = row.id;
+};
+const handleCloseDrawer = () => {
+  tableLayoutRef.value?.query();
+  previewId.value = void 0;
+  previewAgreementId.value = void 0;
+  modalType.value = MODAL_TYPE.INIT;
+};
+
+const handleNextPreview = (list: any, symbol: number, type: MODAL_TYPE) => {
+  currentPreviewIndex.value += symbol;
+  if (currentPreviewIndex.value === list.length) {
+    currentPreviewIndex.value--;
+    ElMessage.info('已是最后一页');
+    return;
+  }
+
+  if (currentPreviewIndex.value < 0) {
+    currentPreviewIndex.value = 0;
+    ElMessage.info('已是第一页');
+    return;
+  }
+
+  if (type === MODAL_TYPE.PROTOCOL) {
+    previewAgreementId.value = list[currentPreviewIndex.value].agreementId;
+    return;
+  }
+
+  previewId.value = list[currentPreviewIndex.value].id;
+};
 </script>
 
 <template>
-  <TableLayout :api="() => mockApi(columns)" :columns :form-items="formItems">
+  <TableLayout
+    ref="tableLayoutRef"
+    :api="(args: any) => getInfoList(Type.invoiceManage, args)"
+    :columns
+    :form-items="formItems"
+  >
     <template #action>
-      <el-button type="primary" @click="invoiceFormRef?.openModal()">
+      <el-button
+        type="primary"
+        @click="
+          invoiceFormRef?.openModal({
+            title: '新增发票申请',
+          })
+        "
+      >
         添加
       </el-button>
     </template>
 
-    <template #number="{ row }">
-      <el-link type="primary" @click="modalType = MODAL_TYPE.INVOICE">
-        {{ row.number }}
-      </el-link>
+    <template #invoiceNo="{ row, $index }">
+      <el-text
+        class="cursor-pointer"
+        type="primary"
+        @click="openDrawer(row, $index, MODAL_TYPE.INVOICE)"
+      >
+        {{ row.invoiceNo }}
+      </el-text>
     </template>
 
-    <template #protocol="{ row }">
-      <el-link type="primary" @click="modalType = MODAL_TYPE.PROTOCOL">
-        {{ row.protocol }}
-      </el-link>
+    <template #agreementNo="{ row, $index }">
+      <el-text
+        class="cursor-pointer"
+        type="primary"
+        @click="openDrawer(row, $index, MODAL_TYPE.PROTOCOL)"
+      >
+        {{ row.agreementNo }}
+      </el-text>
     </template>
 
-    <template #type="{ row }">
-      <el-tag type="success">{{ row.type }}</el-tag>
+    <template #invoiceType="{ row }">
+      <el-tag effect="dark">{{ row.invoiceType }}</el-tag>
     </template>
 
     <template #status="{ row }">
-      <el-tag type="success">{{ row.status }}</el-tag>
+      <el-tag effect="dark">{{ row.status }}</el-tag>
     </template>
 
     <template #titleType="{ row }">
-      <el-tag type="success">{{ row.titleType }}</el-tag>
+      <el-tag effect="dark">{{ row.titleType }}</el-tag>
     </template>
 
-    <template #tax="{ row }">
-      <el-tag type="success">{{ row.tax }}</el-tag>
+    <template #isTaxIncluded="{ row }">
+      <el-tag :type="row.isTaxIncluded ? 'success' : 'info'" effect="dark">
+        {{ row.isTaxIncluded ? '是' : '否' }}
+      </el-tag>
     </template>
 
-    <template #operator>
+    <template #operator="{ row }">
       <div class="flex items-center justify-center gap-2">
         <Edit
           class="size-4 cursor-pointer text-[var(--el-color-primary)]"
-          @click="invoiceFormRef?.openModal('编辑发票申请')"
+          @click="
+            invoiceFormRef?.openModal({
+              title: '编辑发票申请',
+              target: row,
+            })
+          "
         />
-        <el-popconfirm placement="bottom" title="确定删除该数据吗?" width="180">
+        <!-- <el-popconfirm placement="bottom" title="确定删除该数据吗?" width="180">
           <template #reference>
             <Trash2
               class="size-4 cursor-pointer text-[var(--el-color-danger)]"
             />
           </template>
-        </el-popconfirm>
+        </el-popconfirm> -->
       </div>
     </template>
 
-    <InvoiceForm ref="invoiceFormRef" />
+    <template #default="{ tableData }">
+      <InvoiceForm ref="invoiceFormRef" @confirm="refreshData" />
 
-    <InvoiceDrawer
-      :show="modalType === MODAL_TYPE.INVOICE"
-      @closed="modalType = MODAL_TYPE.INIT"
-    />
+      <InvoiceDrawer
+        :id="previewId"
+        :show="modalType === MODAL_TYPE.INVOICE"
+        :type="Type.invoiceManage"
+        @closed="handleCloseDrawer"
+        @next="handleNextPreview(tableData, 1, MODAL_TYPE.INVOICE)"
+        @prev="handleNextPreview(tableData, -1, MODAL_TYPE.INVOICE)"
+      />
 
-    <ProtocolDrawer
-      :show="modalType === MODAL_TYPE.PROTOCOL"
-      @closed="modalType = MODAL_TYPE.INIT"
-    />
+      <ProtocolDrawer
+        :id="previewAgreementId"
+        :show="modalType === MODAL_TYPE.PROTOCOL"
+        @closed="handleCloseDrawer"
+        @next="handleNextPreview(tableData, 1, MODAL_TYPE.PROTOCOL)"
+        @prev="handleNextPreview(tableData, -1, MODAL_TYPE.PROTOCOL)"
+      />
+    </template>
   </TableLayout>
 </template>

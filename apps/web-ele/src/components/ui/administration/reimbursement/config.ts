@@ -1,19 +1,17 @@
 import type { IFormItem } from '#/components/common/form/index.vue';
 
-import AUpload from '#/components/common/upload/index.vue';
-
 export const modalFormItems: IFormItem[] = [
   {
     label: '报销单号',
-    prop: 'number',
+    prop: 'reimbursementNo',
     componentProps: {
       placeholder: '请输入报销单号',
-      disabled: (form: any) => !!form.id,
+      disabled: true,
     },
   },
   {
     label: '收款账号',
-    prop: 'account',
+    prop: 'receiptAccount',
     componentProps: {
       placeholder: '请输入收款账号',
       maxlength: 50,
@@ -31,74 +29,94 @@ export const modalFormItems: IFormItem[] = [
   },
   {
     label: '开户行',
-    prop: 'type',
+    prop: 'bankName',
     componentProps: {
       placeholder: '请输入开户行',
       maxlength: 50,
       'show-word-limit': true,
     },
   },
+  // {
+  //   label: '报销明细',
+  //   prop: 'details',
+  //   class: 'col-span-2',
+  // },
   {
-    label: '报销明细',
-    prop: 'details',
-    class: 'col-span-2',
-  },
-  {
-    label: '总计',
-    prop: 'total',
+    label: '报销金额',
+    prop: 'amount',
     component: 'el-input-number',
     componentProps: {
       'controls-position': 'right',
       precision: 2,
       style: {
-        width: '220px',
+        width: '100%',
       },
     },
   },
   {
-    label: '报销凭证',
-    prop: 'attachments',
-    class: 'col-span-2',
-    component: AUpload,
+    label: '报销时间',
+    prop: 'reimbursementTime',
+    component: 'el-date-picker',
     componentProps: {
-      mutiple: true,
-      drag: true,
-      class: 'w-full',
+      placeholder: '请选择报销时间',
+      type: 'datetime',
+      'value-format': 'YYYY-MM-DD HH:mm:ss',
+      style: {
+        width: '100%',
+      },
     },
   },
-  {
-    label: '备注',
-    prop: 'remark',
-    class: 'col-span-2',
-    component: 'el-input',
-    componentProps: {
-      placeholder: '请输入备注',
-      maxlength: 500,
-      'show-word-limit': true,
-      type: 'textarea',
-    },
-  },
+  // {
+  //   label: '报销凭证',
+  //   prop: 'attachments',
+  //   class: 'col-span-2',
+  //   component: AUpload,
+  //   componentProps: {
+  //     mutiple: true,
+  //     drag: true,
+  //     class: 'w-full',
+  //   },
+  // },
+  // {
+  //   label: '备注',
+  //   prop: 'remark',
+  //   class: 'col-span-2',
+  //   component: 'el-input',
+  //   componentProps: {
+  //     placeholder: '请输入备注',
+  //     maxlength: 500,
+  //     'show-word-limit': true,
+  //     type: 'textarea',
+  //   },
+  // },
 ];
 
 export const rules = {
-  number: [{ required: true, message: '请输入报销单号', trigger: 'blur' }],
-  account: [{ required: true, message: '请输入收款账号', trigger: 'blur' }],
+  reimbursementNo: [
+    { required: true, message: '请输入报销单号', trigger: 'blur' },
+  ],
+  receiptAccount: [
+    { required: true, message: '请输入收款账号', trigger: 'blur' },
+  ],
   accountName: [
     { required: true, message: '请输入收款账户名称', trigger: 'blur' },
   ],
-  type: [{ required: true, message: '请输入开户行', trigger: 'blur' }],
-  details: [
-    {
-      required: true,
-      validator: (_: any, value: any, callback: any) => {
-        if (!value || value.length === 0) {
-          return callback(new Error('请输入报销明细'));
-        }
-        callback();
-      },
-    },
+  bankName: [{ required: true, message: '请输入开户行', trigger: 'blur' }],
+  // details: [
+  //   {
+  //     required: true,
+  //     validator: (_: any, value: any, callback: any) => {
+  //       if (!value || value.length === 0) {
+  //         return callback(new Error('请输入报销明细'));
+  //       }
+  //       callback();
+  //     },
+  //   },
+  // ],
+  amount: [{ required: true, message: '请输入报销金额', trigger: 'blur' }],
+  reimbursementTime: [
+    { required: true, message: '请选择报销时间', trigger: 'change' },
   ],
-  total: [{ required: true, message: '请输入总计', trigger: 'blur' }],
 };
 
 export const detailColumns = [

@@ -25,7 +25,7 @@ export interface AgreementDto {
 /**
  * 根据ID查询协议详情
  */
-export const getAgreementById = (id: number) =>
+export const getAgreementById = (id: number | string) =>
   requestClient.get(`/agreement/${id}`);
 
 /**

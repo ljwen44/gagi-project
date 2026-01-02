@@ -1,67 +1,78 @@
 <script lang="ts" setup>
 import { ref, useTemplateRef } from 'vue';
 
-import { useVbenModal } from '@vben-core/popup-ui';
-import { Input, VbenSelect } from '@vben-core/shadcn-ui';
+import { ElMessage } from 'element-plus';
 
+import { addInfo, genInvoiceManageNo, Type } from '#/api/core/administration';
 import AForm from '#/components/common/form/index.vue';
+import AModal from '#/components/common/modal/index.vue';
 
 import { modalFormItems, rules } from './config';
 
 interface FormRefProps {
-  type: string;
-  head: string;
-  bank?: string;
-  bankAccount?: string;
-  addr?: string;
-  phone?: string;
-  address: {
-    area?: string;
-    city?: string;
-  };
-  contact: string;
-  telephone: string;
-  email?: string;
-  remark?: string;
-  syncCustomerInfo?: boolean;
+  agreementNo?: string;
+  electronicInvoice?: string;
+  expressNo?: string;
+  id?: number;
+  invoiceAmount?: number;
+  invoiceNo?: string;
+  invoiceTitle?: string;
+  invoiceType?: string;
+  isTaxIncluded?: number;
+  signTitle?: string;
+  titleType?: string;
 }
 
-const form = ref<FormRefProps>({
-  address: {
-    city: '',
-    area: '',
-  },
-  type: '',
-  head: '',
-  contact: '',
-  telephone: '',
-});
+const emits = defineEmits(['confirm']);
+
+const modalTitle = ref('');
+const showModal = ref(false);
+const form = ref<FormRefProps>({});
 const formRef = useTemplateRef('formRef');
 
-const [Modal, ModalApi] = useVbenModal({
-  closeOnClickModal: false,
-  fullscreenButton: false,
-  draggable: true,
-  class: 'w-[750px]',
-  onConfirm: () => {
-    formRef.value?.instance.validate((valid: boolean) => {
-      if (valid) {
-        // TODO 提交表单
-        ModalApi.close();
-      }
-    });
-  },
-});
-
-const openModal = (title: string = '新增发票抬头') => {
-  ModalApi.setState({
-    isOpen: true,
-    title,
-  });
+const openModal = async (params?: {
+  target?: FormRefProps;
+  title?: string;
+}) => {
+  const { target, title } = params || {};
+  if (target) {
+    form.value = {
+      ...form.value,
+      ...target,
+    };
+  } else {
+    const id = await genInvoiceManageNo();
+    form.value.invoiceNo = id;
+  }
+  if (title) {
+    modalTitle.value = title;
+  }
+  showModal.value = true;
 };
 
 const closeModal = () => {
-  ModalApi.close();
+  showModal.value = false;
+  form.value = {};
+  formRef.value?.instance?.resetFields();
+};
+
+const onConfirm = async (submit: boolean = true) => {
+  try {
+    await formRef.value?.instance.validate();
+    const api = form.value.id ? addInfo : addInfo;
+    const requestParams = {
+      ...form.value,
+      submit: +submit,
+    };
+    await api(Type.invoiceManage, requestParams);
+    ElMessage.success('操作成功');
+    closeModal();
+    emits('confirm', requestParams);
+  } catch {
+    if (!form.value.id) {
+      form.value.invoiceNo = await genInvoiceManageNo();
+    }
+  }
 };
 
 defineExpose({
@@ -71,7 +82,12 @@ defineExpose({
 </script>
 
 <template>
-  <Modal>
+  <AModal
+    v-model="showModal"
+    :title="modalTitle"
+    destroy-on-close
+    width="750px"
+  >
     <AForm
       ref="formRef"
       v-model="form"
@@ -79,9 +95,9 @@ defineExpose({
       :rules
       class="grid grid-cols-2 gap-2"
       label-position="right"
-      label-width="100"
+      label-width="110"
     >
-      <template #title>
+      <!-- <template #title>
         <div class="field-info text-ms">抬头信息</div>
       </template>
       <template #syncCustomerInfo>
@@ -93,8 +109,8 @@ defineExpose({
             同步客户信息
           </el-checkbox>
         </div>
-      </template>
-      <template #address>
+      </template> -->
+      <!-- <template #address>
         <div class="flex w-full items-center gap-2">
           <VbenSelect
             v-model="form.address.city"
@@ -108,12 +124,16 @@ defineExpose({
             placeholder="请输入详细地址"
           />
         </div>
-      </template>
+      </template> -->
     </AForm>
-    <template #center-footer>
-      <el-button plain type="success">暂存</el-button>
+    <template #footer>
+      <div class="flex items-center justify-end gap-2">
+        <el-button @click="closeModal">取消</el-button>
+        <el-button plain type="primary" @click="onConfirm()"> 暂存 </el-button>
+        <el-button type="primary" @click="onConfirm(true)"> 确定 </el-button>
+      </div>
     </template>
-  </Modal>
+  </AModal>
 </template>
 
 <style lang="scss" scoped>

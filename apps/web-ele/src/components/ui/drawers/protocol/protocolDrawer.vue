@@ -16,7 +16,7 @@ import {
 
 interface IProps {
   show: boolean;
-  id?: number;
+  id?: number | string;
 }
 
 const props = defineProps<IProps>();

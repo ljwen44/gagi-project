@@ -19,7 +19,7 @@ import {
 } from './config';
 
 interface IProps {
-  id?: number;
+  id?: number | string;
   show: boolean;
 }
 
@@ -29,7 +29,7 @@ const emits = defineEmits(['closed']);
 
 const { form, updateForm } = useDrawerForm(props, getCustomerById);
 
-const activeTab = ref<CustomerTabEnum>(CustomerTabEnum.followRecord);
+const activeTab = ref<CustomerTabEnum>(CustomerTabEnum.orderRecord);
 const customerFormRef = useTemplateRef('customerFormRef');
 
 const handleClosed = () => {

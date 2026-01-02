@@ -4,11 +4,12 @@ import type { ITableColumnProps } from '#/components/common/table/index.vue';
 export const reimbursementFormItems: IFormItem[] = [
   {
     label: '报销单号',
-    prop: 'number',
+    prop: 'reimbursementNo',
   },
   {
     label: '报销金额',
     prop: 'amount',
+    format: (value: number) => value?.toFixed(2),
   },
   {
     label: '审核状态',
@@ -17,7 +18,7 @@ export const reimbursementFormItems: IFormItem[] = [
   },
   {
     label: '收款账号',
-    prop: 'account',
+    prop: 'receiptAccount',
   },
   {
     label: '账户名称',
@@ -25,33 +26,33 @@ export const reimbursementFormItems: IFormItem[] = [
   },
   {
     label: '开户行',
-    prop: 'type',
+    prop: 'bankName',
     class: 'col-span-2',
   },
-  {
-    label: '姓名',
-    prop: 'name',
-  },
-  {
-    label: '所属部门',
-    prop: 'dept',
-  },
-  {
-    label: '部门负责人',
-    prop: 'leader',
-  },
-  {
-    label: '所属公司',
-    prop: 'company',
-  },
-  {
-    label: '报销凭证',
-    prop: 'attachments',
-    class: 'col-span-2',
-  },
+  // {
+  //   label: '姓名',
+  //   prop: 'name',
+  // },
+  // {
+  //   label: '所属部门',
+  //   prop: 'dept',
+  // },
+  // {
+  //   label: '部门负责人',
+  //   prop: 'leader',
+  // },
+  // {
+  //   label: '所属公司',
+  //   prop: 'company',
+  // },
+  // {
+  //   label: '报销凭证',
+  //   prop: 'attachments',
+  //   class: 'col-span-2',
+  // },
   {
     label: '报销时间',
-    prop: 'time',
+    prop: 'reimbursementTime',
     class: 'col-span-2',
   },
 ];
@@ -78,7 +79,7 @@ export const reimbursementDetailColumns: ITableColumnProps[] = [
 export const paymentFormItems: IFormItem[] = [
   {
     label: '付款单号',
-    prop: 'number',
+    prop: 'paymentNo',
   },
   {
     label: '项目名称',
@@ -87,55 +88,62 @@ export const paymentFormItems: IFormItem[] = [
   {
     label: '审核状态',
     prop: 'status',
-    class: 'col-span-2',
   },
   {
     label: '付款金额 ',
-    prop: 'amount',
+    prop: 'paymentAmount',
+    format: (value: number) => value?.toFixed(2),
   },
   {
-    label: '账户名称',
-    prop: 'accountName',
+    label: '收款账户名称',
+    prop: 'receiptAccountName',
   },
   {
     label: '收款账号',
-    prop: 'account',
+    prop: 'receiptAccount',
   },
   {
     label: '开户行',
-    prop: 'type',
+    prop: 'bankName',
   },
-  {
-    label: '姓名',
-    prop: 'name',
-  },
-  {
-    label: '所属部门',
-    prop: 'dept',
-  },
-  {
-    label: '部门负责人',
-    prop: 'leader',
-  },
-  {
-    label: '所属公司',
-    prop: 'company',
-  },
-  {
-    label: '合同文件',
-    prop: 'attachments',
-    class: 'col-span-2',
-  },
+  // {
+  //   label: '姓名',
+  //   prop: 'name',
+  // },
+  // {
+  //   label: '所属部门',
+  //   prop: 'dept',
+  // },
+  // {
+  //   label: '部门负责人',
+  //   prop: 'leader',
+  // },
+  // {
+  //   label: '所属公司',
+  //   prop: 'company',
+  // },
+  // {
+  //   label: '合同文件',
+  //   prop: 'attachments',
+  //   class: 'col-span-2',
+  // },
   {
     label: '申请时间',
     prop: 'applyTime',
-    class: 'col-span-2',
   },
   {
-    label: '备注',
-    prop: 'remark',
-    class: 'col-span-4',
+    label: '创建人',
+    prop: 'createBy',
   },
+  {
+    label: '创建时间',
+    prop: 'createTime',
+  },
+  // {
+  //   label: '备注',
+  //   prop: 'remark',
+  //   class: 'col-span-4',
+  // },
 ];
 
 export const paymentDetailColumns: ITableColumnProps[] = [
@@ -173,11 +181,11 @@ export const paymentDetailColumns: ITableColumnProps[] = [
 export const restFormItems: IFormItem[] = [
   {
     label: '请假单号',
-    prop: 'number',
+    prop: 'leaveNo',
   },
   {
     label: '请假类型',
-    prop: 'type',
+    prop: 'leaveNature',
   },
   {
     label: '审核状态',
@@ -194,54 +202,53 @@ export const restFormItems: IFormItem[] = [
   },
   {
     label: '请假天数',
-    prop: 'days',
+    prop: 'leaveDays',
     class: 'col-span-2',
   },
   {
-    label: '申请人',
-    prop: 'owner',
+    label: '创建人',
+    prop: 'createBy',
   },
   {
-    label: '申请时间',
-    prop: 'applyTime',
-    class: 'col-span-3',
+    label: '创建时间',
+    prop: 'createTime',
   },
-  {
-    label: '真实名',
-    prop: 'name',
-  },
-  {
-    label: '所属部门',
-    prop: 'dept',
-  },
-  {
-    label: '部门负责人',
-    prop: 'leader',
-  },
-  {
-    label: '所属公司',
-    prop: 'company',
-  },
-  {
-    label: '请假原因',
-    prop: 'reason',
-    class: 'col-span-4',
-  },
+  // {
+  //   label: '申请人',
+  //   prop: 'owner',
+  // },
+  // {
+  //   label: '申请时间',
+  //   prop: 'applyTime',
+  //   class: 'col-span-3',
+  // },
+  // {
+  //   label: '真实名',
+  //   prop: 'name',
+  // },
+  // {
+  //   label: '所属部门',
+  //   prop: 'dept',
+  // },
+  // {
+  //   label: '部门负责人',
+  //   prop: 'leader',
+  // },
+  // {
+  //   label: '所属公司',
+  //   prop: 'company',
+  // },
+  // {
+  //   label: '请假原因',
+  //   prop: 'reason',
+  //   class: 'col-span-4',
+  // },
 ];
 
 export const refundFormItems: IFormItem[] = [
   {
     label: '退款单号',
-    prop: 'number',
-  },
-  {
-    label: '退款类型',
-    prop: 'type',
-  },
-  {
-    label: '审核状态',
-    prop: 'status',
-    class: 'col-span-2',
+    prop: 'refundNo',
   },
   {
     label: '协议编号',
@@ -249,44 +256,60 @@ export const refundFormItems: IFormItem[] = [
   },
   {
     label: '退款金额',
-    prop: 'amount',
-    class: 'col-span-3',
+    prop: 'refundAmount',
+    format: (value: number) => value?.toFixed(2),
   },
   {
-    label: '申请人',
-    prop: 'owner',
+    label: '退款类型',
+    prop: 'refundType',
   },
   {
-    label: '申请时间',
-    prop: 'applyTime',
-    class: 'col-span-3',
+    label: '审核状态',
+    prop: 'status',
   },
   {
-    label: '真实名',
-    prop: 'name',
+    label: '创建人',
+    prop: 'createBy',
   },
   {
-    label: '所属部门',
-    prop: 'dept',
+    label: '创建时间',
+    prop: 'createTime',
   },
-  {
-    label: '部门负责人',
-    prop: 'leader',
-  },
-  {
-    label: '所属公司',
-    prop: 'company',
-  },
-  {
-    label: '退款证明',
-    prop: 'attchments',
-    class: 'col-span-2',
-  },
-  {
-    label: '退款说明',
-    prop: 'reason',
-    class: 'col-span-4',
-  },
+  // {
+  //   label: '申请人',
+  //   prop: 'owner',
+  // },
+  // {
+  //   label: '申请时间',
+  //   prop: 'applyTime',
+  //   class: 'col-span-3',
+  // },
+  // {
+  //   label: '真实名',
+  //   prop: 'name',
+  // },
+  // {
+  //   label: '所属部门',
+  //   prop: 'dept',
+  // },
+  // {
+  //   label: '部门负责人',
+  //   prop: 'leader',
+  // },
+  // {
+  //   label: '所属公司',
+  //   prop: 'company',
+  // },
+  // {
+  //   label: '退款证明',
+  //   prop: 'attchments',
+  //   class: 'col-span-2',
+  // },
+  // {
+  //   label: '退款说明',
+  //   prop: 'reason',
+  //   class: 'col-span-4',
+  // },
 ];
 
 export const refundDetailColumns: ITableColumnProps[] = [
@@ -324,15 +347,15 @@ export const refundDetailColumns: ITableColumnProps[] = [
 export const invoiceFormItems: IFormItem[] = [
   {
     label: '发票单号',
-    prop: 'title',
+    prop: 'invoiceNo',
   },
   {
     label: '关联协议',
-    prop: 'bindProtocol',
+    prop: 'agreementNo',
   },
   {
     label: '签约抬头',
-    prop: 'signHead',
+    prop: 'signTitle',
   },
   {
     label: '审核状态',
@@ -340,84 +363,100 @@ export const invoiceFormItems: IFormItem[] = [
   },
   {
     label: '抬头类型',
-    prop: 'type',
+    prop: 'titleType',
   },
   {
     label: '开票抬头',
-    prop: 'head',
+    prop: 'invoiceTitle',
   },
-  {
-    label: '纳税人识别号',
-    prop: 'owner',
-  },
-  {
-    label: '开户银行',
-    prop: 'bank',
-  },
-  {
-    label: '银行账号',
-    prop: 'bankAccount',
-  },
-  {
-    label: '单位电话',
-    prop: 'phone',
-  },
-  {
-    label: '单位地址',
-    prop: 'addr',
-    class: 'col-span-2',
-  },
+  // {
+  //   label: '纳税人识别号',
+  //   prop: 'owner',
+  // },
+  // {
+  //   label: '开户银行',
+  //   prop: 'bank',
+  // },
+  // {
+  //   label: '银行账号',
+  //   prop: 'bankAccount',
+  // },
+  // {
+  //   label: '单位电话',
+  //   prop: 'phone',
+  // },
+  // {
+  //   label: '单位地址',
+  //   prop: 'addr',
+  //   class: 'col-span-2',
+  // },
   {
     label: '开票类型',
     prop: 'invoiceType',
   },
   {
     label: '开票金额',
-    prop: 'amount',
+    prop: 'invoiceAmount',
+    format: (value: number) => value?.toFixed(2),
   },
   {
     label: '是否含税',
-    prop: 'hasTax',
-    class: 'col-span-2',
+    prop: 'isTaxIncluded',
   },
   {
-    label: '收件人名称',
-    prop: 'recipient',
+    label: '快递单号',
+    prop: 'expressNo',
   },
   {
-    label: '收件人手机号',
-    prop: 'recipientPhone',
+    label: '电子发票',
+    prop: 'electronicInvoice',
   },
   {
-    label: '收件人地址',
-    prop: 'recipientAddr',
-    class: 'col-span-2',
+    label: '创建人',
+    prop: 'createBy',
   },
   {
-    label: '申请人',
-    prop: 'owner',
+    label: '创建时间',
+    prop: 'createTime',
   },
-  {
-    label: '申请时间',
-    prop: 'applyTime',
-    class: 'col-span-3',
-  },
-  {
-    label: '真实名',
-    prop: 'name',
-  },
-  {
-    label: '所属部门',
-    prop: 'dept',
-  },
-  {
-    label: '部门负责人',
-    prop: 'leader',
-  },
-  {
-    label: '所属公司',
-    prop: 'company',
-  },
+  // {
+  //   label: '收件人名称',
+  //   prop: 'recipient',
+  // },
+  // {
+  //   label: '收件人手机号',
+  //   prop: 'recipientPhone',
+  // },
+  // {
+  //   label: '收件人地址',
+  //   prop: 'recipientAddr',
+  //   class: 'col-span-2',
+  // },
+  // {
+  //   label: '申请人',
+  //   prop: 'owner',
+  // },
+  // {
+  //   label: '申请时间',
+  //   prop: 'applyTime',
+  //   class: 'col-span-3',
+  // },
+  // {
+  //   label: '真实名',
+  //   prop: 'name',
+  // },
+  // {
+  //   label: '所属部门',
+  //   prop: 'dept',
+  // },
+  // {
+  //   label: '部门负责人',
+  //   prop: 'leader',
+  // },
+  // {
+  //   label: '所属公司',
+  //   prop: 'company',
+  // },
 ];
 
 export const invoiceDetailColumns: ITableColumnProps[] = [

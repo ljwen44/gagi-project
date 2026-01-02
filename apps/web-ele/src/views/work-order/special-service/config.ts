@@ -93,10 +93,10 @@ export const columns: ITableColumnProps[] = [
     label: '创建时间',
     prop: 'createTime',
   },
-  {
-    label: '操作',
-    prop: 'operator',
-    fixed: 'right',
-    disabledFilter: true,
-  },
+  // {
+  //   label: '操作',
+  //   prop: 'operator',
+  //   fixed: 'right',
+  //   disabledFilter: true,
+  // },
 ];

@@ -7,7 +7,7 @@ import { Folder, Image } from '@vben/icons';
 import { Card, CardContent } from '@vben-core/shadcn-ui';
 
 import ASelect from '#/components/common/select/index.vue';
-import Aupload from '#/components/common/upload/index.vue';
+import AUpload from '#/components/common/upload/index.vue';
 
 const form = ref<{
   attachments: Attachment[];
@@ -31,6 +31,8 @@ const options = [
   { label: '客户来公司', value: 'customerCome' },
   { label: 'QQ沟通', value: 'qq' },
 ];
+const imageUploadFiles = ref([]);
+const attachmentUploadFiles = ref([]);
 </script>
 
 <template>
@@ -60,18 +62,28 @@ const options = [
         </el-form-item>
         <el-form-item class="!mb-0">
           <div class="flex items-center gap-2">
-            <Aupload :drag="false" :has-custom-class="false" :hidden-tip="true">
+            <AUpload
+              v-model="imageUploadFiles"
+              :drag="false"
+              :has-custom-class="false"
+              :hidden-tip="true"
+            >
               <div class="flex items-center">
                 <Image class="mr-2 size-4" />
                 <span>图片</span>
               </div>
-            </Aupload>
-            <Aupload :drag="false" :has-custom-class="false" :hidden-tip="true">
+            </AUpload>
+            <AUpload
+              v-model="attachmentUploadFiles"
+              :drag="false"
+              :has-custom-class="false"
+              :hidden-tip="true"
+            >
               <div class="flex items-center">
                 <Folder class="mr-2 size-4" />
                 <span>附件</span>
               </div>
-            </Aupload>
+            </AUpload>
           </div>
         </el-form-item>
       </el-form>
