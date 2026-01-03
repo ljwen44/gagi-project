@@ -402,6 +402,7 @@ export const invoiceFormItems: IFormItem[] = [
   {
     label: '是否含税',
     prop: 'isTaxIncluded',
+    format: (value: number) => (value ? '是' : '否'),
   },
   {
     label: '快递单号',

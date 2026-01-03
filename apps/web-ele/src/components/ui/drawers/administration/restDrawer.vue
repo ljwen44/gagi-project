@@ -36,6 +36,6 @@ const { form } = useDrawerForm(props, () => getInfoById(props.type, props.id));
       <el-alert title="xxx 通过了审核" type="success" />
     </template> -->
 
-    <AuditProgress />
+    <AuditProgress :instance-id="form.instanceId" hidden-upload />
   </DrawerLayout>
 </template>

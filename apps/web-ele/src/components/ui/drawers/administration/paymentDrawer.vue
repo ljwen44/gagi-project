@@ -50,7 +50,7 @@ const { form } = useDrawerForm(props, () => getInfoById(props.type, props.id));
       </div>
     </template> -->
 
-    <AuditProgress />
+    <AuditProgress :instance-id="form.instanceId" hidden-upload />
 
     <!-- <template #content-footer>
       <div class="flex flex-col gap-2 py-4">

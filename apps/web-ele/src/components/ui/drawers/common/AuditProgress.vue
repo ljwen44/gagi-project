@@ -15,6 +15,7 @@ import { useWorkflow } from './useWorkflow';
 export interface IProps {
   instanceId?: string;
   businessType?: string;
+  hiddenUpload?: boolean;
 }
 
 const props = defineProps<IProps>();
@@ -127,7 +128,11 @@ watch(
             type="textarea"
           />
         </el-form-item>
-        <el-form-item v-if="isPass" label="上传文件" prop="fileIds">
+        <el-form-item
+          v-if="isPass && !hiddenUpload"
+          label="上传文件"
+          prop="fileIds"
+        >
           <AUpload
             v-model="form.fileIds"
             :business-type
