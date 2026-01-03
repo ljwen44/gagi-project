@@ -81,6 +81,7 @@ export const columns: ITableColumnProps[] = [
     prop: 'refundAmount',
     sortable: true,
     width: 160,
+    format: (value: number) => value?.toFixed(2),
   },
   {
     label: '审核状态',

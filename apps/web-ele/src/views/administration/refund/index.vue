@@ -32,12 +32,12 @@ const openDrawer = (row: any, index: number, type: MODAL_TYPE) => {
   currentPreviewIndex.value = index;
   modalType.value = type;
   if (type === MODAL_TYPE.PROTOCOL) {
-    previewAgreementId.value = row.agreementNo;
+    previewAgreementId.value = row.agreementId;
     return;
   }
 
   if (type === MODAL_TYPE.CUSTOMER) {
-    previewCustomerId.value = row.customerNo;
+    previewCustomerId.value = row.custId;
     return;
   }
 

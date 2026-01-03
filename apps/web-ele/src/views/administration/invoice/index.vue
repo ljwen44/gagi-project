@@ -30,7 +30,7 @@ const openDrawer = (row: any, index: number, type: MODAL_TYPE) => {
   currentPreviewIndex.value = index;
   modalType.value = type;
   if (type === MODAL_TYPE.PROTOCOL) {
-    previewAgreementId.value = row.agreementNo;
+    previewAgreementId.value = row.agreementId;
     return;
   }
   previewId.value = row.id;
@@ -43,7 +43,6 @@ const handleCloseDrawer = () => {
 };
 
 const handleNextPreview = (list: any, symbol: number, type: MODAL_TYPE) => {
-  currentPreviewIndex.value += symbol;
   if (currentPreviewIndex.value === list.length) {
     currentPreviewIndex.value--;
     ElMessage.info('已是最后一页');
@@ -55,6 +54,7 @@ const handleNextPreview = (list: any, symbol: number, type: MODAL_TYPE) => {
     ElMessage.info('已是第一页');
     return;
   }
+  currentPreviewIndex.value += symbol;
 
   if (type === MODAL_TYPE.PROTOCOL) {
     previewAgreementId.value = list[currentPreviewIndex.value].agreementId;
