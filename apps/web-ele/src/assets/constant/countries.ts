@@ -272,4 +272,6 @@ export const countries = [
   { name: 'Yugoslavia', value: '南斯拉夫', label: '南斯拉夫' },
   { name: 'Zambia', value: '赞比亚', label: '赞比亚' },
   { name: 'Zimbabwe', value: '津巴布韦', label: '津巴布韦' },
+  { name: 'ouzhou', value: '欧洲', label: '欧洲' },
+  { name: 'oumeng', value: '欧盟', label: '欧盟' },
 ];
