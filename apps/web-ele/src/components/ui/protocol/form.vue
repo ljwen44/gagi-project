@@ -293,6 +293,10 @@ defineExpose({
                   label: '深圳市驰威知识产权服务有限公司',
                   value: '深圳市驰威知识产权服务有限公司',
                 },
+                {
+                  label: '深圳市驰威科创知识产权代理有限公司',
+                  value: '深圳市驰威科创知识产权代理有限公司',
+                },
               ]"
               allow-create
               filterable
