@@ -48,6 +48,7 @@ const initForm = {
   hasProduct: true,
   agreementType: 'normal',
   serviceItems: [],
+  taxRate: 0.03,
 };
 
 const showModal = ref(false);
@@ -73,7 +74,7 @@ const openModal = async (params?: {
 }) => {
   const { target, title } = params || {};
   if (target) {
-    form.value = { ...form.value, ...target };
+    form.value = { taxRate: 0.03, ...form.value, ...target };
 
     if (target.productIds) {
       const productIds = target.productIds.split(',');
@@ -173,21 +174,22 @@ const handleSubmitProduct = async (submit: boolean = false) => {
   }
 };
 
-const handleTaxChange = (value: number) => {
-  form.value.agreementTax = +(form.value.receivedAmount * value).toFixed(2);
-};
+// const handleTaxChange = (value: number) => {
+//   form.value.agreementTax = +(form.value.receivedAmount * value).toFixed(2);
+// };
 const handleDiscountAmountChange = (value: number) => {
   form.value.receivedAmount = +(
     form.value.agreementAmount - (value || 0)
   ).toFixed(2);
-  form.value.actualPerformance = +(
-    form.value.budgetPerformance - (value || 0)
+  form.value.agreementTax = +(
+    form.value.receivedAmount * (form.value.taxRate || 0.03)
   ).toFixed(2);
-  if (form.value.taxRate) {
-    form.value.agreementTax = +(
-      form.value.receivedAmount * form.value.taxRate
-    ).toFixed(2);
-  }
+  form.value.actualPerformance = +(
+    form.value.budgetPerformance -
+    (value || 0) -
+    (form.value.salesCost || 0) -
+    (form.value.agreementTax || 0)
+  ).toFixed(2);
 };
 
 watch(
@@ -228,12 +230,15 @@ watch(
     form.value.receivedAmount = +(
       form.value.agreementAmount - (form.value.discountAmount || 0)
     ).toFixed(2);
-    form.value.actualPerformance = +(
-      form.value.budgetPerformance - (form.value.discountAmount || 0)
-    ).toFixed(2);
     form.value.agreementTax = form.value.taxRate
       ? +(form.value.receivedAmount * form.value.taxRate).toFixed(2)
       : 0;
+    form.value.actualPerformance = +(
+      form.value.budgetPerformance -
+      (form.value.discountAmount || 0) -
+      (form.value.salesCost || 0) -
+      (form.value.agreementTax || 0)
+    ).toFixed(2);
 
     form.value.serviceItems = nv.flatMap((item: any) =>
       item.serviceItems.filter((i: any) =>
@@ -346,8 +351,8 @@ defineExpose({
         </el-col>
         <el-col v-if="form.hasProduct" :span="24">
           <div class="flex flex-col gap-2 rounded-md border p-2">
-            <div class="flex justify-between">
-              <el-form-item
+            <div class="flex justify-end">
+              <!-- <el-form-item
                 class="!mb-0"
                 label="增值税"
                 label-position="left"
@@ -358,7 +363,7 @@ defineExpose({
                   :options="[{ label: '3%', value: 0.03 }]"
                   @change="handleTaxChange"
                 />
-              </el-form-item>
+              </el-form-item> -->
               <el-button type="primary" @click="showProductModal = true">
                 添加产品
               </el-button>
