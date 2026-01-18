@@ -59,9 +59,6 @@ export const componentsMap: Record<any, IComponent> = {
     component: defineAsyncComponent(
       () => import('../../common/OperatorRecord.vue'),
     ),
-    props: {
-      records: [],
-    },
   },
   [BrandObjectionTabEnum.detail]: {
     component: defineAsyncComponent(

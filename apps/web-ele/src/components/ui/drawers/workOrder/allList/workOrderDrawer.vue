@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { Workflow } from '../../common/useWorkflow';
+
 import { ref } from 'vue';
 
 import {
@@ -34,7 +36,7 @@ const { form, updateForm } = useDrawerForm(props, getWorkOrderById);
 
 const activeTab = ref<WorkOrderEnum>(WorkOrderEnum.detail);
 
-const workflow = ref<any>(null);
+const workflow = ref<null | Workflow>(null);
 
 const handleClosed = () => {
   emits('closed');
@@ -111,6 +113,7 @@ const handleWorkflowChange = (value: any) => {
             v-bind="componentsMap[activeTab]?.props || {}"
             :id
             :form
+            :workflow
           />
           <template #fallback>
             <div class="p-4 text-center">loading...</div>

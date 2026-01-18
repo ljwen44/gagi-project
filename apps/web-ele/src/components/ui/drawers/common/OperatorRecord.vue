@@ -1,38 +1,42 @@
 <script lang="ts" setup>
-import type { TimelineItemProps } from 'element-plus';
+import type { Workflow } from './useWorkflow';
 
-import { useAttrs } from 'vue';
+import { computed, useAttrs } from 'vue';
+
+import { Check, X } from '@vben/icons';
 
 import dayjs from 'dayjs';
 
 import AEmpty from '#/components/common/empty/index.vue';
 
-interface IRecord extends Partial<TimelineItemProps> {
-  time: string;
-  operator?: string;
-  action?: string;
-}
-
 interface IProps {
-  records: IRecord[];
+  workflow: Workflow;
 }
 
-defineProps<IProps>();
+const props = defineProps<IProps>();
 
 const attrs = useAttrs();
+
+const approvals = computed(() => props.workflow?.value?.approvals || []);
 </script>
 
 <template>
-  <el-timeline v-bind="attrs" v-if="records.length > 0">
+  <el-timeline v-bind="attrs" v-if="approvals?.length > 0">
     <el-timeline-item
-      v-for="(record, index) in records"
-      :key="index"
-      :timestamp="dayjs(record.time).format('YYYY-MM-DD HH:mm:ss')"
+      v-for="record in approvals"
+      :key="record.approvalTime"
+      :icon="record.approvalType === 1 ? Check : X"
+      :timestamp="dayjs(record.approvalTime).format('YYYY-MM-DD HH:mm:ss')"
+      :type="record.approvalType === 1 ? 'success' : 'danger'"
       placement="top"
       v-bind="record"
+      size="large"
     >
       <slot>
-        {{ record.action }}
+        <el-card>
+          <h4 class="mb-4">用户: {{ record.approverName }}</h4>
+          <p>评审意见: {{ record.comment || '-' }}</p>
+        </el-card>
       </slot>
     </el-timeline-item>
   </el-timeline>

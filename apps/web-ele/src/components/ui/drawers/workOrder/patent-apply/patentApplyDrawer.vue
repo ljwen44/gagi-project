@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { Workflow } from '../../common/useWorkflow';
+
 import { ref } from 'vue';
 
 import { useDrawerForm } from '@vben/hooks';
@@ -28,6 +30,7 @@ const emits = defineEmits(['closed']);
 const { form, updateForm } = useDrawerForm(props, getWorkOrderById);
 
 const activeTab = ref<PatentApplyTabEnum>(PatentApplyTabEnum.detail);
+const workflow = ref<null | Workflow>(null);
 
 const handleClosed = () => {
   emits('closed');
@@ -35,6 +38,10 @@ const handleClosed = () => {
 
 const handleTabChange = (activeName: PatentApplyTabEnum) => {
   activeTab.value = activeName;
+};
+
+const handleWorkflowChange = (value: any) => {
+  workflow.value = value;
 };
 </script>
 
@@ -60,7 +67,11 @@ const handleTabChange = (activeName: PatentApplyTabEnum) => {
       <span class="font-bold text-[var(--el-color-primary)]">最终状态</span>
     </template>
 
-    <AuditProgress :instance-id="form.instanceId" business-type="work_order" />
+    <AuditProgress
+      :instance-id="form.instanceId"
+      business-type="work_order"
+      @update:workflow="handleWorkflowChange"
+    />
 
     <OrderArea />
 
@@ -80,6 +91,7 @@ const handleTabChange = (activeName: PatentApplyTabEnum) => {
             v-bind="componentsMap[activeTab]?.props || {}"
             :id
             :form
+            :workflow
           />
           <template #fallback>
             <div class="p-4 text-center">loading...</div>

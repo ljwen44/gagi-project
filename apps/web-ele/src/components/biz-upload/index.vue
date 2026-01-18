@@ -56,7 +56,9 @@ const handleUpload = async (options: UploadRequestOptions) => {
     :drag
     :http-request="handleUpload"
     :show-file-list="showFileList ?? true"
+    accept="image/*"
     auto-upload
+    list-type="picture-card"
     multiple
   >
     <slot>

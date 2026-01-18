@@ -57,6 +57,7 @@ const formItems = computed<IFormItem[]>(() => {
     }
     if (item.fieldType === 'image') {
       (result.componentProps as any).hiddenTip = true;
+      // (result.componentProps as any).showFileList = false;
     }
     return result;
   });

@@ -10,6 +10,7 @@ interface Approval {
   approvalType: number;
   approverId: number;
   comment: string;
+  approverName: string;
   id: number;
   instanceId: number;
   nodeId: number;

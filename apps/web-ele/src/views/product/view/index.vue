@@ -114,11 +114,13 @@ const handleCloseDrawer = () => {
           :width="180"
           placement="bottom"
           title="确认删除该产品吗?"
-          v-auth="'product:delete'"
           @confirm="handleDelete(row.id)"
         >
           <template #reference>
-            <Trash2 class="size-4 cursor-pointer text-red-500" />
+            <Trash2
+              class="size-4 cursor-pointer text-red-500"
+              v-auth="'product:delete'"
+            />
           </template>
         </el-popconfirm>
       </div>
