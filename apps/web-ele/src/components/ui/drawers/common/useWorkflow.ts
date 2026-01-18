@@ -50,44 +50,64 @@ export const useWorkflow = (props: any) => {
 
   const userStore = useUserStore();
 
-  const steps = computed(() =>
-    workflow.value?.nodes
-      ?.filter((node) => ![1, 3].includes(node.nodeType))
-      .map((node) => {
-        const approval = workflow.value?.approvals.find(
-          (approval) => approval.nodeId === node.id,
-        );
-        let status;
-        if (approval) {
-          status = approval.approvalType === 1 ? 'success' : 'error';
-        } else {
-          status =
-            workflow.value?.instance.currentNodeId === node.id
-              ? 'process'
-              : 'wait';
+  const steps = computed<any>(() => {
+    // 当前审批的节点索引
+    const currentAuditIndex = workflow.value?.nodes.findIndex(
+      (node) => workflow.value?.instance.currentNodeId === node.id,
+    );
+    return workflow.value?.nodes
+      .map((node, index) => {
+        if ([1, 3].includes(node.nodeType)) {
+          return false;
         }
-        let icon;
-        switch (status) {
-          case 'process': {
-            icon = Loader;
-            break;
+
+        // 当前审批节点之前的节点都为审批通过
+        if (currentAuditIndex && index < currentAuditIndex) {
+          // 从后往前找，找最新的审批节点
+          const lastApprovalIndex = workflow.value?.approvals.findLastIndex(
+            (approval) => approval.nodeId === node.id,
+          );
+          const approval = lastApprovalIndex
+            ? workflow.value?.approvals[lastApprovalIndex]
+            : void 0;
+          if (lastApprovalIndex) {
+            return {
+              ...node,
+              comment: approval?.comment,
+              status: approval?.approvalType === 1 ? 'success' : 'error',
+            };
           }
-          case 'wrait': {
-            icon = CircleDashed;
-            break;
-          }
-          default: {
-            break;
-          }
+          return {
+            ...node,
+            status: 'success',
+          };
         }
+
+        if (currentAuditIndex && index === currentAuditIndex) {
+          // 判断是否是最后一个节点，且已审批
+          const lastApproval = workflow.value?.approvals.at(-1);
+          let status = 'process';
+          const isSameNode = lastApproval && lastApproval.nodeId === node.id;
+          if (isSameNode) {
+            status = lastApproval.approvalType === 1 ? 'success' : 'error';
+          }
+          return {
+            ...node,
+            comment: isSameNode ? lastApproval?.comment : '',
+            status,
+            icon: isSameNode ? void 0 : Loader,
+          };
+        }
+
+        // 当前节点之后的节点都是一样的
         return {
           ...node,
-          comment: approval?.comment,
-          status,
-          icon,
+          status: 'wait',
+          icon: CircleDashed,
         };
-      }),
-  );
+      })
+      .filter(Boolean);
+  });
 
   const showAudit = computed(() => {
     const currentUserId = userStore.userInfo?.userId;
@@ -99,9 +119,8 @@ export const useWorkflow = (props: any) => {
       return false;
     }
     // 是否已经审批
-    const hasApproval = workflow.value?.approvals.find(
-      (approval) => approval.nodeId === node.id,
-    );
+    const lastApproval = workflow.value?.approvals.at(-1);
+    const hasApproval = lastApproval?.nodeId === node.id;
 
     return (
       (currentUserId === +node.approverValue ||

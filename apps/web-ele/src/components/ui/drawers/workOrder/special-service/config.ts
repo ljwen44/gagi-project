@@ -83,7 +83,7 @@ export const componentsMap: Record<any, IComponent> = {
   },
   [SpecialServiceTabEnum.protocol]: {
     component: defineAsyncComponent(
-      () => import('./components/ProtocolTable.vue'),
+      () => import('../../common/ProtocolTable.vue'),
     ),
   },
 };
@@ -101,18 +101,6 @@ export const orderConfirmColumns: ITableColumnProps[] = [
   { label: '文件大小', prop: 'size' },
   { label: '上传时间', prop: 'time' },
   { label: '操作', prop: 'operator', fixed: 'right' },
-];
-
-export const protocolDetailColumns: ITableColumnProps[] = [
-  { label: '产品名称', prop: 'productName' },
-  { label: '服务分类', prop: 'servieType' },
-  { label: '国家', prop: 'country' },
-  { label: '售价(元)', prop: 'price' },
-  { label: '官费(元)', prop: 'fee' },
-  { label: '数量(标)', prop: 'quantities' },
-  { label: '附加项', prop: 'attach' },
-  { label: '销售额(元)', prop: 'sale' },
-  { label: '销售业绩(元)', prop: 'performance' },
 ];
 
 export const abnormalOrderColumns: ITableColumnProps[] = [

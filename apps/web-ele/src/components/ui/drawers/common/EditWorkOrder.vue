@@ -8,6 +8,7 @@ import { SquarePen } from '@vben/icons';
 import { ElDatePicker, ElInput, ElMessage } from 'element-plus';
 
 import { updateDynamicFields } from '#/api/core/workOrder';
+import BizUpload from '#/components/biz-upload/index.vue';
 import AForm from '#/components/common/form/index.vue';
 import AModal from '#/components/common/modal/index.vue';
 import ASelect from '#/components/common/select/index.vue';
@@ -25,9 +26,11 @@ const compoentMap: Record<string, any> = {
   textarea: ElInput,
   select: ASelect,
   date: ElDatePicker,
+  image: BizUpload,
 };
+
 const showModal = ref(false);
-const selfForm = ref({});
+const selfForm = ref<Record<string, any>>({});
 const formRef = useTemplateRef('formRef');
 
 const formItems = computed<IFormItem[]>(() => {
@@ -47,9 +50,13 @@ const formItems = computed<IFormItem[]>(() => {
           width: '100%',
         },
       },
+      class: item.fieldType === 'image' ? 'col-span-2' : '',
     };
     if (item.fieldType === 'textarea') {
       (result.componentProps as any).type = 'textarea';
+    }
+    if (item.fieldType === 'image') {
+      (result.componentProps as any).hiddenTip = true;
     }
     return result;
   });
@@ -72,23 +79,44 @@ const rules = computed<Record<string, any>>(() => {
 });
 
 const handleShowModal = () => {
-  selfForm.value = { ...props.form.dynamicFieldValues };
+  const ip_image = props.form.dynamicFieldValues?.ip_image || [];
+  const ipName =
+    ip_image.length > 0
+      ? [
+          {
+            url: ip_image.split(',')[1],
+            name: '文件',
+          },
+        ]
+      : [];
+  selfForm.value = { ...props.form.dynamicFieldValues, ip_image: ipName };
   showModal.value = true;
 };
 
 const handleConfirm = async () => {
   try {
     await formRef.value?.instance.validate();
+    const image = selfForm.value?.ip_image as any;
     const requestForm = {
       id: props.id,
-      dynamicFieldValues: selfForm.value,
+      dynamicFieldValues: {
+        ...selfForm.value,
+        ip_image: Array.isArray(image)
+          ? `${(image[0]?.result as any)?.previewUrl},${(image[0]?.result as any)?.downloadUrl}`
+          : image,
+      },
     };
     await updateDynamicFields(requestForm);
     ElMessage.success('编辑成功');
     showModal.value = false;
     emits('confirm', {
       ...props.form,
-      dynamicFieldValues: selfForm.value,
+      dynamicFieldValues: {
+        ...selfForm.value,
+        ip_image: Array.isArray(image)
+          ? `${(image[0]?.result as any)?.previewUrl},${(image[0]?.result as any)?.downloadUrl}`
+          : image,
+      },
     });
   } catch {}
 };

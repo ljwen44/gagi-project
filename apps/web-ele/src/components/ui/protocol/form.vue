@@ -186,7 +186,6 @@ const handleDiscountAmountChange = (value: number) => {
   ).toFixed(2);
   form.value.actualPerformance = +(
     form.value.receivedAmount -
-    (value || 0) -
     (form.value.salesCost || 0) -
     (form.value.agreementTax || 0)
   ).toFixed(2);
@@ -235,7 +234,6 @@ watch(
       : 0;
     form.value.actualPerformance = +(
       form.value.receivedAmount -
-      (form.value.discountAmount || 0) -
       (form.value.salesCost || 0) -
       (form.value.agreementTax || 0)
     ).toFixed(2);

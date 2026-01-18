@@ -69,7 +69,7 @@ const handleCloseDrawer = () => {
     <template #action>
       <el-button
         type="primary"
-        v-auth="'customer:add'"
+        v-auth="'product:add'"
         @click="productFormRef?.openModal()"
       >
         新增
@@ -100,6 +100,7 @@ const handleCloseDrawer = () => {
       <div class="flex items-center justify-center gap-2">
         <Edit
           class="size-4 cursor-pointer"
+          v-auth="'product:add'"
           @click="
             productFormRef?.openModal({
               title: '编辑产品',
@@ -113,6 +114,7 @@ const handleCloseDrawer = () => {
           :width="180"
           placement="bottom"
           title="确认删除该产品吗?"
+          v-auth="'product:delete'"
           @confirm="handleDelete(row.id)"
         >
           <template #reference>

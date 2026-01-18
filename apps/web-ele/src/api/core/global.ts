@@ -31,6 +31,16 @@ export const postAttachmentUpload = (data: any) =>
   });
 
 /**
+ * 工单上传文件
+ */
+export const postImageUpload = (data: any) =>
+  requestClient.post(`/image/upload`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+/**
  * 获取当前用户
  */
 export const getCurrentUser = () => requestClient.get(`/user/current`);

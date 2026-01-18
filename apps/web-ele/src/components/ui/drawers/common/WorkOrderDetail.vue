@@ -30,7 +30,17 @@ const detail = computed<Record<string, any>[]>(() =>
       class="flex items-center gap-2"
     >
       <span>{{ item.fieldName }}:</span>
-      <span>{{ item.value || '-' }}</span>
+      <template v-if="item.fieldKey !== 'ip_image'">
+        <span>{{ item.value || '-' }}</span>
+      </template>
+      <template v-else>
+        <a
+          :href="item.value.split(',')[1]"
+          class="text-primary-600 underline"
+          download
+          >文件下载
+        </a>
+      </template>
     </div>
   </div>
   <div v-else>

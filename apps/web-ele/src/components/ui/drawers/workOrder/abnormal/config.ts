@@ -29,8 +29,8 @@ export const drawerFormItems: IFormItem[] = [
 export const abnormalWorkOrderTabs = [
   { label: '异常单详情', key: AbnormalWorkOrderEnum.detail },
   { label: '异常单附件', key: AbnormalWorkOrderEnum.attachment },
-  { label: '原工单', key: AbnormalWorkOrderEnum.workOrder },
-  { label: '原协议', key: AbnormalWorkOrderEnum.protocol },
+  // { label: '原工单', key: AbnormalWorkOrderEnum.workOrder },
+  // { label: '原协议', key: AbnormalWorkOrderEnum.protocol },
   { label: '跟进记录', key: AbnormalWorkOrderEnum.followRecord },
   { label: '共享人员', key: AbnormalWorkOrderEnum.share },
   { label: '操作记录', key: AbnormalWorkOrderEnum.operatorRecord },
