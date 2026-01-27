@@ -34,6 +34,14 @@ const handleSelectionChange = (val: any) => {
         {{ row.isNotarized ? '是' : '否' }}
       </el-tag>
     </template>
+    <template #quantity="{ row }">
+      <el-input-number
+        v-model="row.quantity"
+        :min="1"
+        :precision="0"
+        :step="1"
+      />
+    </template>
     <template #serviceItems="{ row }">
       <el-select
         v-if="row.serviceItems.length > 0"

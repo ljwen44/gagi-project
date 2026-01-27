@@ -135,7 +135,8 @@ const handleSelectProduct = () => {
       ? [...tempProductSelection]
       : [
           ...products,
-          ...tempProductSelection.filter((p: any) => products.includes(p.id)),
+          ...tempProductSelection,
+          // ...tempProductSelection.filter((p: any) => products.includes(p.id)),
         ];
   showProductModal.value = false;
 };
@@ -199,13 +200,16 @@ watch(
       .reduce(
         (acc: number, cur: any) =>
           acc +
-          cur.standardPrice +
-          cur.serviceItems.reduce(
-            (a: number, c: any) =>
-              a +
-              (cur.selectServiceItems?.includes(c.itemName) ? c.itemPrice : 0),
-            0,
-          ),
+          (cur.standardPrice +
+            cur.serviceItems.reduce(
+              (a: number, c: any) =>
+                a +
+                (cur.selectServiceItems?.includes(c.itemName)
+                  ? c.itemPrice
+                  : 0),
+              0,
+            )) *
+            (cur.quantity || 1),
         0,
       )
       .toFixed(2);
@@ -213,13 +217,14 @@ watch(
       .reduce(
         (acc: number, cur: any) =>
           acc +
-          cur.officialFee +
-          cur.serviceItems.reduce(
-            (a: number, c: any) =>
-              a +
-              (cur.selectServiceItems?.includes(c.itemName) ? c.itemCost : 0),
-            0,
-          ),
+          (cur.officialFee +
+            cur.serviceItems.reduce(
+              (a: number, c: any) =>
+                a +
+                (cur.selectServiceItems?.includes(c.itemName) ? c.itemCost : 0),
+              0,
+            )) *
+            (cur.quantity || 1),
         0,
       )
       .toFixed(2);
@@ -238,11 +243,13 @@ watch(
       (form.value.agreementTax || 0)
     ).toFixed(2);
 
-    form.value.serviceItems = nv.flatMap((item: any) =>
-      item.serviceItems.filter((i: any) =>
+    form.value.serviceItems = nv.flatMap((item: any) => ({
+      productId: item.id,
+      quantity: item.quantity,
+      serviceItems: item.serviceItems.filter((i: any) =>
         item.selectServiceItems?.includes(i.itemName),
       ),
-    );
+    }));
   },
   {
     deep: true,
@@ -504,8 +511,9 @@ defineExpose({
 
   <AModal
     v-model="showProductModal"
+    destroy-on-close
     title="选择产品"
-    width="900px"
+    width="1200px"
     @close="tempProductSelection = []"
     @confirm="handleSelectProduct"
   >

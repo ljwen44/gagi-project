@@ -69,7 +69,12 @@ export const protocolProductColumns: ITableColumnProps[] = [
         }, 0) || 0
       ).toFixed(2),
   },
-  // { label: '数量(标)', prop: 'number' },
+  { label: '数量', prop: 'quantity' },
+  {
+    label: '服务项目',
+    prop: 'selectServiceItems',
+    format: (_, data) => data.selectServiceItems?.join('，'),
+  },
   // { label: '附加项', prop: 'extra' },
   { label: '操作', prop: 'operator', fixed: 'right', align: 'center' },
 ];
@@ -135,6 +140,12 @@ export const productColumns: ITableColumnProps[] = [
   //   sortable: true,
   //   format: (value: number) => value?.toFixed(2),
   // },
+  {
+    label: '数量',
+    prop: 'quantity',
+    fixed: 'right',
+    width: 180,
+  },
   {
     label: '服务项目',
     prop: 'serviceItems',
