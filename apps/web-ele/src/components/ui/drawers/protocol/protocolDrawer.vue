@@ -32,6 +32,7 @@ const { form } = useDrawerForm(props, getAgreementById);
 const workflow = ref<any>(null);
 
 const handleClosed = () => {
+  activeTab.value = ProtocolTabEnum.protocol;
   emits('closed');
 };
 

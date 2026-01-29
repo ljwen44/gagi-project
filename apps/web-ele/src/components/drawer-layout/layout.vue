@@ -3,7 +3,7 @@ import type { DrawerProps } from 'element-plus';
 
 import type { IFormItem } from '../common/form/index.vue';
 
-import { useAttrs, watch } from 'vue';
+import { computed, useAttrs, watch } from 'vue';
 
 import { ArrowLeft, ArrowRight } from '@vben/icons';
 
@@ -33,10 +33,11 @@ const props = withDefaults(defineProps<IProps>(), {
 const emits = defineEmits(['open', 'closed', 'prev', 'next']);
 
 const appendColumns: ITableColumnProps[] = [
+  { label: '产品名称', prop: 'productName' },
   { label: '服务项', prop: 'itemName' },
   { label: '成本', prop: 'itemCost' },
   { label: '价格', prop: 'itemPrice' },
-  { label: '备注', prop: 'remark' },
+  { label: '价格合计', prop: 'itemPriceSum' },
 ];
 
 const showModal = defineModel({
@@ -45,6 +46,48 @@ const showModal = defineModel({
 });
 
 const attrs = useAttrs();
+
+const serviceItems = computed(() => {
+  const result: any = [];
+  if (props.form.serviceItemV2Vos?.length > 0) {
+    for (const item of props.form.serviceItemV2Vos) {
+      let flag = true;
+      for (const i of item.serviceItems) {
+        result.push({
+          productName: item.productName,
+          itemPriceSum: item.itemPriceSum,
+          ...i,
+          row: flag ? item.serviceItems.length : 0,
+        });
+        if (flag) {
+          flag = false;
+        }
+      }
+    }
+    return result;
+  }
+  return result;
+});
+
+const spanColumns = ({ row, columnIndex }: any) => {
+  // 只对产品名称列（第0列）和价格合计列（最后一列）进行合并
+  if (columnIndex === 0 || columnIndex === 4) {
+    return row.row > 0
+      ? {
+          rowspan: row.row,
+          colspan: 1,
+        }
+      : {
+          rowspan: 0,
+          colspan: 0,
+        };
+  }
+  // 其他列保持正常显示
+  return {
+    rowspan: 1,
+    colspan: 1,
+  };
+};
 
 watch(
   () => props.show,
@@ -156,13 +199,15 @@ const handleNext = () => {
             </slot>
           </el-form-item>
         </el-form>
-        <template v-if="form.serviceItems?.length > 0">
+        <template v-if="form.serviceItemV2Vos?.length > 0">
           <ATable
             :columns="appendColumns"
-            :data="form.serviceItems"
+            :data="serviceItems"
             :table-config="{
-              data: form.serviceItems,
+              'span-method': spanColumns,
+              data: serviceItems,
               size: 'small',
+              stripe: false,
             }"
           />
         </template>

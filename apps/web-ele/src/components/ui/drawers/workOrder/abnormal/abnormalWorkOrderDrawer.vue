@@ -29,6 +29,7 @@ const { form, updateForm } = useDrawerForm(props, getWorkOrderById);
 const activeTab = ref<AbnormalWorkOrderEnum>(AbnormalWorkOrderEnum.detail);
 
 const handleClosed = () => {
+  activeTab.value = AbnormalWorkOrderEnum.detail;
   emits('closed');
 };
 

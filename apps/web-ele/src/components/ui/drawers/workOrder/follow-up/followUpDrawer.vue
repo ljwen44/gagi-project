@@ -28,6 +28,7 @@ const { form, updateForm } = useDrawerForm(props, getWorkOrderById);
 const activeTab = ref<FollowUpEnum>(FollowUpEnum.followRecord);
 
 const handleClosed = () => {
+  activeTab.value = FollowUpEnum.followRecord;
   emits('closed');
 };
 

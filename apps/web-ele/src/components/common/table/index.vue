@@ -70,8 +70,8 @@ const restColumns = computed(() =>
       v-bind="tableConfig"
       :border="true"
       :data="tableData"
+      :stripe="tableConfig?.stripe ?? true"
       class="table-class min-h-0 flex-1"
-      stripe
       v-on="tableEvent"
     >
       <template #empty>

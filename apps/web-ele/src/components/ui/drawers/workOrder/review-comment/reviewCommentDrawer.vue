@@ -29,6 +29,7 @@ const { form, updateForm } = useDrawerForm(props, getWorkOrderById);
 const activeTab = ref<ReviewCommentTabEnum>(ReviewCommentTabEnum.detail);
 
 const handleClosed = () => {
+  activeTab.value = ReviewCommentTabEnum.detail;
   emits('closed');
 };
 

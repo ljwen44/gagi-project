@@ -33,6 +33,7 @@ const activeTab = ref<CustomerTabEnum>(CustomerTabEnum.orderRecord);
 const customerFormRef = useTemplateRef('customerFormRef');
 
 const handleClosed = () => {
+  activeTab.value = CustomerTabEnum.orderRecord;
   emits('closed');
 };
 

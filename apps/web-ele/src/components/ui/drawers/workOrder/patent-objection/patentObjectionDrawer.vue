@@ -33,6 +33,7 @@ const activeTab = ref<PatentObjectionTabEnum>(PatentObjectionTabEnum.detail);
 const workflow = ref<null | Workflow>(null);
 
 const handleClosed = () => {
+  activeTab.value = PatentObjectionTabEnum.detail;
   emits('closed');
 };
 

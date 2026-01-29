@@ -33,6 +33,7 @@ const activeTab = ref<BrandRegisterTabEnum>(BrandRegisterTabEnum.detail);
 const workflow = ref<null | Workflow>(null);
 
 const handleClosed = () => {
+  activeTab.value = BrandRegisterTabEnum.detail;
   emits('closed');
 };
 

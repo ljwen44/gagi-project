@@ -31,6 +31,7 @@ const activeTab = ref<CopyrightRegistrationTabEnum>(
 );
 
 const handleClosed = () => {
+  activeTab.value = CopyrightRegistrationTabEnum.detail;
   emits('closed');
 };
 

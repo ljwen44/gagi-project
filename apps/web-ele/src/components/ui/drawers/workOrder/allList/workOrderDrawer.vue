@@ -39,6 +39,7 @@ const activeTab = ref<WorkOrderEnum>(WorkOrderEnum.detail);
 const workflow = ref<null | Workflow>(null);
 
 const handleClosed = () => {
+  activeTab.value = WorkOrderEnum.detail;
   emits('closed');
 };
 

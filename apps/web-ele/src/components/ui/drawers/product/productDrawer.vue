@@ -26,6 +26,7 @@ const activeTab = ref<ProductTabEnum>(ProductTabEnum.additionalItem);
 const { form } = useDrawerForm(props, getProductById);
 
 const handleClosed = () => {
+  activeTab.value = ProductTabEnum.additionalItem;
   emits('closed');
 };
 

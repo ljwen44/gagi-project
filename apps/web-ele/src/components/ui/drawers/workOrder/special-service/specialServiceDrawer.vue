@@ -33,6 +33,7 @@ const activeTab = ref<SpecialServiceTabEnum>(SpecialServiceTabEnum.detail);
 const workflow = ref<null | Workflow>(null);
 
 const handleClosed = () => {
+  activeTab.value = SpecialServiceTabEnum.detail;
   emits('closed');
 };
 

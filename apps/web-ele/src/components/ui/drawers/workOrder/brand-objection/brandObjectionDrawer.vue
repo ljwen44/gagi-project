@@ -28,6 +28,7 @@ const emits = defineEmits(['closed']);
 const { form, updateForm } = useDrawerForm(props, getWorkOrderById);
 const activeTab = ref<BrandObjectionTabEnum>(BrandObjectionTabEnum.detail);
 const handleClosed = () => {
+  activeTab.value = BrandObjectionTabEnum.detail;
   emits('closed');
 };
 
