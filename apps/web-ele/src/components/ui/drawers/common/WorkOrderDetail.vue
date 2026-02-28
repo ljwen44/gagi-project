@@ -27,19 +27,23 @@ const detail = computed<Record<string, any>[]>(() =>
     <div
       v-for="item in detail"
       :key="item.fieldKey"
-      class="flex items-center gap-2"
+      class="flex items-start gap-2"
     >
       <span>{{ item.fieldName }}:</span>
       <template v-if="item.fieldKey !== 'ip_image'">
         <span>{{ item.value || '-' }}</span>
       </template>
       <template v-else>
-        <a
-          :href="item.value.split(',')[1]"
-          class="text-primary-600 underline"
-          download
-          >文件下载
-        </a>
+        <div class="flex flex-col gap-2">
+          <a
+            v-for="i in item.value.split(';')"
+            :key="i"
+            :href="i.split(',')[1]"
+            class="text-primary-600 underline"
+            download
+            >文件下载
+          </a>
+        </div>
       </template>
     </div>
   </div>

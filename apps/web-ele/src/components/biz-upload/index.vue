@@ -36,15 +36,24 @@ const handleUpload = async (options: UploadRequestOptions) => {
     const formData = new FormData();
     formData.append('file', file);
     const data = await postImageUpload(formData);
-    uploadFiles.value[uploadFiles.value.length - 1] = {
-      ...uploadFiles.value.at(-1),
-      name: '文件',
-      result: data,
-    };
+    const uploadFile = uploadFiles.value.find(
+      (item) => item.raw?.uid === options.file.uid,
+    );
+    if (uploadFile) {
+      uploadFile.result = data;
+    }
+    // uploadFiles.value[uploadFiles.value.length - 1] = {
+    //   ...uploadFiles.value.at(-1),
+    //   name: '文件',
+    //   result: data,
+    // };
     emits('uploadSuccess', uploadFiles.value);
   } catch {
     ElMessage.error('上传失败');
-    uploadFiles.value.splice(-1, 1);
+    const uploadFileIndex = uploadFiles.value.findIndex(
+      (item) => item.raw?.uid === options.file.uid,
+    );
+    uploadFiles.value.splice(uploadFileIndex, 1);
   }
 };
 </script>

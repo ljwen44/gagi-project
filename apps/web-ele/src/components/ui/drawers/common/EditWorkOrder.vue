@@ -81,15 +81,21 @@ const rules = computed<Record<string, any>>(() => {
 
 const handleShowModal = () => {
   const ip_image = props.form.dynamicFieldValues?.ip_image || [];
-  const ipName =
-    ip_image.length > 0
-      ? [
-          {
-            url: ip_image.split(',')[1],
-            name: '文件',
-          },
-        ]
-      : [];
+  let ipName = [];
+  if (ip_image.length > 0) {
+    const images = ip_image.split(';');
+    ipName = images.map((img: string) => {
+      const [previewUrl, downloadUrl] = img.split(',');
+      return {
+        url: previewUrl,
+        name: '文件',
+        result: {
+          previewUrl,
+          downloadUrl,
+        },
+      };
+    });
+  }
   selfForm.value = { ...props.form.dynamicFieldValues, ip_image: ipName };
   showModal.value = true;
 };
@@ -98,13 +104,19 @@ const handleConfirm = async () => {
   try {
     await formRef.value?.instance.validate();
     const image = selfForm.value?.ip_image as any;
+    const ip_image = Array.isArray(image)
+      ? image
+          .map(
+            (img) =>
+              `${(img?.result as any)?.previewUrl},${(img?.result as any)?.downloadUrl}`,
+          )
+          .join(';')
+      : image;
     const requestForm = {
       id: props.id,
       dynamicFieldValues: {
         ...selfForm.value,
-        ip_image: Array.isArray(image)
-          ? `${(image[0]?.result as any)?.previewUrl},${(image[0]?.result as any)?.downloadUrl}`
-          : image,
+        ip_image,
       },
     };
     await updateDynamicFields(requestForm);
@@ -114,9 +126,7 @@ const handleConfirm = async () => {
       ...props.form,
       dynamicFieldValues: {
         ...selfForm.value,
-        ip_image: Array.isArray(image)
-          ? `${(image[0]?.result as any)?.previewUrl},${(image[0]?.result as any)?.downloadUrl}`
-          : image,
+        ip_image,
       },
     });
   } catch {}

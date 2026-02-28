@@ -5,6 +5,8 @@ import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
 import { defineAsyncComponent } from 'vue';
 
+import dayjs from 'dayjs';
+
 export enum WorkOrderEnum {
   abnormalOrder = 'abnormalOrder',
   attachment = 'attachment',
@@ -60,13 +62,34 @@ export const detailFormItems: IFormItem[] = [
 ];
 
 export const orderConfirmColumns: ITableColumnProps[] = [
-  { label: '编号', type: 'index', fixed: 'left', width: 60 },
-  { label: '确认书名称', prop: 'name' },
-  { label: '确认书阶段', prop: 'stage' },
-  { label: '确认书来源', prop: 'origin' },
-  { label: '文件大小', prop: 'size' },
-  { label: '上传时间', prop: 'time' },
-  { label: '操作', prop: 'operator', fixed: 'right' },
+  { label: '文件原始名称', prop: 'fileName' },
+  { label: '文件存储路径', prop: 'filePath' },
+  {
+    label: '文件大小',
+    prop: 'fileSize',
+    format: (value: number) => {
+      // 判断文件大小
+      if (value < 1024) {
+        return `${value}B`;
+      }
+      const m = 1024 * 1024;
+      if (value <= m) {
+        return `${(value / 1024).toFixed(1)}KB`;
+      }
+
+      const g = m * 1024;
+      if (value <= g) {
+        return `${(value / m).toFixed(1)}MB`;
+      }
+      return `${(value / g).toFixed(1)}MB`;
+    },
+  },
+  { label: '文件访问URL', prop: 'fileUrl' },
+  {
+    label: '上传时间',
+    prop: 'uploadTime',
+    format: (value: string) => dayjs(value).format('YYYY-MM-DD HH:mm:ss'),
+  },
 ];
 
 export const orderAttachmentColumns: ITableColumnProps[] = [
