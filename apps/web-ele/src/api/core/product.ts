@@ -26,7 +26,7 @@ export interface ProductDto {
 /**
  * 根据ID查询产品详情
  */
-export const getProductById = (id: number) =>
+export const getProductById = (id: number | string) =>
   requestClient.get(`/product/${id}`);
 
 /**

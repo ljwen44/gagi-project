@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { onMounted, ref, useTemplateRef } from 'vue';
 
-import { Edit } from '@vben/icons';
+import { Edit, Trash2 } from '@vben/icons';
 
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
 import { getCustomerList } from '#/api/core/customer';
-import { getAgreementList } from '#/api/core/protocol';
+import { delAgreementById, getAgreementList } from '#/api/core/protocol';
 import TableLayout from '#/components/table-layout/index.vue';
 import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetail.vue';
 import ProtocolDrawer from '#/components/ui/drawers/protocol/protocolDrawer.vue';
@@ -106,6 +106,19 @@ const handleCloseDrawer = () => {
 //     row.products = dataList;
 //   }
 // };
+
+const delAgreement = async (id: number) => {
+  try {
+    await ElMessageBox.confirm('确定删除该协议吗?', '系统提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    });
+    await delAgreementById(id);
+    ElMessage.success('删除成功');
+    tableLayoutRef.value?.query();
+  } catch {}
+};
 
 onMounted(() => {
   getCustomerListOptions();
@@ -208,20 +221,23 @@ onMounted(() => {
     </template> -->
 
     <template #operator="{ row }">
-      <div
-        v-if="['已驳回', '暂存'].includes(row.status)"
-        class="flex items-center justify-center gap-1"
-      >
-        <Edit
-          class="size-4 cursor-pointer text-[var(--el-color-primary)]"
-          @click="
-            protocolFormRef?.openModal({
-              target: {
-                ...row,
-              },
-              title: '编辑协议',
-            })
-          "
+      <div class="flex items-center justify-center gap-1">
+        <template v-if="['已驳回', '暂存'].includes(row.status)">
+          <Edit
+            class="size-4 cursor-pointer text-[var(--el-color-primary)]"
+            @click="
+              protocolFormRef?.openModal({
+                target: {
+                  ...row,
+                },
+                title: '编辑协议',
+              })
+            "
+          />
+        </template>
+        <Trash2
+          class="size-4 cursor-pointer text-[var(--el-color-danger)]"
+          @click="delAgreement(row.id)"
         />
       </div>
     </template>

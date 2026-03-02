@@ -92,3 +92,12 @@ export const relatedInfomationOrQuestionsColumns: ITableColumnProps[] = [
   { label: '创建人', prop: 'createdBy', sortable: true },
   { label: '创建时间', prop: 'createdTime', sortable: true },
 ];
+
+export const serviceItemsColumns: ITableColumnProps[] = [
+  { label: '服务项目', prop: 'itemName' },
+  {
+    label: '价格',
+    prop: 'itemPrice',
+    format: (value: number) => value?.toFixed(2),
+  },
+];

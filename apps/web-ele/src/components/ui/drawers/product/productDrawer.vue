@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { useDrawerForm } from '@vben/hooks';
 
 import { getProductById } from '#/api/core/product';
+import Atable from '#/components/common/table/index.vue';
 import DrawerLayout from '#/components/drawer-layout/layout.vue';
 
 import {
@@ -11,6 +12,7 @@ import {
   drawerFormItems,
   ProductTabEnum,
   productTabs,
+  serviceItemsColumns,
 } from './config';
 
 interface IProps {
@@ -51,6 +53,10 @@ const handleTabChange = (activeName: ProductTabEnum) => {
         download
         >{{ originData.templateName }}
       </a>
+    </template>
+
+    <template v-if="form.serviceItems?.length > 0">
+      <Atable :columns="serviceItemsColumns" :data="form.serviceItems" />
     </template>
 
     <div class="flex flex-col gap-2 py-4">

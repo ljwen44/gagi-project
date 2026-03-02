@@ -13,5 +13,14 @@ defineProps({
     :columns="orderConfirmColumns"
     :data="form.confirmAttachments || []"
     :show-pagination="false"
-  />
+  >
+    <template #fileUrl="{ row }">
+      <a
+        :download="row.fileName"
+        :href="row.fileUrl"
+        class="text-[var(--el-color-primary)]"
+        >文件下载
+      </a>
+    </template>
+  </Atable>
 </template>

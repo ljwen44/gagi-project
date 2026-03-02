@@ -108,7 +108,7 @@ export const detailFormItems: IFormItem[] = [
 
 export const orderConfirmColumns: ITableColumnProps[] = [
   { label: '文件原始名称', prop: 'fileName' },
-  { label: '文件存储路径', prop: 'filePath' },
+
   {
     label: '文件大小',
     prop: 'fileSize',

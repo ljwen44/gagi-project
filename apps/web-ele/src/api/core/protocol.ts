@@ -53,3 +53,9 @@ export const getAgreementPending = (params: {
  */
 export const genAgreementNo = () =>
   requestClient.get(`/agreement/genAgreementNo`);
+
+/**
+ * 根据ID删除协议
+ */
+export const delAgreementById = (id: number | string) =>
+  requestClient.delete(`/agreement/${id}`);
