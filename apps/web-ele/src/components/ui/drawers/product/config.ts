@@ -29,17 +29,17 @@ export const drawerFormItems: IFormItem[] = [
     prop: 'isCertified',
     format: (value: number) => (value ? '是' : '否'),
   },
-  {
-    label: '标准售价(元)',
-    prop: 'standardPrice',
-    format: (value: number) => value?.toFixed(2),
-  },
-  {
-    label: '官费(元)',
-    prop: 'officialFee',
-    class: 'col-span-2',
-    format: (value: number) => value?.toFixed(2),
-  },
+  // {
+  //   label: '标准售价(元)',
+  //   prop: 'standardPrice',
+  //   format: (value: number) => value?.toFixed(2),
+  // },
+  // {
+  //   label: '官费(元)',
+  //   prop: 'officialFee',
+  //   class: 'col-span-2',
+  //   format: (value: number) => value?.toFixed(2),
+  // },
   {
     label: '模板文件',
     prop: 'templateCode',
