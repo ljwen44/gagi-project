@@ -96,8 +96,14 @@ export const relatedInfomationOrQuestionsColumns: ITableColumnProps[] = [
 export const serviceItemsColumns: ITableColumnProps[] = [
   { label: '服务项目', prop: 'itemName' },
   {
+    label: '成本',
+    prop: 'itemCost',
+    format: (value: number) => value?.toFixed(2),
+  },
+  {
     label: '价格',
     prop: 'itemPrice',
     format: (value: number) => value?.toFixed(2),
   },
+  { label: '备注', prop: 'remark' },
 ];
