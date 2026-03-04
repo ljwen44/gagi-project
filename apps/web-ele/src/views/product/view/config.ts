@@ -2,6 +2,7 @@ import type { FormItemType } from '@vben/types';
 
 import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
+import { getCategoryList } from '#/api/core/product';
 import { countries } from '#/assets/constant/countries';
 import ASelect from '#/components/common/select/index.vue';
 
@@ -9,7 +10,6 @@ export const formItems: FormItemType[] = [
   {
     label: '国家',
     key: 'country',
-    // width: 36,
     component: ASelect,
     props: {
       placeholder: '请选择',
@@ -18,10 +18,29 @@ export const formItems: FormItemType[] = [
     },
   },
   {
+    label: '服务分类',
+    key: 'categoryId',
+    component: ASelect,
+    props: {
+      placeholder: '请输入服务分类',
+      api: getCategoryList,
+      labelKey: 'categoryName',
+      valueKey: 'id',
+      style: {
+        width: '100%',
+      },
+    },
+  },
+  {
+    label: '产品名称',
+    key: 'productName',
+    props: {
+      placeholder: '请输入产品名称',
+    },
+  },
+  {
     label: '产品编号',
     key: 'productNo',
-    // tooltip:
-    //   '支持产品编号/产品名称,或产品编号/产品名称的精准多号查询,编号之间用英文逗号分割(,)',
     props: {
       placeholder: '请输入产品编号',
     },
@@ -45,6 +64,7 @@ export const columns: ITableColumnProps[] = [
     label: '服务分类',
     prop: 'categoryName',
     sortable: true,
+    disabledFilter: true,
   },
   {
     label: '国家',
@@ -58,6 +78,7 @@ export const columns: ITableColumnProps[] = [
     prop: 'productName',
     width: 140,
     sortable: true,
+    disabledFilter: true,
   },
   {
     label: '是否公证',
