@@ -3,6 +3,7 @@ import type { IFormItem } from '#/components/common/form/index.vue';
 import { getCustomerList } from '#/api/core/customer';
 import { getAgreementList } from '#/api/core/protocol';
 import ASelect from '#/components/common/select/index.vue';
+import AUpload from '#/components/common/upload/index.vue';
 
 export const modalFormItems: IFormItem[] = [
   {
@@ -68,6 +69,31 @@ export const modalFormItems: IFormItem[] = [
       style: {
         width: '100%',
       },
+    },
+  },
+  {
+    label: '备注',
+    prop: 'remark',
+    class: 'col-span-2',
+    component: 'el-input',
+    componentProps: {
+      placeholder: '请输入付款说明',
+      maxlength: 500,
+      'show-word-limit': true,
+      type: 'textarea',
+    },
+  },
+  {
+    label: '附件',
+    prop: 'fileIds',
+    class: 'col-span-2',
+    component: AUpload,
+    componentProps: {
+      'business-type': 'refundApply',
+      'has-custom-class': false,
+      'hidden-tip': true,
+      drag: true,
+      class: 'w-full',
     },
   },
 ];

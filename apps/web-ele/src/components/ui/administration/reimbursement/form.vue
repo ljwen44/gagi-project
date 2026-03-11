@@ -29,13 +29,16 @@ interface FormRefProps {
   attachments?: Attachment[];
   remark?: string;
   id?: number;
+  fileIds: any;
 }
 
 const emits = defineEmits(['confirm']);
 
 const modalTitle = ref('');
 const showModal = ref(false);
-const form = ref<FormRefProps>({});
+const form = ref<FormRefProps>({
+  fileIds: [],
+});
 const formRef = useTemplateRef('formRef');
 
 const openModal = async (params?: {
@@ -57,7 +60,9 @@ const openModal = async (params?: {
 
 const closeModal = () => {
   showModal.value = false;
-  form.value = {};
+  form.value = {
+    fileIds: [],
+  };
   formRef.value?.instance?.resetFields();
 };
 
@@ -68,6 +73,7 @@ const onConfirm = async (submit: boolean = true) => {
     const requestParams = {
       ...form.value,
       submit: +submit,
+      fileIds: form.value.fileIds.map((file: any) => file.result?.id),
     };
     await api(Type.reimbursement, requestParams);
     ElMessage.success('操作成功');

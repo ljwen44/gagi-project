@@ -90,6 +90,12 @@ export const columns: ITableColumnProps[] = [
     sortable: true,
   },
   {
+    label: '备注',
+    prop: 'remark',
+    width: 140,
+    sortable: false,
+  },
+  {
     label: '创建人',
     prop: 'createBy',
     sortable: true,

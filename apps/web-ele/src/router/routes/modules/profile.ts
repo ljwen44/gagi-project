@@ -25,6 +25,16 @@ const routes: RouteRecordRaw[] = [
           // permissionCode: 'profile:todo:view',
         },
       },
+      {
+        name: 'PersonCenterFinishedTasks',
+        path: '/profile/finished',
+        component: () => import('#/views/person/finished/index.vue'),
+        meta: {
+          icon: 'lucide:cake-slice',
+          title: $t('page.person.finishedTasks'),
+          permissionCode: 'profile:done:view',
+        },
+      },
       // {
       //   name: 'PersonCenterWarningRemind',
       //   path: '/profile/remind',

@@ -33,6 +33,12 @@ export const getWorkOrderList = (data: any) =>
   requestClient.post(`/work-order/page`, data);
 
 /**
+ * 查询处理过的工单
+ */
+export const getWorkOrderApproved = (params: any) =>
+  requestClient.get(`/work-order/approved`, { params });
+
+/**
  * 查询协议审批待办
  */
 export const getWorkOrderPending = (params: {

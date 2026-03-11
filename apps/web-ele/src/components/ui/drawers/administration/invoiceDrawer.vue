@@ -36,6 +36,19 @@ const { form } = useDrawerForm(props, () => getInfoById(props.type, props.id));
       <el-alert class="!mt-4" title="xxx 通过了审核" type="success" />
     </template> -->
 
+    <template #attachments="{ data }">
+      <div class="flex flex-col">
+        <a
+          v-for="item in data"
+          :key="item.id"
+          :download="item.fileName"
+          :href="item.fileUrl"
+          class="text-primary"
+          >{{ item.fileName }}
+        </a>
+      </div>
+    </template>
+
     <AuditProgress :instance-id="form.instanceId" hidden-upload />
 
     <!-- <template #content-footer>

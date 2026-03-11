@@ -54,7 +54,8 @@
   "person": {
     "title": "个人中心",
     "todoTasks": "待办任务",
-    "warningRemind": "预警提醒"
+    "warningRemind": "预警提醒",
+    "finishedTasks": "已处理任务"
   },
   "activity": {
     "title": "活动管理",

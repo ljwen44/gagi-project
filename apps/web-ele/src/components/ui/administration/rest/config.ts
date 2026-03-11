@@ -1,6 +1,7 @@
 import type { IFormItem } from '#/components/common/form/index.vue';
 
 import ARadioGroup from '#/components/common/radio/index.vue';
+import AUpload from '#/components/common/upload/index.vue';
 
 export const modalFormItems: IFormItem[] = [
   {
@@ -54,18 +55,31 @@ export const modalFormItems: IFormItem[] = [
       },
     },
   },
-  // {
-  //   label: '请假原因',
-  //   prop: 'reason',
-  //   class: 'col-span-2',
-  //   component: 'el-input',
-  //   componentProps: {
-  //     placeholder: '请输入请假原因',
-  //     maxlength: 500,
-  //     'show-word-limit': true,
-  //     type: 'textarea',
-  //   },
-  // },
+  {
+    label: '备注',
+    prop: 'remark',
+    class: 'col-span-2',
+    component: 'el-input',
+    componentProps: {
+      placeholder: '请输入付款说明',
+      maxlength: 500,
+      'show-word-limit': true,
+      type: 'textarea',
+    },
+  },
+  {
+    label: '附件',
+    prop: 'fileIds',
+    class: 'col-span-2',
+    component: AUpload,
+    componentProps: {
+      'business-type': 'leaveApply',
+      'has-custom-class': false,
+      'hidden-tip': true,
+      drag: true,
+      class: 'w-full',
+    },
+  },
 ];
 
 export const rules = {
@@ -75,5 +89,4 @@ export const rules = {
   ],
   time: [{ required: true, message: '请选择请假时间', trigger: 'change' }],
   leaveDays: [{ required: true, message: '请输入请假天数', trigger: 'blur' }],
-  // reason: [{ required: true, message: '请输入请假原因', trigger: 'blur' }],
 };

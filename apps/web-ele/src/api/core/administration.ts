@@ -74,3 +74,9 @@ export const genLeaveApplyNo = () =>
  */
 export const genRefundApplyApplyNo = () =>
   requestClient.get(`/refundApply/genRefundNo`);
+
+/**
+ * 查询处理过的数据
+ */
+export const getInfoApproved = (type: Type, params: any) =>
+  requestClient.get(`/${type}/approved`, { params });

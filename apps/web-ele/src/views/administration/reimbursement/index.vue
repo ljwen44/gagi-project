@@ -5,7 +5,7 @@ import { Edit } from '@vben/icons';
 
 import { ElMessage } from 'element-plus';
 
-import { getInfoList, Type } from '#/api/core/administration';
+import { getInfoById, getInfoList, Type } from '#/api/core/administration';
 import TableLayout from '#/components/table-layout/index.vue';
 import RemibursementForm from '#/components/ui/administration/reimbursement/form.vue';
 import RemibursementDrawer from '#/components/ui/drawers/administration/reimbursementDrawer.vue';
@@ -51,6 +51,21 @@ const handleNextPreview = (list: any, symbol: number) => {
 
   previewId.value = list[currentPreviewIndex.value].id;
 };
+
+const handleOpenModal = async (row: any) => {
+  const result = await getInfoById(Type.reimbursement, row.id);
+  remibursementFormRef.value?.openModal({
+    title: '编辑报销申请',
+    target: {
+      ...row,
+      fileIds: result.attachments.map((attchment: any) => ({
+        result: attchment,
+        name: attchment.fileName,
+        url: attchment.fileUrl,
+      })),
+    },
+  });
+};
 </script>
 
 <template>
@@ -93,12 +108,7 @@ const handleNextPreview = (list: any, symbol: number) => {
       <div class="flex items-center justify-center gap-2">
         <Edit
           class="size-4 cursor-pointer text-[var(--el-color-primary)]"
-          @click="
-            remibursementFormRef?.openModal({
-              title: '编辑报销申请',
-              target: row,
-            })
-          "
+          @click="handleOpenModal(row)"
         />
         <!-- <el-popconfirm placement="bottom" title="确定删除该数据吗?" width="180">
           <template #reference>

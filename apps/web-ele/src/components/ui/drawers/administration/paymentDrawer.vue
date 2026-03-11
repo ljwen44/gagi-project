@@ -50,6 +50,19 @@ const { form } = useDrawerForm(props, () => getInfoById(props.type, props.id));
       </div>
     </template> -->
 
+    <template #attachments="{ data }">
+      <div class="flex flex-col">
+        <a
+          v-for="item in data"
+          :key="item.id"
+          :download="item.fileName"
+          :href="item.fileUrl"
+          class="text-primary"
+          >{{ item.fileName }}
+        </a>
+      </div>
+    </template>
+
     <AuditProgress :instance-id="form.instanceId" hidden-upload />
 
     <!-- <template #content-footer>

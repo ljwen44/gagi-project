@@ -13,7 +13,7 @@ import AUpload from '#/components/common/upload/index.vue';
 import { useWorkflow } from './useWorkflow';
 
 export interface IProps {
-  instanceId?: string;
+  instanceId?: number | string;
   businessType?: string;
   hiddenUpload?: boolean;
 }

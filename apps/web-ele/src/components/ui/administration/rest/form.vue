@@ -16,15 +16,18 @@ interface FormRefProps {
   endTime?: string;
   leaveDays?: number;
   time?: string[];
-  // reason?: string;
   id?: number;
+  remark?: string;
+  fileIds: any;
 }
 
 const emits = defineEmits(['confirm']);
 
 const modalTitle = ref('');
 const showModal = ref(false);
-const form = ref<FormRefProps>({});
+const form = ref<FormRefProps>({
+  fileIds: [],
+});
 const formRef = useTemplateRef('formRef');
 
 const openModal = async (params?: {
@@ -50,7 +53,9 @@ const openModal = async (params?: {
 
 const closeModal = () => {
   showModal.value = false;
-  form.value = {};
+  form.value = {
+    fileIds: [],
+  };
   formRef.value?.instance?.resetFields();
 };
 

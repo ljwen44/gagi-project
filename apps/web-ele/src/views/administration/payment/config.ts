@@ -2,39 +2,9 @@ import type { FormItemType, TabbarProps } from '@vben/types';
 
 import type { ITableColumnProps } from '#/components/common/table/index.vue';
 
-export const formItems: FormItemType[] = [
-  // {
-  //   label: '付款单号',
-  //   key: 'keyword',
-  //   props: {
-  //     placeholder:
-  //       '请输入付款单号,支持多编号精准查询,编号之间用英文逗号分割(,)',
-  //   },
-  // },
-];
+export const formItems: FormItemType[] = [];
 
-export const tabbar: TabbarProps[] = [
-  // {
-  //   label: '全部',
-  //   key: 'all',
-  // },
-  // {
-  //   label: '明途总部',
-  //   key: 'head',
-  // },
-  // {
-  //   label: '明途厦门',
-  //   key: 'xiamen',
-  // },
-  // {
-  //   label: '明途宁波',
-  //   key: 'ningbo',
-  // },
-  // {
-  //   label: '明途泉州',
-  //   key: 'quanzhou',
-  // },
-];
+export const tabbar: TabbarProps[] = [];
 
 export const columns: ITableColumnProps[] = [
   {
@@ -89,6 +59,12 @@ export const columns: ITableColumnProps[] = [
     width: 180,
   },
   {
+    label: '备注',
+    prop: 'remark',
+    width: 140,
+    sortable: false,
+  },
+  {
     label: '创建人',
     prop: 'createBy',
     sortable: true,
@@ -98,24 +74,6 @@ export const columns: ITableColumnProps[] = [
     prop: 'createTime',
     width: 160,
   },
-  // {
-  //   label: '姓名',
-  //   prop: 'username',
-  //   width: 100,
-  // },
-  // {
-  //   label: '所属部门',
-  //   prop: 'group',
-  // },
-  // {
-  //   label: '部门负责人',
-  //   prop: 'leader',
-  //   width: 120,
-  // },
-  // {
-  //   label: '所属公司',
-  //   prop: 'company',
-  // },
   {
     label: '操作',
     prop: 'operator',

@@ -41,6 +41,12 @@ export const getAgreementList = (data: any) =>
   requestClient.post(`/agreement/page`, data);
 
 /**
+ * 查看处理过的协议
+ */
+export const getAgreementApproved = (params: any) =>
+  requestClient.get(`/agreement/approved`, { params });
+
+/**
  * 查询协议审批待办
  */
 export const getAgreementPending = (params: {

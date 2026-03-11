@@ -1,5 +1,7 @@
 import type { IFormItem } from '#/components/common/form/index.vue';
 
+import AUpload from '#/components/common/upload/index.vue';
+
 export const modalFormItems: IFormItem[] = [
   {
     label: '报销单号',
@@ -36,11 +38,6 @@ export const modalFormItems: IFormItem[] = [
       'show-word-limit': true,
     },
   },
-  // {
-  //   label: '报销明细',
-  //   prop: 'details',
-  //   class: 'col-span-2',
-  // },
   {
     label: '报销金额',
     prop: 'amount',
@@ -66,29 +63,31 @@ export const modalFormItems: IFormItem[] = [
       },
     },
   },
-  // {
-  //   label: '报销凭证',
-  //   prop: 'attachments',
-  //   class: 'col-span-2',
-  //   component: AUpload,
-  //   componentProps: {
-  //     mutiple: true,
-  //     drag: true,
-  //     class: 'w-full',
-  //   },
-  // },
-  // {
-  //   label: '备注',
-  //   prop: 'remark',
-  //   class: 'col-span-2',
-  //   component: 'el-input',
-  //   componentProps: {
-  //     placeholder: '请输入备注',
-  //     maxlength: 500,
-  //     'show-word-limit': true,
-  //     type: 'textarea',
-  //   },
-  // },
+  {
+    label: '备注',
+    prop: 'remark',
+    class: 'col-span-2',
+    component: 'el-input',
+    componentProps: {
+      placeholder: '请输入付款说明',
+      maxlength: 500,
+      'show-word-limit': true,
+      type: 'textarea',
+    },
+  },
+  {
+    label: '附件',
+    prop: 'fileIds',
+    class: 'col-span-2',
+    component: AUpload,
+    componentProps: {
+      'business-type': 'reimbursement',
+      'has-custom-class': false,
+      'hidden-tip': true,
+      drag: true,
+      class: 'w-full',
+    },
+  },
 ];
 
 export const rules = {
