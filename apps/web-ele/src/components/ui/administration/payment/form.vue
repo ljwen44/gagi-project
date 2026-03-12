@@ -63,6 +63,7 @@ const onConfirm = async (submit: boolean = true) => {
     const requestParams = {
       ...form.value,
       submit: +submit,
+      fileIds: form.value.fileIds.map((file: any) => file.result?.id),
     };
     await api(Type.paymentApply, requestParams);
     ElMessage.success('操作成功');

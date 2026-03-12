@@ -69,6 +69,7 @@ const onConfirm = async (submit: boolean = true) => {
       submit: +submit,
       startTime,
       endTime,
+      fileIds: form.value.fileIds.map((file: any) => file.result?.id),
     };
     await api(Type.leaveApply, requestParams);
     ElMessage.success('操作成功');
