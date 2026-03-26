@@ -93,6 +93,7 @@ const onConfirm = async () => {
       city,
       district,
     };
+    delete requestParams.createBy;
     await api(requestParams);
     ElMessage.success('操作成功');
     closeModal();
