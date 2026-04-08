@@ -65,5 +65,9 @@
     "title": "系统设置",
     "userList": "用户管理",
     "roleList": "角色管理"
+  },
+  "performance": {
+    "title": "业绩管理",
+    "list": "业绩列表"
   }
 }
