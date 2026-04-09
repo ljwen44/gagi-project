@@ -2,6 +2,7 @@
 import { ref, useTemplateRef } from 'vue';
 
 import { Edit } from '@vben/icons';
+import { useUserStore } from '@vben/stores';
 
 import dayjs from 'dayjs';
 import { ElMessage } from 'element-plus';
@@ -20,6 +21,7 @@ const showModal = ref(false);
 const currentPreviewIndex = ref(0);
 const previewId = ref<number | undefined>();
 const total = ref<number>(0);
+const user = useUserStore();
 
 const getSysData = async (params: any) => {
   total.value = await getPerformanceSys(params);
@@ -54,6 +56,7 @@ const openDrawer = (type: MODAL_TYPE, row: any, index: number) => {
 const handleCloseDrawer = () => {
   showModal.value = false;
   tableLayoutRef.value?.query();
+  modalType.value = MODAL_TYPE.INIT;
 };
 
 const handleNextPreview = (list: any, symbol: number, type: MODAL_TYPE) => {
@@ -106,17 +109,19 @@ const refreshData = () => {
     </template>
     <template #operator="{ row }">
       <div class="flex items-center justify-center gap-2">
-        <Edit
-          class="size-4 cursor-pointer text-[var(--el-color-primary)]"
-          @click="
-            performanceFormRef?.openModal({
-              target: {
-                ...row,
-              },
-              title: '编辑业绩结算日期',
-            })
-          "
-        />
+        <template v-if="user.hasRole('performance:manage:edit')">
+          <Edit
+            class="size-4 cursor-pointer text-[var(--el-color-primary)]"
+            @click="
+              performanceFormRef?.openModal({
+                target: {
+                  ...row,
+                },
+                title: '编辑业绩结算日期',
+              })
+            "
+          />
+        </template>
       </div>
     </template>
 
