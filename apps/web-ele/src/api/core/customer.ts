@@ -48,3 +48,9 @@ export const updateCustomer = (data: any) =>
  * 生成客户编号
  */
 export const genCustNo = () => requestClient.get(`/customer/genCustNo`);
+
+/**
+ * 领取
+ */
+export const claimCustomer = (data: any) =>
+  requestClient.post(`/customer/claimCustomers`, data);
