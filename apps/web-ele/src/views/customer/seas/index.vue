@@ -58,12 +58,12 @@ const handleClaim = async (customerId?: any) => {
     return;
   }
 
-  const data = await claimCustomer({
-    customerIds: customerId
-      ? [customerId]
-      : selection.value.map((item: any) => item.id),
-  });
-  if (data === 1) {
+  try {
+    await claimCustomer({
+      customerIds: customerId
+        ? [customerId]
+        : selection.value.map((item: any) => item.id),
+    });
     ElMessage.success('领取成功');
     tableRef.value?.query();
     if (customerId === void 0) {
@@ -76,6 +76,9 @@ const handleClaim = async (customerId?: any) => {
         selection.value.splice(isExist, 1);
       }
     }
+  } catch {
+    // todo
+    ElMessage.error('领取失败');
   }
 };
 </script>
