@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
 
+import { useAppConfig } from '@vben/hooks';
 import { ArrowDownToLine } from '@vben/icons';
 
 import dayjs from 'dayjs';
 
-import { getAttachment, getAttachmentDownload } from '#/api/core/global';
+import { getAttachment } from '#/api/core/global';
 import Atable from '#/components/common/table/index.vue';
 
 import { fileColumns } from '../config';
@@ -17,7 +18,7 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
-
+const { apiURL } = useAppConfig(import.meta.env, import.meta.env.PROD);
 const tableData = ref([]);
 
 const workflowMap = computed(() => {
@@ -45,8 +46,9 @@ const getTableData = async () => {
 };
 
 const handleDownload = async (row: any) => {
-  const blob = await getAttachmentDownload(row.id);
-  const url = window.URL.createObjectURL(blob);
+  // const blob = await getAttachmentDownload(row.id);
+  // const url = window.URL.createObjectURL(blob);
+  const url = `${apiURL}/attachment/download/${row.id}`;
   const a = document.createElement('a');
   a.href = url;
   a.download = row.fileName;

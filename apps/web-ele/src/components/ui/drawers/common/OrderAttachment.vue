@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 
+import { useAppConfig } from '@vben/hooks';
 import { ArrowDownToLine, CloudUpload } from '@vben/icons';
 
 import dayjs from 'dayjs';
 import { ElMessage } from 'element-plus';
 
-import { getAttachment, getAttachmentDownload } from '#/api/core/global';
+import { getAttachment } from '#/api/core/global';
 import Atable, {
   type ITableColumnProps,
 } from '#/components/common/table/index.vue';
@@ -18,7 +19,7 @@ interface IProps {
 }
 
 const props = defineProps<IProps>();
-
+const { apiURL } = useAppConfig(import.meta.env, import.meta.env.PROD);
 const tableData = ref([]);
 
 const upload = ref({
@@ -35,8 +36,9 @@ const getTableData = async () => {
 };
 
 const handleDownload = async (row: any) => {
-  const blob = await getAttachmentDownload(row.id);
-  const url = window.URL.createObjectURL(blob);
+  // const blob = await getAttachmentDownload(row.id);
+  // const url = window.URL.createObjectURL(blob);
+  const url = `${apiURL}/attachment/download/${row.id}`;
   const a = document.createElement('a');
   a.href = url;
   a.download = row.fileName;
