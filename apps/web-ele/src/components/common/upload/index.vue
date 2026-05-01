@@ -51,10 +51,16 @@ const handleUpload = async (options: UploadRequestOptions) => {
     formData.append('file', file);
     formData.append('businessType', props.businessType);
     const data = await postAttachmentUpload(formData);
-    uploadFiles.value[uploadFiles.value.length - 1] = {
-      ...uploadFiles.value.at(-1),
-      result: data,
-    };
+    const uploadFile = uploadFiles.value.find(
+      (item) => item.raw?.uid === options.file.uid,
+    );
+    if (uploadFile) {
+      uploadFile.result = data;
+    }
+    // uploadFiles.value[uploadFiles.value.length - 1] = {
+    //   ...uploadFiles.value.at(-1),
+    //   result: data,
+    // };
     emits('uploadSuccess', uploadFiles.value);
   } catch {
     ElMessage.error('上传失败');

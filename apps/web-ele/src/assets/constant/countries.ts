@@ -274,4 +274,5 @@ export const countries = [
   { name: 'Zimbabwe', value: '津巴布韦', label: '津巴布韦' },
   { name: 'ouzhou', value: '欧洲', label: '欧洲' },
   { name: 'oumeng', value: '欧盟', label: '欧盟' },
+  { name: 'Madrid', value: '马德里', label: '马德里' },
 ];
