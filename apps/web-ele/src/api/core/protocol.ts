@@ -65,3 +65,9 @@ export const genAgreementNo = () =>
  */
 export const delAgreementById = (id: number | string) =>
   requestClient.delete(`/agreement/${id}`);
+
+/**
+ * 导出协议列表
+ */
+export const exportAgreements = (data: any) =>
+  requestClient.post(`/agreement/export`, data, { responseType: 'blob' });

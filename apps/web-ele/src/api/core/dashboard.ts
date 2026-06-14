@@ -27,6 +27,14 @@ export const updatePerformanceDate = (data: any) =>
   requestClient.post(`/sales/performance/updatePerformanceDate`, data);
 
 /**
+ * 导出业绩列表
+ */
+export const exportPerformance = (data: GetPerformanceDto) =>
+  requestClient.post(`/sales/performance/export`, data, {
+    responseType: 'blob',
+  });
+
+/**
  * 统计
  */
 export const getPerformanceSys = (data: GetPerformanceDto) =>

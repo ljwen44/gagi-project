@@ -7,7 +7,11 @@ import { useUserStore } from '@vben/stores';
 import dayjs from 'dayjs';
 import { ElMessage } from 'element-plus';
 
-import { getPerformanceList, getPerformanceSys } from '#/api/core/dashboard';
+import {
+  exportPerformance,
+  getPerformanceList,
+  getPerformanceSys,
+} from '#/api/core/dashboard';
 import TableLayout from '#/components/table-layout/index.vue';
 import ProtocolDrawer from '#/components/ui/drawers/protocol/protocolDrawer.vue';
 import PerformanceForm from '#/components/ui/performance/form.vue';
@@ -81,6 +85,20 @@ const handleNextPreview = (list: any, symbol: number, type: MODAL_TYPE) => {
 const refreshData = () => {
   tableLayoutRef.value?.query();
 };
+
+const handleExport = async () => {
+  const queryParams: Record<string, any> =
+    (tableLayoutRef.value?.getForm() as Record<string, any>) || {};
+  beforeQuery(queryParams);
+  delete queryParams.filters;
+  const blob = await exportPerformance(queryParams);
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = '业绩列表.xlsx';
+  link.click();
+  URL.revokeObjectURL(url);
+};
 </script>
 
 <template>
@@ -97,6 +115,7 @@ const refreshData = () => {
         总业绩:
         <span class="text-[var(--el-color-primary)]">{{ total }}</span> 元
       </p>
+      <el-button @click="handleExport">导出</el-button>
     </template>
     <template #agreementNo="{ row, $index }">
       <el-text

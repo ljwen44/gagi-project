@@ -6,6 +6,8 @@ import type { ITableColumnProps } from '#/components/common/table/index.vue';
 import { Navigation, Share2, Triangle } from '@vben/icons';
 import { VbenSelect } from '@vben-core/shadcn-ui';
 
+import { ElDatePicker } from 'element-plus';
+
 export enum MODAL_TYPE {
   CUSTOMER = 'customer',
   INIT = '',
@@ -30,6 +32,27 @@ export const formItems: FormItemType[] = [
       placeholder: '请输入协议标题',
     },
   },
+  {
+    label: '日期',
+    key: 'date',
+    component: ElDatePicker,
+    props: {
+      type: 'datetimerange',
+      'start-placeholder': '开始日期',
+      'end-placeholder': '结束日期',
+    },
+  },
+  // {
+  //   label: '结束日期',
+  //   key: 'endDate',
+  //   component: ElDatePicker,
+  //   props: {
+  //     placeholder: '结束日期',
+  //     type: 'date',
+  //     'value-format': 'YYYY-MM-DD HH:mm:ss',
+  //     'end-placeholder': '结束日期',
+  //   },
+  // },
 ];
 
 export const tabbar: TabbarProps[] = [

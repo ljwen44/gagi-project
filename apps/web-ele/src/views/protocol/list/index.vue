@@ -3,10 +3,15 @@ import { onMounted, ref, useTemplateRef } from 'vue';
 
 import { Edit, Trash2 } from '@vben/icons';
 
+import dayjs from 'dayjs';
 import { ElMessage, ElMessageBox } from 'element-plus';
 
 import { getCustomerList } from '#/api/core/customer';
-import { delAgreementById, getAgreementList } from '#/api/core/protocol';
+import {
+  delAgreementById,
+  exportAgreements,
+  getAgreementList,
+} from '#/api/core/protocol';
 import TableLayout from '#/components/table-layout/index.vue';
 import CustomerDetailDrawer from '#/components/ui/drawers/customer/customerDetail.vue';
 import ProtocolDrawer from '#/components/ui/drawers/protocol/protocolDrawer.vue';
@@ -30,12 +35,30 @@ const tableLayoutRef = useTemplateRef('tableLayoutRef');
 const protocolFormRef = useTemplateRef('protocolFormRef');
 
 const beforeQuery = (queryParams: any) => {
-  if (currentTab.value === 'all') {
-    queryParams.agreementType = '';
-    return;
+  queryParams.agreementType =
+    currentTab.value === 'all' ? '' : currentTab.value;
+
+  if (queryParams.date) {
+    const [startDate, endDate] = queryParams.date;
+    queryParams.startDate = dayjs(startDate).format('YYYY-MM-DD HH:mm:ss');
+    queryParams.endDate = dayjs(endDate).format('YYYY-MM-DD HH:mm:ss');
+    delete queryParams.date;
   }
-  queryParams.agreementType = currentTab.value;
 };
+const handleExport = async () => {
+  const queryParams: Record<string, any> =
+    (tableLayoutRef.value?.getForm() as Record<string, any>) || {};
+  beforeQuery(queryParams);
+  delete queryParams.filters;
+  const blob = await exportAgreements(queryParams);
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = '协议列表.xlsx';
+  link.click();
+  URL.revokeObjectURL(url);
+};
+
 const handleTabChange = (tab: string) => {
   currentTab.value = tab;
 
@@ -142,6 +165,7 @@ onMounted(() => {
       <el-button type="primary" @click="protocolFormRef?.openModal()">
         新增
       </el-button>
+      <el-button @click="handleExport">导出</el-button>
     </template>
     <!-- <template #agreementNoHeader>
       <el-tooltip placement="top">

@@ -103,6 +103,7 @@ export const countries = [
   { name: 'Guyana', value: '圭亚那', label: '圭亚那' },
   { name: 'Hong Kong', value: '中国香港 ', label: '中国香港' },
   { name: 'Haiti', value: '海地', label: '海地' },
+  { name: 'The Hague', value: '海牙', label: '海牙' },
   { name: 'Honduras', value: '洪都拉斯', label: '洪都拉斯' },
   { name: 'Hungary', value: '匈牙利', label: '匈牙利' },
   { name: 'Iceland', value: '冰岛', label: '冰岛' },

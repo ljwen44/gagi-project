@@ -22,12 +22,13 @@ export const formItems: FormItemType[] = [
     key: 'categoryId',
     component: ASelect,
     props: {
-      placeholder: '请输入服务分类',
+      placeholder: '请选择服务分类',
       api: getCategoryList,
       labelKey: 'categoryName',
       valueKey: 'id',
       style: {
         width: '100%',
+        'min-width': '200px',
       },
     },
   },
