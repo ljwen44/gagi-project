@@ -33,6 +33,7 @@ const previewId = ref<number | undefined>();
 const previewCustomerId = ref<number | undefined>();
 const tableLayoutRef = useTemplateRef('tableLayoutRef');
 const protocolFormRef = useTemplateRef('protocolFormRef');
+const downloadLoading = ref(false);
 
 const beforeQuery = (queryParams: any) => {
   queryParams.agreementType =
@@ -46,17 +47,24 @@ const beforeQuery = (queryParams: any) => {
   }
 };
 const handleExport = async () => {
-  const queryParams: Record<string, any> =
-    (tableLayoutRef.value?.getForm() as Record<string, any>) || {};
-  beforeQuery(queryParams);
-  delete queryParams.filters;
-  const blob = await exportAgreements(queryParams);
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = '协议列表.xlsx';
-  link.click();
-  URL.revokeObjectURL(url);
+  try {
+    downloadLoading.value = true;
+    const queryParams: Record<string, any> =
+      (tableLayoutRef.value?.getForm() as Record<string, any>) || {};
+    beforeQuery(queryParams);
+    delete queryParams.filters;
+    const blob = await exportAgreements(queryParams);
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = '协议列表.xlsx';
+    link.click();
+    URL.revokeObjectURL(url);
+  } catch {
+    ElMessage.error('导出失败');
+  } finally {
+    downloadLoading.value = false;
+  }
 };
 
 const handleTabChange = (tab: string) => {
@@ -165,7 +173,9 @@ onMounted(() => {
       <el-button type="primary" @click="protocolFormRef?.openModal()">
         新增
       </el-button>
-      <el-button @click="handleExport">导出</el-button>
+      <el-button :loading="downloadLoading" @click="handleExport">
+        导出
+      </el-button>
     </template>
     <!-- <template #agreementNoHeader>
       <el-tooltip placement="top">

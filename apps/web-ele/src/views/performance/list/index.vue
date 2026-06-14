@@ -25,6 +25,7 @@ const showModal = ref(false);
 const currentPreviewIndex = ref(0);
 const previewId = ref<number | undefined>();
 const total = ref<number>(0);
+const downloadLoading = ref(false);
 const user = useUserStore();
 
 const getSysData = async (params: any) => {
@@ -87,17 +88,24 @@ const refreshData = () => {
 };
 
 const handleExport = async () => {
-  const queryParams: Record<string, any> =
-    (tableLayoutRef.value?.getForm() as Record<string, any>) || {};
-  beforeQuery(queryParams);
-  delete queryParams.filters;
-  const blob = await exportPerformance(queryParams);
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = '业绩列表.xlsx';
-  link.click();
-  URL.revokeObjectURL(url);
+  try {
+    downloadLoading.value = true;
+    const queryParams: Record<string, any> =
+      (tableLayoutRef.value?.getForm() as Record<string, any>) || {};
+    beforeQuery(queryParams);
+    delete queryParams.filters;
+    const blob = await exportPerformance(queryParams);
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = '业绩列表.xlsx';
+    link.click();
+    URL.revokeObjectURL(url);
+  } catch {
+    ElMessage.error('导出失败');
+  } finally {
+    downloadLoading.value = false;
+  }
 };
 </script>
 
@@ -115,7 +123,9 @@ const handleExport = async () => {
         总业绩:
         <span class="text-[var(--el-color-primary)]">{{ total }}</span> 元
       </p>
-      <el-button @click="handleExport">导出</el-button>
+      <el-button :loading="downloadLoading" @click="handleExport">
+        导出
+      </el-button>
     </template>
     <template #agreementNo="{ row, $index }">
       <el-text
